@@ -18,14 +18,15 @@ jobs:
       uses: snok/install-poetry@v1
 
     - name: Install dependencies
-      working-directory: ./app
+      working-directory: ./src
       run: poetry install --with=test
+
+    - name: Isort
+      run:
+        poetry run isort
 
     - name: Test with flake8
       run: poetry run flake8
-
-    - name: Test with isort
-      run: poetry run isort
 
     - name: Test with pytest
       run: poetry run pytest
