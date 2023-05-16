@@ -24,13 +24,10 @@ jobs:
         ls
 
     - name: Test with flake8
-      run: |
-        python -m flake8
-#
-#    - name: Test with isort
-#      run: |
-#        isort
-#
-#    - name: Test with pytest
-#      run: |
-#        pytest
+      run: poetry run flake8
+
+    - name: Test with isort
+      run: poetry run isort
+
+    - name: Test with pytest
+      run: poetry run pytest
