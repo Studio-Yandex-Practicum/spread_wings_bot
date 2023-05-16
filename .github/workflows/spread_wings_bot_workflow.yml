@@ -19,6 +19,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        cd src
         poetry install --with=test
         ls
 
