@@ -18,10 +18,8 @@ jobs:
       uses: snok/install-poetry@v1
 
     - name: Install dependencies
-      run: |
-        cd src
-        poetry install --with=test
-        ls
+      working-directory: ./app
+      run: poetry install --with=test
 
     - name: Test with flake8
       run: poetry run flake8
