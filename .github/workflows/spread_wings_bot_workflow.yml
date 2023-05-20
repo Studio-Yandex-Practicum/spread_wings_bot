@@ -17,11 +17,8 @@ jobs:
       with:
         python-version: 3.11
 
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-
     - name: Install dependencies
-      run: poetry install --with=test
+      run: pip install -r ../rerequirements/develop.txt
 
     - name: Isort
       run:
