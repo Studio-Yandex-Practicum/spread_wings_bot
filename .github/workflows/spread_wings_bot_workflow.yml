@@ -21,7 +21,7 @@ jobs:
       run: pip install -r ../requirements/develop.txt
 
     - name: Isort
-      run: isort
+      run: isort .
 
     - name: Test with flake8
       run: flake8
