@@ -2,10 +2,12 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    token: str = 'TOKEN_BOT'
+    telegram_token: str
+    debug: bool = False
 
     class Config:
         env_file = '.env'
+        env_file_encoding = 'utf-8'
 
 
 settings = Settings()

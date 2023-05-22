@@ -5,7 +5,7 @@ from bot.core.config import settings
 
 
 def main():
-    app = ApplicationBuilder().token(settings.token).build()
+    app = ApplicationBuilder().token(settings.telegram_token).build()
     app.add_handlers([start_handler, help_handler])
     app.run_polling()
 
