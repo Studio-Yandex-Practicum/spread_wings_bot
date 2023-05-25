@@ -1,0 +1,33 @@
+name: App test workflow
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: pip install -r ../requirements/develop.txt
+
+    - name: Isort
+      run: isort .
+
+    - name: Test with flake8
+      run: flake8
+
+    - name: Test with pytest
+      run: pytest
+
+    - name: Test with black
+      run: black .
