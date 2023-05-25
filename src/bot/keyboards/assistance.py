@@ -1,14 +1,15 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.constants import ASSISTANCE_BUTTON, DONATION_BUTTON, ASSISTANCE, DONATION
+from bot.constants.buttons import ASSISTANCE_BUTTON, DONATION_BUTTON
+from bot.constants.states import States
 
 assistance_keyboard = [
     [
         InlineKeyboardButton(
-            text=ASSISTANCE_BUTTON, callback_data=ASSISTANCE
+            text=ASSISTANCE_BUTTON, callback_data=States.ASSISTANCE
         ),
         InlineKeyboardButton(
-            text=DONATION_BUTTON, callback_data=DONATION
+            text=DONATION_BUTTON, callback_data=States.DONATION
         )
     ]
 ]

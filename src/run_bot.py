@@ -1,11 +1,12 @@
-from telegram.ext import ApplicationBuilder, CallbackQueryHandler, ConversationHandler
-
-from bot.constants import ASSISTANCE, DONATION
-from bot.core.config import settings
-from bot.handlers.assistance import make_donation, receive_assistance
 import logging.config
 
+from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
+                          ConversationHandler)
+
+from bot.constants.states import States
+from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
+from bot.handlers.assistance import make_donation, receive_assistance
 from bot.handlers.main_handlers import help_handler, start_handler
 
 
@@ -17,12 +18,9 @@ def main():
     main_handler = ConversationHandler(
         entry_points=[start_handler],
         states={
-            ASSISTANCE: [
-                CallbackQueryHandler(
-                    receive_assistance,
-                    pattern=f'^{ASSISTANCE}$'
-                ),
-                CallbackQueryHandler(make_donation, pattern=f'^{DONATION}$')
+            States.ASSISTANCE: [
+                CallbackQueryHandler(receive_assistance),
+                CallbackQueryHandler(make_donation)
             ]
         },
         fallbacks=[
