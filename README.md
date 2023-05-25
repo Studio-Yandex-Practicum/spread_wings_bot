@@ -24,3 +24,15 @@
    ```shell
    pre-commit run --all-files
    ```
+
+
+### Настройка ```pre-comit```:
+
+1. Убедиться, что ```pre-comit``` установлен:
+   ```shell
+   pre-commit --version
+   ```
+2. Настроить git hook скрипт:
+   ```shell
+   pre-commit install
+   ```
