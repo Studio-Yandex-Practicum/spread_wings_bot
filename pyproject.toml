@@ -12,6 +12,7 @@ pydantic = "^1.10.7"
 pytest = "^7.3.1"
 
 
+
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
 isort = "^5.12.0"
