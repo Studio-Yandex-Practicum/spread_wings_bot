@@ -2,6 +2,7 @@ import enum
 
 START_MESSAGE = "Здесь выводится приветственное или информационное сообщение"
 HELP_MESSAGE = "Здесь выводится краткое описание возможностей бота"
+CHOOSE_REGION = "Выберите, пожалуйста, регион"
 
 
 class Regions(str, enum.Enum):

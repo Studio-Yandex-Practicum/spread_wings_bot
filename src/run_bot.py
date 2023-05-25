@@ -4,7 +4,7 @@ from telegram.ext import ApplicationBuilder
 
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.main_handlers import help_handler, start_handler
+from bot.handlers.main_handlers import help_handler, start_handler, choosing_region_handler
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     logger = logging.getLogger("bot")
     logger.info("start")
     app = ApplicationBuilder().token(settings.telegram_token).build()
-    app.add_handlers([start_handler, help_handler])
+    app.add_handlers([start_handler, help_handler, choosing_region_handler])
     app.run_polling()
 
 
