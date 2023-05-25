@@ -1,32 +1,29 @@
-from telegram.ext import (
-    Application,
-    CallbackQueryHandler,
-    CommandHandler,
-    ContextTypes,
-    ConversationHandler,
-)
+from telegram.ext import Application, CallbackQueryHandler, ConversationHandler
 
-from bot.handlers.main_handlers import start_handler, help_handler
+from bot.constants.states import ASSISTANCE, DONATION
 from bot.core.config import settings
-
-START_ROUTES, END_ROUTES = range(2)
+from bot.handlers.assistance import make_donation, receive_assistance
+from bot.handlers.main_handlers import help_handler, start_handler
 
 
 def main():
     app = Application.builder().token(settings.telegram_token).build()
-    #conv_handler = ConversationHandler(
-    #    entry_points=[CommandHandler("start", start_handler)],
-    #    states={
-    #        START_ROUTES: [
-    #            CommandHandler("help", help_handler)
-    #        ],
-    #    },
-    #    fallbacks=[
-    #        CommandHandler("start", start_handler),
-    #        CommandHandler("help", help_handler)
-    #    ]
-    #)
-    app.add_handlers([start_handler, help_handler])
+    conv_handler = ConversationHandler(
+        entry_points=[start_handler],
+        states={
+            ASSISTANCE: [
+                CallbackQueryHandler(
+                    receive_assistance,
+                    pattern=f'^{ASSISTANCE}$'
+                    ),
+                CallbackQueryHandler(make_donation, pattern=f'^{DONATION}$')
+            ]
+        },
+        fallbacks=[
+            start_handler,
+        ],
+    )
+    app.add_handlers([conv_handler, help_handler])
     app.run_polling()
 
 
