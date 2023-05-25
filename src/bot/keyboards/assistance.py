@@ -1,7 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.constants.buttons import ASSISTANCE_BUTTON, DONATION_BUTTON
-from bot.constants.states import ASSISTANCE, DONATION
+from bot.constants import ASSISTANCE_BUTTON, DONATION_BUTTON, ASSISTANCE, DONATION
 
 assistance_keyboard = [
     [

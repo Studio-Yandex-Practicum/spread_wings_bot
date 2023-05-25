@@ -3,8 +3,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.messages import ASSISTANCE_MESSAGE, DONATION_MESSAGE
-from bot.constants.states import REGION
+from bot.constants import ASSISTANCE_MESSAGE, DONATION_MESSAGE, REGION
 
 
 async def receive_assistance(update: Update,
