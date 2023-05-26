@@ -4,7 +4,7 @@ from telegram.ext import (ApplicationBuilder,
                           CallbackQueryHandler,
                           ConversationHandler)
 
-from bot.constants.states import PATTERN, States, HELP, GET_HELP, BACK
+from bot.constants.states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
 from bot.handlers.assistance import (back_to_start,
@@ -24,11 +24,11 @@ def main():
             States.ASSISTANCE: [
                 CallbackQueryHandler(
                     receive_assistance,
-                    pattern=PATTERN.format(state=GET_HELP)
+                    pattern=PATTERN.format(state=States.ASSISTANCE.value)
                 ),
                 CallbackQueryHandler(
                     make_donation,
-                    pattern=PATTERN.format(state=HELP)
+                    pattern=PATTERN.format(state=States.DONATION.value)
                 )
             ]
         },
@@ -36,7 +36,7 @@ def main():
         fallbacks=[
             CallbackQueryHandler(
                 back_to_start,
-                pattern=PATTERN.format(state=BACK)
+                pattern=PATTERN.format(state=States.BACK.value)
             ),
             start_handler,
         ],

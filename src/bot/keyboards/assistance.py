@@ -3,24 +3,24 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from bot.constants.buttons import (ASSISTANCE_BUTTON,
                                    BACK_BUTTON,
                                    DONATION_BUTTON)
-from bot.constants.states import HELP, GET_HELP, BACK
+from bot.constants.states import States
 from bot.constants.urls import DONATION_URL
 
 
 assistance_keyboard = [
     [
         InlineKeyboardButton(
-            text=ASSISTANCE_BUTTON, callback_data=GET_HELP
+            text=ASSISTANCE_BUTTON, callback_data=States.ASSISTANCE.value
         ),
         InlineKeyboardButton(
-            text=DONATION_BUTTON, callback_data=HELP
+            text=DONATION_BUTTON, callback_data=States.DONATION.value
         )
     ]
 ]
 
 donation_keyboard = [
     [InlineKeyboardButton(DONATION_BUTTON, url=DONATION_URL)],
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=BACK)]
+    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
 ]
 
 donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
@@ -32,6 +32,6 @@ region_keyboard = [
         InlineKeyboardButton('Москва', callback_data='moscow'),
         InlineKeyboardButton('Самара', callback_data='samara')
     ],
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=BACK)]
+    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
 ]
-region_keyboard_markup = InlineKeyboardMarkup(region_buttons)
+region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
