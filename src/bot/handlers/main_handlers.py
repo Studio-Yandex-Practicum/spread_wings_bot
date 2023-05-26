@@ -6,7 +6,7 @@ from bot.constants.states import States
 from bot.keyboards.assistance import assistance_keyboard_markup
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
     """Точка старта бота. Приветствие. Две кнопки."""
     await update.message.reply_text(
         START_MESSAGE,
