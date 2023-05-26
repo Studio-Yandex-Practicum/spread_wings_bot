@@ -23,15 +23,15 @@ donation_keyboard = [
     [InlineKeyboardButton(BACK_BUTTON, callback_data=BACK)]
 ]
 
-donation = InlineKeyboardMarkup(donation_keyboard)
-assistance = InlineKeyboardMarkup(assistance_keyboard)
+donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
+assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 
 # для теста в последствии удалить или перенести в клавиатуру выбора регионов
-region_buttons = [
+region_keyboard = [
     [
         InlineKeyboardButton('Москва', callback_data='moscow'),
         InlineKeyboardButton('Самара', callback_data='samara')
     ],
     [InlineKeyboardButton(BACK_BUTTON, callback_data=BACK)]
 ]
-region = InlineKeyboardMarkup(region_buttons)
+region_keyboard_markup = InlineKeyboardMarkup(region_buttons)

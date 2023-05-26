@@ -10,7 +10,7 @@ from bot.core.log_config import LOGGING_CONFIG
 from bot.handlers.assistance import (back_to_start,
                                      make_donation,
                                      receive_assistance)
-from bot.handlers.main_handlers import start_handler
+from bot.handlers.main_handlers import help_handler, start_handler
 
 
 def main():
@@ -42,7 +42,7 @@ def main():
         ],
     )
     app = ApplicationBuilder().token(settings.telegram_token).build()
-    app.add_handler(main_handler)
+    app.add_handlers([main_handler, help_handler])
     app.run_polling()
 
 
