@@ -1,12 +1,15 @@
 import logging.config
 
-from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
+from telegram.ext import (ApplicationBuilder,
+                          CallbackQueryHandler,
                           ConversationHandler)
 
-from bot.constants.states import States
+from bot.constants.states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.assistance import make_donation, receive_assistance
+from bot.handlers.assistance import (back_to_start,
+                                     make_donation,
+                                     receive_assistance)
 from bot.handlers.main_handlers import help_handler, start_handler
 
 
@@ -19,11 +22,22 @@ def main():
         entry_points=[start_handler],
         states={
             States.ASSISTANCE: [
-                CallbackQueryHandler(receive_assistance),
-                CallbackQueryHandler(make_donation)
+                CallbackQueryHandler(
+                    receive_assistance,
+                    pattern=PATTERN.format(state=States.ASSISTANCE.value)
+                ),
+                CallbackQueryHandler(
+                    make_donation,
+                    pattern=PATTERN.format(state=States.DONATION.value)
+                )
             ]
         },
+        # TODO в дальнейшем думаю надо добавить stop_handler для fallbacks
         fallbacks=[
+            CallbackQueryHandler(
+                back_to_start,
+                pattern=PATTERN.format(state=States.BACK.value)
+            ),
             start_handler,
         ],
     )
