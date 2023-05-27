@@ -41,7 +41,7 @@ async def back_to_start(update: Update,
 
 
 async def choose_region(update: Update,
-                        context: ContextTypes.DEFAULT_TYPE):
+                        context: ContextTypes.DEFAULT_TYPE) -> States:
     """Выбор региона."""
     query = update.callback_query
     await query.answer()
