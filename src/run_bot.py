@@ -6,8 +6,8 @@ from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
 from bot.constants.states import States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.assistance import make_donation, receive_assistance
-from bot.handlers.main_handlers import help_handler, start_handler
+from bot.handlers.assistance import make_donation, receive_assistance, choose_region
+from bot.handlers.main_handlers import help_handler, start_handler, choose_region_handler
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
         ],
     )
     app = ApplicationBuilder().token(settings.telegram_token).build()
-    app.add_handlers([main_handler, help_handler])
+    app.add_handlers([main_handler, help_handler, choose_region_handler])
     app.run_polling()
 
 

@@ -18,5 +18,14 @@ assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 
 
 choose_region_keyboard = [
-    
+    [
+        InlineKeyboardButton(
+            text="Region 1", callback_data="test1"
+        ),
+        InlineKeyboardButton(
+            text="Region 2", callback_data="test2"
+        )
+    ]
 ]
+
+choose_region_keyboard_markup = InlineKeyboardMarkup(choose_region_keyboard)
