@@ -15,3 +15,8 @@ assistance_keyboard = [
 ]
 
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
+
+
+choose_region_keyboard = [
+    
+]
