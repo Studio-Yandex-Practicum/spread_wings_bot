@@ -4,6 +4,7 @@ from bot.constants.buttons import (ASSISTANCE_BUTTON,
                                    BACK_BUTTON,
                                    DONATION_BUTTON)
 from bot.constants.states import States
+from bot.constants.regions import Regions
 from bot.constants.urls import DONATION_URL
 
 
@@ -26,12 +27,6 @@ donation_keyboard = [
 donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 
-# для теста в последствии удалить или перенести в клавиатуру выбора регионов
-region_keyboard = [
-    [
-        InlineKeyboardButton('Москва', callback_data='moscow'),
-        InlineKeyboardButton('Самара', callback_data='samara')
-    ],
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
-]
+region_keyboard = [[InlineKeyboardButton(region.value, callback_data=region)] for region in Regions]
+region_keyboard.append([InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)])
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
