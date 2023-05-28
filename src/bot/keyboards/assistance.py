@@ -13,17 +13,11 @@ assistance_keyboard = [
             text=ASSISTANCE_BUTTON, callback_data=States.ASSISTANCE.value
         ),
         InlineKeyboardButton(
-            text=DONATION_BUTTON, callback_data=States.DONATION.value
+            text=DONATION_BUTTON, url=DONATION_URL
         )
     ]
 ]
 
-donation_keyboard = [
-    [InlineKeyboardButton(DONATION_BUTTON, url=DONATION_URL)],
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
-]
-
-donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 
 # для теста в последствии удалить или перенести в клавиатуру выбора регионов

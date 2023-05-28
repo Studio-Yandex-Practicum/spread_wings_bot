@@ -7,9 +7,7 @@ from telegram.ext import (ApplicationBuilder,
 from bot.constants.states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.assistance import (back_to_start,
-                                     make_donation,
-                                     receive_assistance)
+from bot.handlers.assistance import back_to_start, receive_assistance
 from bot.handlers.main_handlers import help_handler, start_handler
 
 
@@ -26,10 +24,11 @@ def main():
                     receive_assistance,
                     pattern=PATTERN.format(state=States.ASSISTANCE.value)
                 ),
-                CallbackQueryHandler(
-                    make_donation,
-                    pattern=PATTERN.format(state=States.DONATION.value)
-                )
+
+                # CallbackQueryHandler(
+                #     make_donation,
+                #     pattern=PATTERN.format(state=States.DONATION.value)
+                # )
             ]
         },
         # TODO в дальнейшем думаю надо добавить stop_handler для fallbacks
