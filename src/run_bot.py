@@ -26,10 +26,6 @@ def main():
                     receive_assistance,
                     pattern=PATTERN.format(state=States.ASSISTANCE.value),
                 ),
-                # CallbackQueryHandler(
-                #     make_donation,
-                #     pattern=PATTERN.format(state=States.DONATION.value)
-                # )
             ]
         },
         # TODO в дальнейшем думаю надо добавить stop_handler для fallbacks
