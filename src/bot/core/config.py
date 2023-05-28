@@ -2,7 +2,9 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    telegram_token: str
+    host = 'jetrai.online'
+    user = 'root'
+    password = 'YP_2023-05'
     debug: bool = False
 
     class Config:

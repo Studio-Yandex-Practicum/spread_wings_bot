@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11.1"
 python-telegram-bot = "^20.3"
 pydantic = "^1.10.7"
+pymysql = "^1.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
