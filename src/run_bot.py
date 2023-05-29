@@ -1,5 +1,6 @@
 import logging.config
-
+import asyncio
+from telegram import MenuButton, MenuButtonDefault
 from telegram.ext import (ApplicationBuilder,
                           CallbackQueryHandler,
                           ConversationHandler)
@@ -48,8 +49,18 @@ def main():
     )
     app = ApplicationBuilder().token(settings.telegram_token).build()
     app.add_handlers([main_handler, help_handler])
+    # app.run_polling()
+    # menu_button = MenuButton({"start" : "/start"})
+    # menu_button_default = MenuButtonDefault(start="/start")
+    # app.create_task(app.bot.set_chat_menu_button(menu_button=menu_button))
     app.run_polling()
+    return app
 
 
 if __name__ == "__main__":
-    main()
+    app = main()
+    loop = asyncio.get_event_loop()
+    menu_button = MenuButton({"start" : "/start"})
+    menu_task = app.create_task(app.bot.set_chat_menu_button(menu_button=menu_button))
+    loop.run_until_complete(asyncio.wait(menu_task))
+    loop.close()
