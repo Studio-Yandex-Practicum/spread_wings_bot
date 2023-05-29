@@ -24,9 +24,16 @@ donation_keyboard = [
     [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
 ]
 
+region_keyboard = [
+    [
+        InlineKeyboardButton(region.value, callback_data=region.name)
+    ] for region in Regions
+]
+region_keyboard.append(
+    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
+)
+
+
 donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
-
-region_keyboard = [[InlineKeyboardButton(region.value, callback_data=region)] for region in Regions]
-region_keyboard.append([InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)])
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
