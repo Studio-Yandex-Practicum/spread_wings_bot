@@ -22,6 +22,14 @@ anyio = "^3.7.0"
 pytest-tornasync = "^0.6.0.post2"
 
 
+[tool.pytest.ini_options]
+addopts = "-vv -p no:cacheprovider -p no:warnings"
+testpaths = [
+    "tests",
+]
+python_files = "test_*.py"
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
