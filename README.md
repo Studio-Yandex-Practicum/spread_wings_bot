@@ -56,6 +56,10 @@ poetry shell
 poetry add <package_name>
 ```
 
+#### Обновить зависимости
+```shell
+poetry update
+```
 
 ### Настройка ```pre-comit```:
 
