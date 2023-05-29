@@ -18,6 +18,7 @@ pre-commit = "^3.3.1"
 python-dotenv = "^1.0.0"
 black = "^23.3.0"
 pytest = "^7.3.1"
+anyio = "^3.7.0"
 pytest-tornasync = "^0.6.0.post2"
 
 
