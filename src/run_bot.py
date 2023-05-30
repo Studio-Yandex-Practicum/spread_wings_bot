@@ -10,11 +10,7 @@ from bot.constants.regions import Regions
 from bot.constants.states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.assistance import (
-    back_to_start,
-    make_donation,
-    receive_assistance,
-)
+from bot.handlers.assistance import back_to_start, receive_assistance
 from bot.handlers.assistance_types import (
     back_to_region,
     fund_programs,
@@ -39,10 +35,6 @@ def main():
                 CallbackQueryHandler(
                     receive_assistance,
                     pattern=PATTERN.format(state=States.ASSISTANCE.value),
-                ),
-                CallbackQueryHandler(
-                    make_donation,
-                    pattern=PATTERN.format(state=States.DONATION.value),
                 ),
             ],
             States.REGION: [

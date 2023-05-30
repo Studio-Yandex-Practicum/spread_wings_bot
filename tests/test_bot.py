@@ -1,9 +1,6 @@
 # Здесь хранятся тесты бота
 import pytest
-
-from telegram import (
-    Bot,
-)
+from telegram import Bot
 from telegram.error import InvalidToken
 
 
