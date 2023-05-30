@@ -25,6 +25,42 @@
    pre-commit run --all-files
    ```
 
+#### Poetry
+
+Это инструмент управления зависимостями и виртуальным окружением,
+также используется для упаковки проектов на Python.
+Подробнее: https://python-poetry.org/
+
+1. Установить, следуя официальным инструкциям.
+    https://python-poetry.org/docs/#installation
+
+2. Изменить конфигурацию Poetry (опционально).
+    ```shell
+    poetry config virtualenvs.in-project true
+    ```
+    > **Note**:
+    > Позволяет создавать виртуальное окружение в папке проекта.
+
+### Работа с Poetry
+
+В этом разделе представлены наиболее часто используемые команды.
+Подробнее: https://python-poetry.org/docs/cli/
+
+#### Активировать виртуальное окружение
+```shell
+poetry shell
+```
+
+#### Добавить зависимость
+```shell
+poetry add <package_name>
+```
+
+#### Обновить зависимости
+```shell
+poetry update
+```
+
 ### Настройка ```pre-comit```:
 
 1. Убедиться, что ```pre-comit``` установлен:
