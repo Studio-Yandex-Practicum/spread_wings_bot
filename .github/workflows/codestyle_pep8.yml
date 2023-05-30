@@ -27,6 +27,7 @@ jobs:
       run: flake8
 
     - name: Test with pytest
+      working-directory: ./
       run: pytest
 
     - name: Test with black
