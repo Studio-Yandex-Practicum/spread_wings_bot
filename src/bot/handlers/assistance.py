@@ -12,6 +12,7 @@ from bot.keyboards.assistance import (
 async def receive_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
+    """Обработчик для выбор региона оказания помощи."""
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
@@ -23,6 +24,7 @@ async def receive_assistance(
 async def back_to_start(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
+    """Возврат в родительское меню (старт бота)."""
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
