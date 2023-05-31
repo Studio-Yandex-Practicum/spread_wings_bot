@@ -20,7 +20,10 @@ from bot.handlers.assistance_types import (
     social_assistance,
 )
 from bot.handlers.main_handlers import help_handler, start_handler
-from bot.handlers.service_handlers import menu_handler
+from bot.handlers.service_handlers import (
+    answer_all_messages_handler,
+    menu_handler,
+)
 
 
 def main():
@@ -82,7 +85,9 @@ def main():
         ],
     )
     app = ApplicationBuilder().token(settings.telegram_token).build()
-    app.add_handlers([main_handler, help_handler, menu_handler])
+    app.add_handlers(
+        [main_handler, help_handler, menu_handler, answer_all_messages_handler]
+    )
     app.run_polling()
 
 
