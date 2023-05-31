@@ -17,9 +17,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
 async def help_command(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    """Функция показывает информацию о том, как использовать этот бот"""
+    """Функция показывает информацию о том, как использовать этот бот."""
     await update.message.reply_text(HELP_MESSAGE)
 
 
-start_handler = CommandHandler('start', start)
-help_handler = CommandHandler('help', help_command)
+start_handler = CommandHandler("start", start)
+help_handler = CommandHandler("help", help_command)
