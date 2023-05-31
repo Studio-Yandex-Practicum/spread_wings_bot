@@ -8,6 +8,7 @@ from bot.constants.buttons import (
     PSYCHOLOGICAL_HELP_BUTTON,
     SOCIAL_HELP_BUTTON,
 )
+from bot.constants.list_of_questions import LegalQuestions
 from bot.constants.states import States
 
 assistance_types_keyboard = [
@@ -39,6 +40,32 @@ assistance_types_keyboard = [
     ],
 ]
 
+assistance_questions_keyboard = [
+    [InlineKeyboardButton(text=question.value, callback_data=question.name)]
+    for question in LegalQuestions
+]
+
+assistance_questions_keyboard.append(
+    [
+        InlineKeyboardButton(
+            text=CONTACT_US_BUTTON, callback_data=States.CONTACT_US.value
+        )
+    ]
+)
+
+assistance_questions_keyboard.append(
+    [
+        InlineKeyboardButton(
+            text=BACK_BUTTON, callback_data=States.ASSISTANCE_TYPE.value
+        )
+    ]
+)
+
+
 assistance_types_keyboard_markup = InlineKeyboardMarkup(
     assistance_types_keyboard
+)
+
+assistance_questions_keyboard_markup = InlineKeyboardMarkup(
+    assistance_questions_keyboard
 )

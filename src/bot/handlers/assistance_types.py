@@ -1,10 +1,17 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.messages import ASSISTANCE_MESSAGE, ASSISTANCE_TYPE_MESSAGE
+from bot.constants.messages import (  # PSYCHOLOGICAL_HELP_MESSAGE,; SOCIAL_HELP_MESSAGE,
+    ASSISTANCE_MESSAGE,
+    ASSISTANCE_TYPE_MESSAGE,
+    LEGAL_HELP_MESSAGE,
+)
 from bot.constants.states import States
 from bot.keyboards.assistance import region_keyboard_markup
-from bot.keyboards.assistance_types import assistance_types_keyboard_markup
+from bot.keyboards.assistance_types import (
+    assistance_questions_keyboard_markup,
+    assistance_types_keyboard_markup,
+)
 
 
 async def select_type_of_help(
@@ -22,7 +29,13 @@ async def select_type_of_help(
 
 async def legal_assistance(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработчик для оказания юридической помощи."""
-    pass
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(
+        text=LEGAL_HELP_MESSAGE,
+        reply_markup=assistance_questions_keyboard_markup,
+    )
+    return States.LEGAL_ASSISTANCE
 
 
 async def social_assistance(

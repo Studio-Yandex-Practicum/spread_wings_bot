@@ -44,29 +44,42 @@ def main():
                 )
                 for region in Regions
             ],
-            States.ASSISTANCE_TYPE: [
+            States.ASSISTANCE_TYPE: [],
+            States.LEGAL_ASSISTANCE: [
                 CallbackQueryHandler(
                     legal_assistance,
                     pattern=PATTERN.format(
                         state=States.LEGAL_ASSISTANCE.value
                     ),
-                ),
+                )
+            ],
+            States.SOCIAL_ASSISTANCE: [
                 CallbackQueryHandler(
                     social_assistance,
                     pattern=PATTERN.format(
                         state=States.SOCIAL_ASSISTANCE.value
                     ),
-                ),
+                )
+            ],
+            States.PSYCHOLOGICAL_ASSISTANCE: [
                 CallbackQueryHandler(
                     psychological_assistance,
                     pattern=PATTERN.format(
                         state=States.PSYCHOLOGICAL_ASSISTANCE.value
                     ),
-                ),
+                )
+            ],
+            States.FUND_PROGRAMS: [
                 CallbackQueryHandler(
                     fund_programs,
                     pattern=PATTERN.format(state=States.FUND_PROGRAMS.value),
-                ),
+                )
+            ],
+            States.CONTACT_US: [
+                CallbackQueryHandler(
+                    legal_assistance,
+                    pattern=PATTERN.format(state=States.CONTACT_US.value),
+                )
             ],
         },
         fallbacks=[

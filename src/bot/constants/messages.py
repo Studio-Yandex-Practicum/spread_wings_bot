@@ -8,3 +8,7 @@ CHOOSE_REGION_MESSAGE = "Выберите, пожалуйста, регион"
 ASSISTANCE_TYPE_MESSAGE = (
     "[Заглушка]Сообщение в момент выбора юр., соц., психол., помощи и т.д."
 )
+
+LEGAL_HELP_MESSAGE = "[Заглушка]Юридическая помощь"
+SOCIAL_HELP_MESSAGE = "[Заглушка]Социальная помощь"
+PSYCHOLOGICAL_HELP_MESSAGE = "[Заглушка]Психологическая помощь"
