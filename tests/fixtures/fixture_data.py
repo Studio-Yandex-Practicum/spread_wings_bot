@@ -6,9 +6,11 @@ import pytest
 
 @pytest.fixture
 def current_timestamp():
+    """Cur timestamp."""
     return datetime.now().timestamp()
 
 
 @pytest.fixture
 def main_url():
-    return 'https://detskyfond.info/'
+    """Url."""
+    return "https://detskyfond.info/"

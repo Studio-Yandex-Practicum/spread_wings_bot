@@ -1,6 +1,5 @@
 import enum
 
-
 PATTERN = "^{state}$"
 
 

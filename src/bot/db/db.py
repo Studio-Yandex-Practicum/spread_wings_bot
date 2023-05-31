@@ -1,24 +1,31 @@
 import asyncio
-import aiomysql
+
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import (
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from src.bot.core.config import settings
 
-loop = asyncio.new_event_loop()
+loop = asyncio.get_event_loop()
+
+engine = create_async_engine(settings.db_url)
+async_session = async_sessionmaker(
+    engine, expire_on_commit=False, class_=AsyncSession
+)
 
 
-async def python_mysql(inf: str):
-    connection = await aiomysql.connect(
-        host=settings.host,
-        user=settings.user,
-        password=settings.password,
-    )
-
-    cur = await connection.cursor()
-    await cur.execute(inf)
-    db = await cur.fetchall()
-    print(db)
-    await cur.close()
-    connection.close()
+async def exp_session():
+    """For example."""
+    try:
+        async with async_session() as session:
+            sql = await session.execute(text("SHOW TABLES"))
+            result = sql.scalars().all()
+            return f"conect ok: {result}"
+    except Exception as e:
+        print(f"ops: {e}")
 
 
-loop.run_until_complete(python_mysql("SHOW DATABASES"))
+print(loop.run_until_complete(exp_session()))

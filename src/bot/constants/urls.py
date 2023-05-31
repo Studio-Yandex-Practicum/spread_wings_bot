@@ -1,1 +1,1 @@
-DONATION_URL = 'https://detskyfond.info/pomogi/'
+DONATION_URL = "https://detskyfond.info/pomogi/"
