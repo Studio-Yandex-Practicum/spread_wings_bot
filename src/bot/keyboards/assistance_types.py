@@ -35,7 +35,7 @@ assistance_types_keyboard = [
     ],
     [
         InlineKeyboardButton(
-            text=BACK_BUTTON, callback_data=States.BACK_TO_REGION.value
+            text=BACK_BUTTON, callback_data=f"back_to_{States.REGION.value}"
         )
     ],
 ]

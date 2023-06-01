@@ -18,15 +18,17 @@ assistance_keyboard = [
     ]
 ]
 
-
 region_keyboard = [
     [InlineKeyboardButton(region.value, callback_data=region.name)]
     for region in Regions
 ]
 region_keyboard.append(
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON, callback_data=f"back_to_{States.ASSISTANCE.value}"
+        )
+    ]
 )
-
 
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
