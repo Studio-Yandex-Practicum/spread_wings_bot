@@ -35,3 +35,4 @@ region_keyboard.append(
 donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
+contact_with_us_keyboard_markup = InlineKeyboardMarkup(region_keyboard) # change!!!
