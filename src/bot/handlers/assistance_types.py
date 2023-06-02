@@ -1,20 +1,21 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.messages import (
-    ASSISTANCE_MESSAGE, 
-    ASSISTANCE_TYPE_MESSAGE, 
-    HOW_CAN_WE_HELP
-)
 from bot.constants.contacts import Contacts
+from bot.constants.messages import (
+    ASSISTANCE_MESSAGE,
+    ASSISTANCE_TYPE_MESSAGE,
+    HOW_CAN_WE_HELP,
+)
+from bot.constants.regions import Regions
 from bot.constants.states import States
 from bot.keyboards.assistance import (
-    contact_show_keyboard_markup,
     contact_keyboard_markup,
-    region_keyboard_markup
+    contact_show_keyboard_markup,
+    region_keyboard_markup,
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
-from bot.constants.regions import Regions
+
 
 async def select_type_of_help(
     update: Update, context: ContextTypes.DEFAULT_TYPE
@@ -74,21 +75,19 @@ async def contact_with_us(
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        text=HOW_CAN_WE_HELP,
-        reply_markup=contact_keyboard_markup
+        text=HOW_CAN_WE_HELP, reply_markup=contact_keyboard_markup
     )
     return States.ASSISTANCE_TYPE
 
 
 async def show_contact(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE
+    update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Показываем контакт регионального куратора."""
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
         text=Contacts[context.user_data[States.REGION]].value,
-        reply_markup=contact_show_keyboard_markup
+        reply_markup=contact_show_keyboard_markup,
     )
     return States.ASSISTANCE_TYPE

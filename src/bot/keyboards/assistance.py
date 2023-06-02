@@ -5,7 +5,7 @@ from bot.constants.buttons import (
     BACK_BUTTON,
     CONTACTS,
     DONATION_BUTTON,
-    SEND_REQUEST
+    SEND_REQUEST,
 )
 from bot.constants.regions import Regions
 from bot.constants.states import States
@@ -36,26 +36,16 @@ region_keyboard.append(
 
 contact_keyboard = [
     [
-        InlineKeyboardButton(
-            SEND_REQUEST, callback_data=States.BACK.value
-        ),
+        InlineKeyboardButton(SEND_REQUEST, callback_data=States.BACK.value),
         InlineKeyboardButton(
             CONTACTS, callback_data=States.SHOW_CONTACTS.value
-        )
+        ),
     ],
-    [
-        InlineKeyboardButton(
-            BACK_BUTTON, callback_data=States.REGION.value
-        )
-    ]
+    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.REGION.value)],
 ]
 
 contact_show_keyboard = [
-    [
-        InlineKeyboardButton(
-            BACK_BUTTON, callback_data=States.CONTACT_US.value
-        )
-    ]
+    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.CONTACT_US.value)]
 ]
 
 donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)

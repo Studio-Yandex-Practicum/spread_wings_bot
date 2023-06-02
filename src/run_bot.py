@@ -22,7 +22,6 @@ from bot.handlers.assistance_types import (
     social_assistance,
 )
 from bot.handlers.main_handlers import help_handler, start_handler
-from bot.handlers.service_handlers import menu_handler
 
 
 def main():
@@ -68,29 +67,21 @@ def main():
                 ),
                 CallbackQueryHandler(
                     fund_programs,
-                    pattern=PATTERN.format(
-                        state=States.FUND_PROGRAMS.value
-                    ),
+                    pattern=PATTERN.format(state=States.FUND_PROGRAMS.value),
                 ),
                 CallbackQueryHandler(
                     contact_with_us,
-                    pattern=PATTERN.format(
-                        state=States.CONTACT_US.value
-                    ),
+                    pattern=PATTERN.format(state=States.CONTACT_US.value),
                 ),
                 CallbackQueryHandler(
                     show_contact,
-                    pattern=PATTERN.format(
-                        state=States.SHOW_CONTACTS.value
-                    ),
+                    pattern=PATTERN.format(state=States.SHOW_CONTACTS.value),
                 ),
                 # for button back
                 CallbackQueryHandler(
                     select_type_of_help,
-                    pattern=PATTERN.format(
-                        state=States.REGION.value
-                    ),
-                )
+                    pattern=PATTERN.format(state=States.REGION.value),
+                ),
             ],
         },
         fallbacks=[
