@@ -1,9 +1,16 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.messages import ASSISTANCE_MESSAGE, ASSISTANCE_TYPE_MESSAGE
+from bot.constants.messages import (
+    ASSISTANCE_MESSAGE, 
+    ASSISTANCE_TYPE_MESSAGE, 
+    HOW_CAN_WE_HELP
+)
 from bot.constants.states import States
-from bot.keyboards.assistance import region_keyboard_markup
+from bot.keyboards.assistance import (
+    contact_keyboard_markup, 
+    region_keyboard_markup
+)
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
 
 
@@ -53,4 +60,19 @@ async def back_to_region(
     await query.edit_message_text(
         ASSISTANCE_MESSAGE, reply_markup=region_keyboard_markup
     )
+    return States.REGION
+
+
+async def contact_with_us(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> States:
+    """Связаться с нами."""
+    query = update.callback_query
+    context.user_data[States.REGION] = query.data
+    await query.answer()
+    await query.edit_message_text(
+        text=HOW_CAN_WE_HELP,
+        reply_markup=contact_keyboard_markup
+    )
+    #return States.REGION_DEFINED
     return States.REGION

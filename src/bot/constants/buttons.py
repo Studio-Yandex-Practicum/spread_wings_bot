@@ -11,3 +11,7 @@ LEGAL_HELP_BUTTON = 'Юридическая помощь'
 SOCIAL_HELP_BUTTON = 'Социальная помощь'
 PSYCHOLOGICAL_HELP_BUTTON = 'Психологическая помощь'
 PROGRAMS_BUTTON = 'Наши программы'
+
+# Кнопки для блока "Связаться с нами"
+CONTACTS = 'Показать контакты'
+SEND_REQUEST = 'Задать вопрос'

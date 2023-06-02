@@ -13,6 +13,7 @@ from bot.core.log_config import LOGGING_CONFIG
 from bot.handlers.assistance import back_to_start, receive_assistance
 from bot.handlers.assistance_types import (
     back_to_region,
+    contact_with_us,
     fund_programs,
     legal_assistance,
     psychological_assistance,
@@ -65,7 +66,15 @@ def main():
                 ),
                 CallbackQueryHandler(
                     fund_programs,
-                    pattern=PATTERN.format(state=States.FUND_PROGRAMS.value),
+                    pattern=PATTERN.format(
+                        state=States.FUND_PROGRAMS.value
+                    ),
+                ),
+                CallbackQueryHandler(
+                    contact_with_us,
+                    pattern=PATTERN.format(
+                        state=States.CONTACT_US.value
+                    ),
                 ),
             ],
         },

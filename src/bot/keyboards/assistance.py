@@ -3,7 +3,9 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from bot.constants.buttons import (
     ASSISTANCE_BUTTON,
     BACK_BUTTON,
+    CONTACTS,
     DONATION_BUTTON,
+    SEND_REQUEST
 )
 from bot.constants.regions import Regions
 from bot.constants.states import States
@@ -27,12 +29,28 @@ region_keyboard = [
     [InlineKeyboardButton(region.value, callback_data=region.name)]
     for region in Regions
 ]
+
 region_keyboard.append(
     [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
 )
 
+contact_keyboard = [
+    [
+        InlineKeyboardButton(
+            SEND_REQUEST, callback_data=States.BACK.value
+        ),
+        InlineKeyboardButton(
+            CONTACTS, callback_data=States.CONTACT_US.value
+        )
+    ],
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON, callback_data=States.BACK_TO_REGION.value
+        )
+    ]
+]
 
 donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
-contact_with_us_keyboard_markup = InlineKeyboardMarkup(region_keyboard) # change!!!
+contact_keyboard_markup = InlineKeyboardMarkup(contact_keyboard)
