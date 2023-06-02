@@ -8,15 +8,13 @@ from telegram.ext import (
 
 from bot.constants.regions import Regions
 from bot.constants.states import PATTERN, States
+from bot.constants.types_of_assistance import AssistanceTypes
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.assistance import receive_assistance
+from bot.handlers.assistance import contact_us_assistance, receive_assistance
 from bot.handlers.assistance_types import (
-    fund_programs,
-    legal_assistance,
-    psychological_assistance,
     select_type_of_help,
-    social_assistance,
+    selected_type_assistance,
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
@@ -45,43 +43,20 @@ def main():
                 )
                 for region in Regions
             ],
-            States.ASSISTANCE_TYPE: [],
-            States.LEGAL_ASSISTANCE: [
+            States.ASSISTANCE_TYPE: [
                 CallbackQueryHandler(
-                    legal_assistance,
-                    pattern=PATTERN.format(
-                        state=States.LEGAL_ASSISTANCE.value
-                    ),
+                    selected_type_assistance,
+                    pattern=PATTERN.format(state=type.value),
+                )
+                for type in AssistanceTypes
+            ],
+            States.SELECTED_TYPE: [
+                CallbackQueryHandler(
+                    contact_us_assistance,
+                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
                 )
             ],
-            States.SOCIAL_ASSISTANCE: [
-                CallbackQueryHandler(
-                    social_assistance,
-                    pattern=PATTERN.format(
-                        state=States.SOCIAL_ASSISTANCE.value
-                    ),
-                )
-            ],
-            States.PSYCHOLOGICAL_ASSISTANCE: [
-                CallbackQueryHandler(
-                    psychological_assistance,
-                    pattern=PATTERN.format(
-                        state=States.PSYCHOLOGICAL_ASSISTANCE.value
-                    ),
-                )
-            ],
-            States.FUND_PROGRAMS: [
-                CallbackQueryHandler(
-                    fund_programs,
-                    pattern=PATTERN.format(state=States.FUND_PROGRAMS.value),
-                )
-            ],
-            States.CONTACT_US: [
-                CallbackQueryHandler(
-                    legal_assistance,
-                    pattern=PATTERN.format(state=States.CONTACT_US.value),
-                )
-            ],
+            States.ASK_QUESTION: [],
         },
         fallbacks=[
             CallbackQueryHandler(

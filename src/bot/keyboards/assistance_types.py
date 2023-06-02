@@ -1,6 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.constants.buttons import (
+    ASK_QUESTION,
     BACK_BUTTON,
     CONTACT_US_BUTTON,
     LEGAL_HELP_BUTTON,
@@ -10,19 +11,21 @@ from bot.constants.buttons import (
 )
 from bot.constants.list_of_questions import LegalQuestions
 from bot.constants.states import States
+from bot.constants.types_of_assistance import AssistanceTypes
 
 assistance_types_keyboard = [
     [
         InlineKeyboardButton(
-            text=LEGAL_HELP_BUTTON, callback_data=States.LEGAL_ASSISTANCE.value
+            text=LEGAL_HELP_BUTTON,
+            callback_data=AssistanceTypes.LEGAL_ASSISTANCE.value,
         ),
         InlineKeyboardButton(
             text=SOCIAL_HELP_BUTTON,
-            callback_data=States.SOCIAL_ASSISTANCE.value,
+            callback_data=AssistanceTypes.SOCIAL_ASSISTANCE.value,
         ),
         InlineKeyboardButton(
             text=PSYCHOLOGICAL_HELP_BUTTON,
-            callback_data=States.PSYCHOLOGICAL_ASSISTANCE.value,
+            callback_data=AssistanceTypes.PSYCHOLOGICAL_ASSISTANCE.value,
         ),
     ],
     [
@@ -41,14 +44,14 @@ assistance_types_keyboard = [
 ]
 
 assistance_questions_keyboard = [
-    [InlineKeyboardButton(text=question.value, callback_data=question.name)]
+    [InlineKeyboardButton(question.value, callback_data=question.name)]
     for question in LegalQuestions
 ]
 
 assistance_questions_keyboard.append(
     [
         InlineKeyboardButton(
-            text=CONTACT_US_BUTTON, callback_data=States.CONTACT_US.value
+            text=ASK_QUESTION, callback_data=States.ASK_QUESTION.value
         )
     ]
 )
@@ -56,7 +59,8 @@ assistance_questions_keyboard.append(
 assistance_questions_keyboard.append(
     [
         InlineKeyboardButton(
-            text=BACK_BUTTON, callback_data=States.ASSISTANCE_TYPE.value
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
         )
     ]
 )
