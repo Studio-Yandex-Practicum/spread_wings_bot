@@ -6,19 +6,23 @@ from bot.constants.messages import (
     ASSISTANCE_TYPE_MESSAGE, 
     HOW_CAN_WE_HELP
 )
+from bot.constants.contacts import Contacts
 from bot.constants.states import States
 from bot.keyboards.assistance import (
-    contact_keyboard_markup, 
+    contact_show_keyboard_markup,
+    contact_keyboard_markup,
     region_keyboard_markup
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
-
+from bot.constants.regions import Regions
 
 async def select_type_of_help(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Выбор типа необходимой для оказания помощи."""
     query = update.callback_query
+    if query.data in [reg.name for reg in Regions]:
+        context.user_data[States.REGION] = query.data
     await query.answer()
     await query.edit_message_text(
         text=ASSISTANCE_TYPE_MESSAGE,
@@ -68,11 +72,23 @@ async def contact_with_us(
 ) -> States:
     """Связаться с нами."""
     query = update.callback_query
-    context.user_data[States.REGION] = query.data
     await query.answer()
     await query.edit_message_text(
         text=HOW_CAN_WE_HELP,
         reply_markup=contact_keyboard_markup
     )
-    #return States.REGION_DEFINED
-    return States.REGION
+    return States.ASSISTANCE_TYPE
+
+
+async def show_contact(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE
+) -> States:
+    """Показываем контакт регионального куратора."""
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(
+        text=Contacts[context.user_data[States.REGION]].value,
+        reply_markup=contact_show_keyboard_markup
+    )
+    return States.ASSISTANCE_TYPE

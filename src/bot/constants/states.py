@@ -17,3 +17,4 @@ class States(str, enum.Enum):
     PSYCHOLOGICAL_ASSISTANCE = "psychological_assistance"
     FUND_PROGRAMS = "fund_programs"
     CONTACT_US = "contact_us"
+    SHOW_CONTACTS = "show_contacts"

@@ -18,6 +18,7 @@ from bot.handlers.assistance_types import (
     legal_assistance,
     psychological_assistance,
     select_type_of_help,
+    show_contact,
     social_assistance,
 )
 from bot.handlers.main_handlers import help_handler, start_handler
@@ -76,6 +77,19 @@ def main():
                         state=States.CONTACT_US.value
                     ),
                 ),
+                CallbackQueryHandler(
+                    show_contact,
+                    pattern=PATTERN.format(
+                        state=States.SHOW_CONTACTS.value
+                    ),
+                ),
+                # for button back
+                CallbackQueryHandler(
+                    select_type_of_help,
+                    pattern=PATTERN.format(
+                        state=States.REGION.value
+                    ),
+                )
             ],
         },
         fallbacks=[

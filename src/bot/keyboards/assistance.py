@@ -40,12 +40,20 @@ contact_keyboard = [
             SEND_REQUEST, callback_data=States.BACK.value
         ),
         InlineKeyboardButton(
-            CONTACTS, callback_data=States.CONTACT_US.value
+            CONTACTS, callback_data=States.SHOW_CONTACTS.value
         )
     ],
     [
         InlineKeyboardButton(
-            BACK_BUTTON, callback_data=States.BACK_TO_REGION.value
+            BACK_BUTTON, callback_data=States.REGION.value
+        )
+    ]
+]
+
+contact_show_keyboard = [
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON, callback_data=States.CONTACT_US.value
         )
     ]
 ]
@@ -54,3 +62,4 @@ donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
 contact_keyboard_markup = InlineKeyboardMarkup(contact_keyboard)
+contact_show_keyboard_markup = InlineKeyboardMarkup(contact_show_keyboard)
