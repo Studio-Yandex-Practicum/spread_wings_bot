@@ -22,6 +22,7 @@ from bot.handlers.assistance_types import (
     social_assistance,
 )
 from bot.handlers.main_handlers import help_handler, start_handler
+from bot.handlers.service_handlers import menu_handler
 
 
 def main():
