@@ -11,4 +11,4 @@ async def start_session():
     """Async connect with db."""
     engine = create_async_engine(settings.db_url)
     session = async_sessionmaker(engine, class_=AsyncSession)
-    return await session()
+    return session()
