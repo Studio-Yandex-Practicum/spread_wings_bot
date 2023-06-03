@@ -8,11 +8,16 @@ from telegram.ext import (
 
 from bot.constants.regions import Regions
 from bot.constants.states import PATTERN, States
-from bot.constants.types_of_assistance import AssistanceTypes
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.assistance import contact_us_assistance, receive_assistance
+from bot.handlers.ask_question import ask_question_handler
+from bot.handlers.assistance import (
+    ask_question_assistance,
+    contact_with_us_assistance,
+    receive_assistance,
+)
 from bot.handlers.assistance_types import (
+    fund_programs,
     select_type_of_help,
     selected_type_assistance,
 )
@@ -46,17 +51,24 @@ def main():
             States.ASSISTANCE_TYPE: [
                 CallbackQueryHandler(
                     selected_type_assistance,
-                    pattern=PATTERN.format(state=type.value),
-                )
-                for type in AssistanceTypes
+                    pattern="^assistance_type_(legal|social|psychological)$",
+                ),
+                CallbackQueryHandler(
+                    fund_programs,
+                    pattern=PATTERN.format(state=States.FUND_PROGRAMS.value),
+                ),
+                CallbackQueryHandler(
+                    contact_with_us_assistance,
+                    pattern=PATTERN.format(state=States.CONTACT_US.value),
+                ),
             ],
             States.SELECTED_TYPE: [
                 CallbackQueryHandler(
-                    contact_us_assistance,
+                    ask_question_assistance,
                     pattern=PATTERN.format(state=States.ASK_QUESTION.value),
                 )
             ],
-            States.ASK_QUESTION: [],
+            States.ASK_QUESTION: [ask_question_handler],
         },
         fallbacks=[
             CallbackQueryHandler(

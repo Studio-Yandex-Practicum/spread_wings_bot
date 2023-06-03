@@ -11,21 +11,18 @@ from bot.constants.buttons import (
 )
 from bot.constants.list_of_questions import LegalQuestions
 from bot.constants.states import States
-from bot.constants.types_of_assistance import AssistanceTypes
 
 assistance_types_keyboard = [
     [
         InlineKeyboardButton(
-            text=LEGAL_HELP_BUTTON,
-            callback_data=AssistanceTypes.LEGAL_ASSISTANCE.value,
+            text=LEGAL_HELP_BUTTON, callback_data="assistance_type_legal"
         ),
         InlineKeyboardButton(
-            text=SOCIAL_HELP_BUTTON,
-            callback_data=AssistanceTypes.SOCIAL_ASSISTANCE.value,
+            text=SOCIAL_HELP_BUTTON, callback_data="assistance_type_social"
         ),
         InlineKeyboardButton(
             text=PSYCHOLOGICAL_HELP_BUTTON,
-            callback_data=AssistanceTypes.PSYCHOLOGICAL_ASSISTANCE.value,
+            callback_data="assistance_type_psychological",
         ),
     ],
     [
