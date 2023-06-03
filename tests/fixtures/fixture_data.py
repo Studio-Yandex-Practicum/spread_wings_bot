@@ -11,4 +11,4 @@ def current_timestamp():
 
 @pytest.fixture
 def main_url():
-    return 'https://detskyfond.info/'
+    return "https://detskyfond.info/"
