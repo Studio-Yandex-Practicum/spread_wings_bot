@@ -1,12 +1,12 @@
 from dotenv import find_dotenv
-from pydantic import BaseSettings
+from pydantic import BaseSettings, SecretStr
 
 
 class Settings(BaseSettings):
     """Settings app."""
 
     db_url: str
-    telegram_token: str
+    telegram_token: SecretStr
     debug: bool = False
 
     class Config:
