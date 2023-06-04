@@ -20,18 +20,17 @@ assistance_keyboard = [
     ]
 ]
 
-donation_keyboard = [
-    [InlineKeyboardButton(DONATION_BUTTON, url=DONATION_URL)],
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)],
-]
-
 region_keyboard = [
     [InlineKeyboardButton(region.value, callback_data=region.name)]
     for region in Regions
 ]
 
 region_keyboard.append(
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.BACK.value)]
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON, callback_data=f"back_to_{States.ASSISTANCE.value}"
+        )
+    ]
 )
 
 contact_keyboard = [
@@ -48,7 +47,7 @@ contact_show_keyboard = [
     [InlineKeyboardButton(BACK_BUTTON, callback_data=States.CONTACT_US.value)]
 ]
 
-donation_keyboard_markup = InlineKeyboardMarkup(donation_keyboard)
+
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
 contact_keyboard_markup = InlineKeyboardMarkup(contact_keyboard)
