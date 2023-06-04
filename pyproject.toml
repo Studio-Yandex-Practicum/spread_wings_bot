@@ -5,6 +5,12 @@ description = "add later"
 authors = ["add later"]
 readme = "README.md"
 
+
+[build-system]
+requires = ["poetry-core>=1.5.1"]
+build-backend = "poetry.core.masonry.api"
+
+
 [tool.poetry.dependencies]
 python = "^3.11.1"
 python-telegram-bot = "^20.3"
