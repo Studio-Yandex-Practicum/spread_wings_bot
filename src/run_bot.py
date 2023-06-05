@@ -10,9 +10,8 @@ from bot.constants.regions import Regions
 from bot.constants.states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.assistance import back_to_start, receive_assistance
+from bot.handlers.assistance import receive_assistance
 from bot.handlers.assistance_types import (
-    back_to_region,
     contact_with_us,
     fund_programs,
     legal_assistance,
@@ -21,6 +20,7 @@ from bot.handlers.assistance_types import (
     show_contact,
     social_assistance,
 )
+from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 
 
@@ -86,11 +86,8 @@ def main():
         },
         fallbacks=[
             CallbackQueryHandler(
-                back_to_start, pattern=PATTERN.format(state=States.BACK.value)
-            ),
-            CallbackQueryHandler(
-                back_to_region,
-                pattern=PATTERN.format(state=States.BACK_TO_REGION.value),
+                back_button,
+                pattern=r"back_to_",
             ),
             start_handler,
         ],
