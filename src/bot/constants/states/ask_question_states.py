@@ -2,7 +2,7 @@ import enum
 
 
 class AskQuestionStates(str, enum.Enum):
-    """Состояния бота."""
+    """Ask question states."""
 
     QUESTION = "question"
     NAME = "name"

@@ -4,7 +4,7 @@ PATTERN = "^{state}$"
 
 
 class States(str, enum.Enum):
-    """Состояния бота."""
+    """Main bot states."""
 
     ASSISTANCE = "assistance"  # п.с. "Помочь или получить помощь"
     REGION = "region"  # п.с. "Выбор региона"

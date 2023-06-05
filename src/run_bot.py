@@ -7,7 +7,7 @@ from telegram.ext import (
 )
 
 from bot.constants.regions import Regions
-from bot.constants.states import PATTERN, States
+from bot.constants.states.main_states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
 from bot.handlers.ask_question import ask_question_handler

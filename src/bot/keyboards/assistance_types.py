@@ -10,7 +10,7 @@ from bot.constants.buttons import (
     SOCIAL_HELP_BUTTON,
 )
 from bot.constants.list_of_questions import LegalQuestions
-from bot.constants.states import States
+from bot.constants.states.main_states import States
 
 assistance_types_keyboard = [
     [

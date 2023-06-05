@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.constants.messages import ASSISTANCE_TYPE_MESSAGE
-from bot.constants.states import States
+from bot.constants.states.main_states import States
 from bot.keyboards.assistance_types import (
     assistance_questions_keyboard_markup,
     assistance_types_keyboard_markup,

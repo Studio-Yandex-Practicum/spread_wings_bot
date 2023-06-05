@@ -2,7 +2,7 @@ import enum
 
 
 class LegalQuestions(str, enum.Enum):
-    """Выбор юридического вопроса из списка."""
+    """Question list."""
 
     FIRST_QUESTION = "[Заглушка]Первый вопрос"
     SECOND_QUESTION = "[Заглушка]Второй вопрос"

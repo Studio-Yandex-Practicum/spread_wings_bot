@@ -2,7 +2,7 @@ import enum
 
 
 class AssistanceTypes(str, enum.Enum):
-    """Виды помощи."""
+    """Question types."""
 
     LEGAL_ASSISTANCE = "legal_assistance"
     SOCIAL_ASSISTANCE = "social_assistance"
