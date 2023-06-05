@@ -2,7 +2,7 @@ name: Create and publish a Docker image
 
 on:
   push:
-    branches: ['feature/upload-to-GitHub-Packages']
+    branches: ['develop']
 
 env:
   REGISTRY: ghcr.io
