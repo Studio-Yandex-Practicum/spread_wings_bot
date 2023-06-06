@@ -1,12 +1,18 @@
 from dotenv import find_dotenv
-from pydantic import BaseSettings
+from pydantic import AnyUrl, BaseSettings, SecretStr
+
+
+class CustomDsn(AnyUrl):
+    """aiomysqlDSN."""
+
+    allowed_schemes = {"mysql+aiomysql"}
 
 
 class Settings(BaseSettings):
     """Settings app."""
 
-    db_url: str
-    telegram_token: str
+    db_url: CustomDsn
+    telegram_token: SecretStr
     debug: bool = False
 
     class Config:
