@@ -6,6 +6,7 @@ from telegram.ext import (
     ConversationHandler,
 )
 
+from bot.constants.patterns import HELP_TYPE_PATTERN
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import PATTERN, States
 from bot.core.config import settings
@@ -54,7 +55,7 @@ def main():
             States.ASSISTANCE_TYPE: [
                 CallbackQueryHandler(
                     selected_type_assistance,
-                    pattern="^assistance_type_(legal|social|psychological)$",
+                    pattern=HELP_TYPE_PATTERN,
                 ),
                 CallbackQueryHandler(
                     fund_programs,

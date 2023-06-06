@@ -56,6 +56,9 @@ async def select_contact_type(
     context.user_data["contact_type"] = contact_type
     if contact_type == "TELEGRAM":
         context.user_data["contact"] = "@" + query.message.chat.username
+        await query.edit_message_text(
+            THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
+        )
         return AskQuestionStates.END
     await query.edit_message_text(text=ENTER_YOUR_CONTCACT[contact_type])
     return AskQuestionStates.ENTER_YOUR_CONTACT
@@ -104,11 +107,12 @@ ask_question_handler = ConversationHandler(
             )
         ],
         AskQuestionStates.ENTER_YOUR_CONTACT: [
-            MessageHandler(filters.Regex("^.*$"), get_contact)
+            MessageHandler(filters.Regex(r"^[^\/].*$"), get_contact)
         ],
     },
     fallbacks=[start_handler],
     map_to_parent={
         AskQuestionStates.END: States.ASSISTANCE,
+        States.ASSISTANCE: States.ASSISTANCE,
     },
 )
