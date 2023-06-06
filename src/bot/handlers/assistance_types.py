@@ -8,13 +8,16 @@ from bot.constants.messages import (
     HOW_CAN_WE_HELP,
 )
 from bot.constants.regions import Regions
-from bot.constants.states import States
+from bot.constants.states.main_states import States
 from bot.keyboards.assistance import (
     contact_keyboard_markup,
     contact_show_keyboard_markup,
     region_keyboard_markup,
 )
-from bot.keyboards.assistance_types import assistance_types_keyboard_markup
+from bot.keyboards.assistance_types import (
+    assistance_questions_keyboard_markup,
+    assistance_types_keyboard_markup,
+)
 
 
 async def select_type_of_help(
@@ -32,23 +35,17 @@ async def select_type_of_help(
     return States.ASSISTANCE_TYPE
 
 
-async def legal_assistance(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обработчик для оказания юридической помощи."""
-    pass
-
-
-async def social_assistance(
+async def selected_type_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ):
-    """Обработчик для оказания социальной помощи."""
-    pass
-
-
-async def psychological_assistance(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-):
-    """Обработчик для оказания психологической помощи."""
-    pass
+    """Обработчик для выбранного типа помощи."""
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(
+        text="Выбор вопроса из списка",
+        reply_markup=assistance_questions_keyboard_markup,
+    )
+    return States.SELECTED_TYPE
 
 
 async def fund_programs(update: Update, context: ContextTypes.DEFAULT_TYPE):

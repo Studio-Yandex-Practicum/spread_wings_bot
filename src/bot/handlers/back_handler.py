@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.constants.back_functions import FUNCTIONS
-from bot.constants.states import States
+from bot.constants.states.main_states import States
 
 
 async def back_button(

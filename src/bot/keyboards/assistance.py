@@ -8,7 +8,7 @@ from bot.constants.buttons import (
     SEND_REQUEST,
 )
 from bot.constants.regions import Regions
-from bot.constants.states import States
+from bot.constants.states.main_states import States
 from bot.constants.urls import DONATION_URL
 
 assistance_keyboard = [
