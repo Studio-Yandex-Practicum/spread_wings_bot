@@ -3,7 +3,7 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     telegram_token: str
-    debug: bool = False
+    # debug: bool = False
 
     class Config:
         env_file = '.env'
