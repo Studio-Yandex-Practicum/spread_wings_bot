@@ -13,5 +13,4 @@ RUN pip install -r ./requirements/develop.txt
 
 ENV TELEGRAM_TOKEN ${TELEGRAM_TOKEN}
 
-
 CMD [ "python", "./src/run_bot.py" ]
