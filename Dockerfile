@@ -11,5 +11,6 @@ RUN pip install --upgrade pip
 RUN pip install -r ./requirements/develop.txt
 
 ENV TELEGRAM_TOKEN ${TELEGRAM_TOKEN}
+ENV DEBUG ${DEBUG}
 
 CMD [ "python", "./src/run_bot.py" ]
