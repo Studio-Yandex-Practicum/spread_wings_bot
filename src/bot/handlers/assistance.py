@@ -1,12 +1,9 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.messages import ASSISTANCE_MESSAGE, START_MESSAGE
-from bot.constants.states import States
-from bot.keyboards.assistance import (
-    assistance_keyboard_markup,
-    region_keyboard_markup,
-)
+from bot.constants.messages import ASK_YOUR_QUESTION, ASSISTANCE_MESSAGE
+from bot.constants.states.main_states import States
+from bot.keyboards.assistance import region_keyboard_markup
 
 
 async def receive_assistance(
@@ -21,13 +18,18 @@ async def receive_assistance(
     return States.REGION
 
 
-async def back_to_start(
+async def contact_with_us_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
-    """Возврат в родительское меню (старт бота)."""
+    """Обработчик для связи с нами."""
+    pass
+
+
+async def ask_question_assistance(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> States:
+    """Обработчик для задания вопроcа."""
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(
-        text=START_MESSAGE, reply_markup=assistance_keyboard_markup
-    )
-    return States.ASSISTANCE
+    await query.edit_message_text(text=ASK_YOUR_QUESTION)
+    return States.ASK_QUESTION
