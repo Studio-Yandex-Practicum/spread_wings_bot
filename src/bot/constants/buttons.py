@@ -4,7 +4,7 @@ CONTACT_US_BUTTON = "Связаться с нами"
 
 # Кнопки для блока "Помочь или получить помощь"
 ASSISTANCE_BUTTON = "Получить помощь"
-DONATION_BUTTON = "Сделать пожертование"
+DONATION_BUTTON = "Сделать пожертвование"
 
 # Кнопки для блока "Чем мы можем помочь"
 LEGAL_HELP_BUTTON = "Юридическая помощь"
@@ -17,3 +17,6 @@ ASK_QUESTION = "Задать свой вопрос"
 EMAIL = "Эл. Почта"
 PHONE = "По телефону"
 TELEGRAM = "Тelegram"
+
+CONTACTS = "Контакты"
+SEND_REQUEST = "Отправить запрос"
