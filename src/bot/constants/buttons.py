@@ -17,3 +17,7 @@ ASK_QUESTION = "Задать свой вопрос"
 EMAIL = "Эл. Почта"
 PHONE = "По телефону"
 TELEGRAM = "Тelegram"
+
+# кнопки для блока "связаться с нами"
+CONTACTS = "Контакты"
+SEND_REQUEST = "Отправить запрос"
