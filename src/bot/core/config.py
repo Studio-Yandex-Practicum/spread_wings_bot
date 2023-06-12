@@ -11,7 +11,7 @@ class CustomDsn(AnyUrl):
 class Settings(BaseSettings):
     """Settings app."""
 
-    db_url: CustomDsn
+    # db_url: CustomDsn
     telegram_token: SecretStr
     debug: bool = False
 
