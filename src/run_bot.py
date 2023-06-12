@@ -18,9 +18,11 @@ from bot.handlers.assistance import (
     receive_assistance,
 )
 from bot.handlers.assistance_types import (
+    contact_with_us,
     fund_programs,
     select_type_of_help,
     selected_type_assistance,
+    show_contact,
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
@@ -65,6 +67,18 @@ def main():
                     contact_with_us_assistance,
                     pattern=PATTERN.format(state=States.CONTACT_US.value),
                 ),
+            ],
+            States.CONTACT_US: [
+                CallbackQueryHandler(
+                    contact_with_us,
+                    pattern=PATTERN.format(state=States.CONTACT_US.value),
+                )
+            ],
+            States.SHOW_CONTACT: [
+                CallbackQueryHandler(
+                    show_contact,
+                    pattern=PATTERN.format(state=States.SHOW_CONTACT.value),
+                )
             ],
             States.SELECTED_TYPE: [
                 CallbackQueryHandler(
