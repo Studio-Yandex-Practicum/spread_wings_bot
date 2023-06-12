@@ -14,7 +14,7 @@ PROGRAMS_BUTTON = "Наши программы"
 ASK_QUESTION = "Задать свой вопрос"
 
 # Способы связи
-EMAIL = "Эл. Почта"
+EMAIL = "Эл. почта"
 PHONE = "По телефону"
 TELEGRAM = "Тelegram"
 
