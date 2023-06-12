@@ -7,9 +7,9 @@ ASSISTANCE_BUTTON = "Получить помощь"
 DONATION_BUTTON = "Сделать пожертвование"
 
 # Кнопки для блока "Чем мы можем помочь"
-LEGAL_HELP_BUTTON = "Юристы"  # вместо Юридическая помощь
-SOCIAL_HELP_BUTTON = "Соцработники"  # вместо Социальная помощь
-PSYCHOLOGICAL_HELP_BUTTON = "Психологи"  # вместо Психологическая помощь
+LEGAL_HELP_BUTTON = "Юридическая помощь"
+SOCIAL_HELP_BUTTON = "Социальная помощь"
+PSYCHOLOGICAL_HELP_BUTTON = "Психологическая помощь"
 PROGRAMS_BUTTON = "Наши программы"
 ASK_QUESTION = "Задать свой вопрос"
 
