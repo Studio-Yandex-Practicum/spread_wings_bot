@@ -18,4 +18,4 @@ class States(str, enum.Enum):
     CONTACT_US = "contact_us"
     SELECTED_TYPE = "selected_type"
 
-    SHOW_CONTACTS = "show_contacts"
+    SHOW_CONTACTS = "show_contact"
