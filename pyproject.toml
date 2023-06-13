@@ -13,6 +13,10 @@ pydantic = {extras = ["email"], version = "^1.10.8"}
 sqlalchemy = "^2.0.15"
 aiomysql = "^0.1.1"
 python-dotenv = "^1.0.0"
+beautifulsoup4 = "^4.12.2"
+requests-cache = "^1.0.1"
+lxml = "^4.9.2"
+attrs = "^23.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
