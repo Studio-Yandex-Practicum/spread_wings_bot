@@ -31,3 +31,6 @@ def parser() -> None:
             index += 1
         results.append(result)
     pprint(results)
+
+
+parser()
