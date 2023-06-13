@@ -39,14 +39,22 @@ contact_keyboard = [
     [
         InlineKeyboardButton(SEND_REQUEST, callback_data=States.BACK.value),
         InlineKeyboardButton(
-            CONTACTS, callback_data=States.SHOW_CONTACTS.value
+            CONTACTS, callback_data=States.SHOW_CONTACT.value
         ),
     ],
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.REGION.value)],
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON, callback_data=f"back_to_{States.ASSISTANCE.value}"
+        )
+    ],
 ]
 
 contact_show_keyboard = [
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.CONTACT_US.value)]
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON, callback_data=f"back_to_{States.CONTACT_US.value}"
+        )
+    ]
 ]
 
 
