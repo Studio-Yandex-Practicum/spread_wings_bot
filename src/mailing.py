@@ -2,12 +2,7 @@ import re
 import smtplib
 
 from bot.core.config import settings
-
-
-class InvalidEmailAddress(Exception):
-    """Кастомный эксепшн для поднятия при невалидном адресате."""
-
-    pass
+from bot.core.exceptions import InvalidEmailAddress
 
 
 class BotMailer:
@@ -17,6 +12,8 @@ class BotMailer:
     SERVER_PORT = settings.email_port
     SENDER_ACCOUNT = settings.email_account
     SENDER_PASSWORD = settings.email_password
+    DEFAULT_SUBJECT = "Вопрос из телеграм бота"
+    DEFAULT_ADDRESS = settings.default_email_address
     MSG_TEMPLATE = "From: {}\nTo: {}\nSubject: {}\n\n{}"
     REG = r"[^@]+@[^@]+\.[^@]+"
 
@@ -26,7 +23,9 @@ class BotMailer:
             raise InvalidEmailAddress("Некорректный формат адреса")
 
     @classmethod
-    def send_message(cls, address, subject, message):
+    async def send_message(
+        cls, message, address=DEFAULT_ADDRESS, subject=DEFAULT_SUBJECT
+    ):
         """
         Метод отправки сообщения.
 
