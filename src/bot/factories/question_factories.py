@@ -92,5 +92,5 @@ def generate_dict_factory(factory):
 
 factory_to_dict = generate_dict_factory(QuestionFundFactory)
 
-with open("fixtures_data.json", "w", encoding="utf-8") as f:
+with open("question_data.json", "w", encoding="utf-8") as f:
     json.dump(factory_to_dict(), f, indent=2, ensure_ascii=False)

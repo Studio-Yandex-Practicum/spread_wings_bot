@@ -15,9 +15,11 @@ assistance_keyboard = [
     [
         InlineKeyboardButton(
             text=ASSISTANCE_BUTTON, callback_data=States.ASSISTANCE.value
-        ),
+        )
+    ],
+    [
         InlineKeyboardButton(text=DONATION_BUTTON, url=DONATION_URL),
-    ]
+    ],
 ]
 
 region_keyboard = [

@@ -18,23 +18,29 @@ assistance_types_keyboard = [
         InlineKeyboardButton(
             text=LEGAL_HELP_BUTTON,
             callback_data=AssistanceTypes.LEGAL_ASSISTANCE.name,
-        ),
+        )
+    ],
+    [
         InlineKeyboardButton(
             text=SOCIAL_HELP_BUTTON,
             callback_data=AssistanceTypes.SOCIAL_ASSISTANCE.name,
-        ),
+        )
+    ],
+    [
         InlineKeyboardButton(
             text=PSYCHOLOGICAL_HELP_BUTTON,
             callback_data=AssistanceTypes.PSYCHOLOGICAL_ASSISTANCE.name,
-        ),
+        )
     ],
     [
         InlineKeyboardButton(
             text=PROGRAMS_BUTTON, callback_data=States.FUND_PROGRAMS.value
-        ),
+        )
+    ],
+    [
         InlineKeyboardButton(
             text=CONTACT_US_BUTTON, callback_data=States.CONTACT_US.value
-        ),
+        )
     ],
     [
         InlineKeyboardButton(
