@@ -1,0 +1,502 @@
+{
+  "region_1": {
+    "city": "клх Ступино",
+    "coordinator": {
+      "name": "Милица Аскольдовна Данилова",
+      "contacts": {
+        "email": "osipovipati@example.org",
+        "phone_number": "8 893 211 23 72"
+      }
+    }
+  },
+  "region_2": {
+    "city": "клх Пушкин",
+    "coordinator": {
+      "name": "г-жа Бобылева Марина Макаровна",
+      "contacts": {
+        "email": "fsolovev@example.net",
+        "phone_number": "82701965928"
+      }
+    }
+  },
+  "region_3": {
+    "city": "к. Игнашино",
+    "coordinator": {
+      "name": "Королев Эдуард Антонович",
+      "contacts": {
+        "email": "olimpiada41@example.org",
+        "phone_number": "+7 022 082 36 28"
+      }
+    }
+  },
+  "region_4": {
+    "city": "п. Токма",
+    "coordinator": {
+      "name": "Савватий Георгиевич Данилов",
+      "contacts": {
+        "email": "selivanaksenov@example.com",
+        "phone_number": "+7 (226) 361-30-35"
+      }
+    }
+  },
+  "region_5": {
+    "city": "п. Ковров",
+    "coordinator": {
+      "name": "Феврония Валентиновна Орехова",
+      "contacts": {
+        "email": "kuzminmitofan@example.org",
+        "phone_number": "+7 560 222 9983"
+      }
+    }
+  },
+  "region_6": {
+    "city": "д. Ревда (Сверд.)",
+    "coordinator": {
+      "name": "Данилова Лидия Юльевна",
+      "contacts": {
+        "email": "emeljan1975@example.com",
+        "phone_number": "+7 535 622 8429"
+      }
+    }
+  },
+  "region_7": {
+    "city": "г. Белоярский",
+    "coordinator": {
+      "name": "Елисеев Никодим Брониславович",
+      "contacts": {
+        "email": "porfiri_1984@example.org",
+        "phone_number": "81833035347"
+      }
+    }
+  },
+  "region_8": {
+    "city": "с. Туруханск",
+    "coordinator": {
+      "name": "Морозов Самуил Устинович",
+      "contacts": {
+        "email": "vinogradovvelimir@example.org",
+        "phone_number": "+7 754 786 2564"
+      }
+    }
+  },
+  "region_9": {
+    "city": "ст. Александровск",
+    "coordinator": {
+      "name": "Лихачева Элеонора Наумовна",
+      "contacts": {
+        "email": "nikiforoviosif@example.org",
+        "phone_number": "8 (764) 242-9347"
+      }
+    }
+  },
+  "region_10": {
+    "city": "г. Серпухов",
+    "coordinator": {
+      "name": "Анжела Кирилловна Сысоева",
+      "contacts": {
+        "email": "burovanatalja@example.com",
+        "phone_number": "+7 898 775 07 88"
+      }
+    }
+  },
+  "region_11": {
+    "city": "д. Волгодонск",
+    "coordinator": {
+      "name": "Татьяна Александровна Попова",
+      "contacts": {
+        "email": "kostinefrem@example.org",
+        "phone_number": "87331075027"
+      }
+    }
+  },
+  "region_12": {
+    "city": "д. Апрелевка",
+    "coordinator": {
+      "name": "Панкратий Адамович Исаев",
+      "contacts": {
+        "email": "tamara_66@example.net",
+        "phone_number": "8 851 908 2575"
+      }
+    }
+  },
+  "region_13": {
+    "city": "клх Мичуринск",
+    "coordinator": {
+      "name": "Морозова Галина Артемовна",
+      "contacts": {
+        "email": "rzikova@example.com",
+        "phone_number": "8 250 259 9355"
+      }
+    }
+  },
+  "region_14": {
+    "city": "к. Черкесск",
+    "coordinator": {
+      "name": "Беляева Марфа Валентиновна",
+      "contacts": {
+        "email": "gorbunovterenti@example.org",
+        "phone_number": "85535041667"
+      }
+    }
+  },
+  "region_15": {
+    "city": "ст. Шахты",
+    "coordinator": {
+      "name": "Евпраксия Кирилловна Давыдова",
+      "contacts": {
+        "email": "avgust1981@example.com",
+        "phone_number": "8 (832) 602-78-85"
+      }
+    }
+  },
+  "region_16": {
+    "city": "к. Сосногорск",
+    "coordinator": {
+      "name": "Маргарита Олеговна Корнилова",
+      "contacts": {
+        "email": "bobilevaanzhelika@example.com",
+        "phone_number": "8 590 225 88 49"
+      }
+    }
+  },
+  "region_17": {
+    "city": "ст. Обоянь",
+    "coordinator": {
+      "name": "Зайцева Евпраксия Рудольфовна",
+      "contacts": {
+        "email": "klavdi1972@example.org",
+        "phone_number": "+7 798 691 6200"
+      }
+    }
+  },
+  "region_18": {
+    "city": "д. Диксон",
+    "coordinator": {
+      "name": "Копылова Екатерина Леоновна",
+      "contacts": {
+        "email": "isakovamargarita@example.com",
+        "phone_number": "+7 (909) 588-12-30"
+      }
+    }
+  },
+  "region_19": {
+    "city": "г. Суздаль",
+    "coordinator": {
+      "name": "Миронов Михаил Изотович",
+      "contacts": {
+        "email": "matve2006@example.com",
+        "phone_number": "8 (335) 007-6128"
+      }
+    }
+  },
+  "region_20": {
+    "city": "с. Котельнич",
+    "coordinator": {
+      "name": "Онуфрий Арсеньевич Павлов",
+      "contacts": {
+        "email": "samuil1993@example.net",
+        "phone_number": "81490908479"
+      }
+    }
+  },
+  "region_21": {
+    "city": "ст. Нефтекамск",
+    "coordinator": {
+      "name": "Изот Бенедиктович Владимиров",
+      "contacts": {
+        "email": "erastromanov@example.net",
+        "phone_number": "8 (706) 877-68-36"
+      }
+    }
+  },
+  "region_22": {
+    "city": "клх Джейрах",
+    "coordinator": {
+      "name": "Субботин Милий Бенедиктович",
+      "contacts": {
+        "email": "azari2009@example.net",
+        "phone_number": "8 (155) 280-93-72"
+      }
+    }
+  },
+  "region_23": {
+    "city": "г. Усмань",
+    "coordinator": {
+      "name": "Белоусов Пантелеймон Брониславович",
+      "contacts": {
+        "email": "nekrasovfedot@example.com",
+        "phone_number": "+7 260 601 25 85"
+      }
+    }
+  },
+  "region_24": {
+    "city": "ст. Южно-Курильск",
+    "coordinator": {
+      "name": "Наина Владиславовна Русакова",
+      "contacts": {
+        "email": "savinvladislav@example.com",
+        "phone_number": "8 650 173 0702"
+      }
+    }
+  },
+  "region_25": {
+    "city": "д. Шелагонцы",
+    "coordinator": {
+      "name": "Беляев Тит Артемьевич",
+      "contacts": {
+        "email": "nestor1996@example.org",
+        "phone_number": "+7 208 854 23 98"
+      }
+    }
+  },
+  "region_26": {
+    "city": "клх Троицк (Моск.)",
+    "coordinator": {
+      "name": "Лебедев Никандр Геннадиевич",
+      "contacts": {
+        "email": "varvara1986@example.com",
+        "phone_number": "+7 (505) 628-81-56"
+      }
+    }
+  },
+  "region_27": {
+    "city": "ст. Аршан (Бурят.)",
+    "coordinator": {
+      "name": "Дьячкова Любовь Кузьминична",
+      "contacts": {
+        "email": "kazakovpimen@example.com",
+        "phone_number": "8 605 950 75 27"
+      }
+    }
+  },
+  "region_28": {
+    "city": "ст. Тырныауз",
+    "coordinator": {
+      "name": "тов. Филатов Симон Зиновьевич",
+      "contacts": {
+        "email": "jaroslav_2009@example.org",
+        "phone_number": "8 715 208 4904"
+      }
+    }
+  },
+  "region_29": {
+    "city": "ст. Торжок",
+    "coordinator": {
+      "name": "Тимур Владиславович Самсонов",
+      "contacts": {
+        "email": "xkrjukov@example.org",
+        "phone_number": "+7 699 038 84 44"
+      }
+    }
+  },
+  "region_30": {
+    "city": "п. Усть-Илимск",
+    "coordinator": {
+      "name": "Кошелев Богдан Гавриилович",
+      "contacts": {
+        "email": "timofeevpotap@example.net",
+        "phone_number": "8 (104) 060-8387"
+      }
+    }
+  },
+  "region_31": {
+    "city": "ст. Тимашевск",
+    "coordinator": {
+      "name": "Лебедева Вера Владиславовна",
+      "contacts": {
+        "email": "gfadeeva@example.net",
+        "phone_number": "+7 (255) 292-2651"
+      }
+    }
+  },
+  "region_32": {
+    "city": "д. Северобайкальск",
+    "coordinator": {
+      "name": "Ираида Владиславовна Никонова",
+      "contacts": {
+        "email": "ratiborponomarev@example.net",
+        "phone_number": "8 359 013 3575"
+      }
+    }
+  },
+  "region_33": {
+    "city": "ст. Павловский Посад",
+    "coordinator": {
+      "name": "Будимир Антонович Сысоев",
+      "contacts": {
+        "email": "valerija48@example.net",
+        "phone_number": "8 (630) 773-6421"
+      }
+    }
+  },
+  "region_34": {
+    "city": "к. Кетченеры",
+    "coordinator": {
+      "name": "Селиверстова Полина Филипповна",
+      "contacts": {
+        "email": "emeljanovadam@example.net",
+        "phone_number": "+7 (554) 816-72-92"
+      }
+    }
+  },
+  "region_35": {
+    "city": "г. Хужир",
+    "coordinator": {
+      "name": "Виктория Вадимовна Капустина",
+      "contacts": {
+        "email": "ikapustina@example.net",
+        "phone_number": "+7 262 199 7987"
+      }
+    }
+  },
+  "region_36": {
+    "city": "к. Беслан",
+    "coordinator": {
+      "name": "Клавдия Робертовна Ширяева",
+      "contacts": {
+        "email": "buvarova@example.net",
+        "phone_number": "8 (807) 890-23-58"
+      }
+    }
+  },
+  "region_37": {
+    "city": "клх Партизанск",
+    "coordinator": {
+      "name": "Бурова Агафья Сергеевна",
+      "contacts": {
+        "email": "svjatopolkgolubev@example.net",
+        "phone_number": "80870283215"
+      }
+    }
+  },
+  "region_38": {
+    "city": "с. Чокурдах",
+    "coordinator": {
+      "name": "Виктор Бенедиктович Соболев",
+      "contacts": {
+        "email": "martin_2016@example.net",
+        "phone_number": "8 (542) 169-6006"
+      }
+    }
+  },
+  "region_39": {
+    "city": "ст. Щельяюр",
+    "coordinator": {
+      "name": "Чернов Лучезар Якубович",
+      "contacts": {
+        "email": "ernstmedvedev@example.com",
+        "phone_number": "83056185826"
+      }
+    }
+  },
+  "region_40": {
+    "city": "ст. Богучар",
+    "coordinator": {
+      "name": "Татьяна Ильинична Егорова",
+      "contacts": {
+        "email": "isa80@example.net",
+        "phone_number": "8 377 895 46 68"
+      }
+    }
+  },
+  "region_41": {
+    "city": "к. Ямбург",
+    "coordinator": {
+      "name": "Екатерина Ждановна Семенова",
+      "contacts": {
+        "email": "isakovaverjan@example.net",
+        "phone_number": "8 444 517 63 06"
+      }
+    }
+  },
+  "region_42": {
+    "city": "д. Усть-Илимск",
+    "coordinator": {
+      "name": "Ефимов Еремей Еремеевич",
+      "contacts": {
+        "email": "evlampi94@example.net",
+        "phone_number": "+7 708 363 9727"
+      }
+    }
+  },
+  "region_43": {
+    "city": "д. Самара",
+    "coordinator": {
+      "name": "Максимильян Арсенович Савельев",
+      "contacts": {
+        "email": "milan26@example.net",
+        "phone_number": "+7 233 316 2724"
+      }
+    }
+  },
+  "region_44": {
+    "city": "г. Александров",
+    "coordinator": {
+      "name": "Селезнева Милица Наумовна",
+      "contacts": {
+        "email": "kirillovdemid@example.net",
+        "phone_number": "80782576510"
+      }
+    }
+  },
+  "region_45": {
+    "city": "д. Нижнекамск",
+    "coordinator": {
+      "name": "Станимир Всеволодович Прохоров",
+      "contacts": {
+        "email": "egor_1982@example.net",
+        "phone_number": "8 459 442 8160"
+      }
+    }
+  },
+  "region_46": {
+    "city": "клх Ардон",
+    "coordinator": {
+      "name": "Феоктист Евсеевич Федотов",
+      "contacts": {
+        "email": "mjasnikovprov@example.com",
+        "phone_number": "+7 138 551 2529"
+      }
+    }
+  },
+  "region_47": {
+    "city": "к. Аргаяш",
+    "coordinator": {
+      "name": "Арсений Эдуардович Шашков",
+      "contacts": {
+        "email": "vishnjakovaglafira@example.org",
+        "phone_number": "8 (629) 156-70-00"
+      }
+    }
+  },
+  "region_48": {
+    "city": "с. Владимир",
+    "coordinator": {
+      "name": "Тарасов Трифон Федосьевич",
+      "contacts": {
+        "email": "efremovaoksana@example.org",
+        "phone_number": "89440496067"
+      }
+    }
+  },
+  "region_49": {
+    "city": "к. Кашхатау",
+    "coordinator": {
+      "name": "Носов Ефим Абрамович",
+      "contacts": {
+        "email": "okrasilnikov@example.net",
+        "phone_number": "+7 (248) 861-9890"
+      }
+    }
+  },
+  "region_50": {
+    "city": "с. Брянск",
+    "coordinator": {
+      "name": "Артемьева Анна Афанасьевна",
+      "contacts": {
+        "email": "dobromislkonstantinov@example.com",
+        "phone_number": "+7 311 483 5919"
+      }
+    }
+  }
+}
