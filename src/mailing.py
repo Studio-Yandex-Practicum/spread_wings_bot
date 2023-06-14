@@ -2,7 +2,7 @@ import re
 import smtplib
 
 from bot.core.config import settings
-from bot.core.exceptions import InvalidEmailAddress
+from bot.core.exceptions import InvalidRecipientEmailAddress
 
 
 class BotMailer:
@@ -20,7 +20,7 @@ class BotMailer:
     @classmethod
     def _validate_address(cls, address):
         if not re.fullmatch(cls.REG, address):
-            raise InvalidEmailAddress("Некорректный формат адреса")
+            raise InvalidRecipientEmailAddress("Некорректный формат адреса")
 
     @classmethod
     async def send_message(
