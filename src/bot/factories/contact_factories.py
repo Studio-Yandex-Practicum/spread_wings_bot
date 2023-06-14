@@ -1,20 +1,17 @@
 import json
-from functools import partial
-from random import choice
-from typing import Any, Dict
 
 from factory import Factory, Faker, SubFactory
-from factory.base import StubObject
+from service import generate_dict_factory
 
-from bot.constants.regions import Regions
+NUMBER_OF_CONTACTS = 50
 
 
 class Region:
     """Model to make Region factories."""
 
-    def __init__(self, region, coordinator):
+    def __init__(self, city, coordinator):
         """To initialize."""
-        self.region = region
+        self.city = city
         self.coordinator = coordinator
 
 
@@ -43,10 +40,10 @@ class RegionCoordinator:
 
 
 class ContactsFactory(Factory):
-    """Creating Question factory."""
+    """Creating Contacts factory."""
 
     class Meta:
-        """Connection to Question Model."""
+        """Connection to Contacts Model."""
 
         model = Contacts
 
@@ -55,10 +52,10 @@ class ContactsFactory(Factory):
 
 
 class CoordinatorFactory(Factory):
-    """Creating Question factory."""
+    """Creating Coordinator factory."""
 
     class Meta:
-        """Connection to Question Model."""
+        """Connection to Coordinator Model."""
 
         model = Coordinator
 
@@ -74,40 +71,23 @@ class RegionFactory(Factory):
 
         model = Region
 
-    region = choice(Regions)
+    city = Faker("city", locale="ru_RU")
     coordinator = SubFactory(CoordinatorFactory)
 
 
-class QuestionFundFactory(Factory):
+class RegionCoordinatorFactory(Factory):
     """Creating nested factories."""
 
     class Meta:
-        """Connection to QuestionFund Model."""
+        """Connection to RegionCoordinator Model."""
 
         model = RegionCoordinator
 
-    region1 = SubFactory(RegionFactory)
+    for i in range(1, NUMBER_OF_CONTACTS + 1):
+        locals()[f"region_{i}"] = SubFactory(RegionFactory)
+    del i
 
 
-def generate_dict_factory(factory):
-    """To transform Factory objects into dict."""
-
-    def convert_dict_from_stub(stub: StubObject) -> Dict[str, Any]:
-        stub_dict = stub.__dict__
-        for key, value in stub_dict.items():
-            if isinstance(value, StubObject):
-                stub_dict[key] = convert_dict_from_stub(value)
-        return stub_dict
-
-    def dict_factory(factory, **kwargs):
-        stub = factory.stub(**kwargs)
-        stub_dict = convert_dict_from_stub(stub)
-        return stub_dict
-
-    return partial(dict_factory, factory)
-
-
-factory_to_dict = generate_dict_factory(QuestionFundFactory)
-
+factory_to_dict = generate_dict_factory(RegionCoordinatorFactory)
 with open("contact_data.json", "w", encoding="utf-8") as f:
     json.dump(factory_to_dict(), f, indent=2, ensure_ascii=False)

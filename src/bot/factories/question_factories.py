@@ -1,8 +1,7 @@
 import json
 
 from factory import Factory, Faker, SubFactory
-
-from src.bot.factories.service import generate_dict_factory
+from service import generate_dict_factory
 
 
 class Question:
@@ -73,5 +72,5 @@ class QuestionFundFactory(Factory):
 
 factory_to_dict = generate_dict_factory(QuestionFundFactory)
 
-with open("question_data_temp.json", "w", encoding="utf-8") as f:
+with open("question_data.json", "w", encoding="utf-8") as f:
     json.dump(factory_to_dict(), f, indent=2, ensure_ascii=False)
