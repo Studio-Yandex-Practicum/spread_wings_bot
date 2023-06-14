@@ -1,0 +1,12 @@
+{
+  "region1": {
+    "region": "приятель",
+    "coordinator": {
+      "name": "Шилов Чеслав Ефремович",
+      "contacts": {
+        "email": "panoverast@example.org",
+        "phone_number": "+74647570147"
+      }
+    }
+  }
+}

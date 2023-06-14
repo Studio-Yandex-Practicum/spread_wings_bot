@@ -1,9 +1,8 @@
 import json
-from functools import partial
-from typing import Any, Dict
 
 from factory import Factory, Faker, SubFactory
-from factory.base import StubObject
+
+from src.bot.factories.service import generate_dict_factory
 
 
 class Question:
@@ -72,25 +71,7 @@ class QuestionFundFactory(Factory):
     fund_program2 = SubFactory(FundProgramFactory)
 
 
-def generate_dict_factory(factory):
-    """To transform Factory objects into dict."""
-
-    def convert_dict_from_stub(stub: StubObject) -> Dict[str, Any]:
-        stub_dict = stub.__dict__
-        for key, value in stub_dict.items():
-            if isinstance(value, StubObject):
-                stub_dict[key] = convert_dict_from_stub(value)
-        return stub_dict
-
-    def dict_factory(factory, **kwargs):
-        stub = factory.stub(**kwargs)
-        stub_dict = convert_dict_from_stub(stub)
-        return stub_dict
-
-    return partial(dict_factory, factory)
-
-
 factory_to_dict = generate_dict_factory(QuestionFundFactory)
 
-with open("question_data.json", "w", encoding="utf-8") as f:
+with open("question_data_temp.json", "w", encoding="utf-8") as f:
     json.dump(factory_to_dict(), f, indent=2, ensure_ascii=False)
