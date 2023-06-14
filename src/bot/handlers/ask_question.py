@@ -21,7 +21,7 @@ from bot.handlers.main_handlers import start_handler
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
 from bot.validators import Contacts
-from mailing import BotMailer
+from mailing import BotMailer, MailForm
 
 
 async def get_question(
@@ -83,8 +83,12 @@ async def get_contact(
     await update.message.reply_text(
         THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
     )
-    msg = context.user_data["question"] + "\n" + context.user_data["contact"]
-    await BotMailer.send_message(msg)
+    question_form = MailForm(
+        name=context.user_data["name"],
+        contact=context.user_data["contact"],
+        question=context.user_data["question"],
+    )
+    await BotMailer.send_message(question_form)
     return AskQuestionStates.END
 
 
