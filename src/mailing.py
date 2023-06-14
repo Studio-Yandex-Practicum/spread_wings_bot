@@ -31,7 +31,7 @@ class BotMailer:
     @classmethod
     def _validate_address(cls, address):
         if not re.fullmatch(cls.REG, address):
-            raise InvalidRecipientEmailAddress("Некорректный формат адреса")
+            raise InvalidRecipientEmailAddress("Некорректный адресат")
 
     @classmethod
     async def send_message(
