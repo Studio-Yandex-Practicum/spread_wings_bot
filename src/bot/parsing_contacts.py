@@ -3,7 +3,7 @@ from db.db import start_session
 from sqlalchemy import text
 
 
-async def extract_data_from_db():
+async def extract_data_from_db() -> str:
     """Извлчение html таблицы контактов координаторов из БД."""
     session = start_session()
     coordinators = await session.execute(
@@ -17,7 +17,7 @@ async def extract_data_from_db():
     return coordinators
 
 
-def parser_coordinators(data) -> None:
+def parser_coordinators(data: str) -> None:
     """Парсер контактов коондинаторов из таблицы html."""
     results = {"results": []}
     soup = BeautifulSoup(data, features="lxml")
