@@ -17,6 +17,7 @@ beautifulsoup4 = "^4.12.2"
 requests-cache = "^1.0.1"
 lxml = "^4.9.2"
 attrs = "^23.1.0"
+pymysql = "^1.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
