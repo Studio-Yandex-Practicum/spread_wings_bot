@@ -11,6 +11,7 @@ from telegram.ext import (
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
     ENTER_YOUR_CONTCACT,
+    QUESTION_FAIL,
     THANKS_FOR_THE_QUESTION,
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
@@ -21,6 +22,7 @@ from bot.handlers.main_handlers import start_handler
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
 from bot.validators import Contacts
+from mailing import BotMailer, MailForm
 
 
 async def get_question(
@@ -79,9 +81,21 @@ async def get_contact(
         return AskQuestionStates.ENTER_YOUR_CONTACT
 
     context.user_data["contact"] = raw_contact
-    await update.message.reply_text(
-        THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
-    )
+    try:
+        question_form = MailForm(
+            name=context.user_data["name"],
+            contact=context.user_data["contact"],
+            question=context.user_data["question"],
+        )
+        await BotMailer.send_message(question_form)
+        await update.message.reply_text(
+            THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
+        )
+    except Exception as error:
+        await update.message.reply_text(
+            QUESTION_FAIL.format(error),
+            reply_markup=assistance_keyboard_markup,
+        )
     return AskQuestionStates.END
 
 
