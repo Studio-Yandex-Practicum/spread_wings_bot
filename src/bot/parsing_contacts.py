@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup
-from db.db import start_session
 from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
-async def extract_data_from_db() -> str:
+async def extract_data_from_db(Session: AsyncSession) -> str:
     """Извлчение html таблицы контактов координаторов из БД."""
-    session = start_session()
+    session = Session()
     coordinators = await session.execute(
         text(
             "SELECT post_content FROM detfond_posts WHERE post_name IN"
