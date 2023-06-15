@@ -5,7 +5,7 @@ from bot.db.crud.extract import extract_data_from_db
 
 
 def parser_coordinators(session: AsyncSession) -> dict:
-    """Парсер контактов коондинаторов из таблицы html."""
+    """Парсер контактов координаторов из таблицы html."""
     sql_request = (
         "SELECT post_content FROM detfond_posts WHERE post_name IN"
         '("kontakty-koordinatorov")'
