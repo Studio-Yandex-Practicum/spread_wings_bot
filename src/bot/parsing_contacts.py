@@ -17,7 +17,7 @@ async def extract_data_from_db() -> str:
     return coordinators
 
 
-def parser_coordinators(data: str) -> None:
+def parser_coordinators(data: str) -> dict:
     """Парсер контактов коондинаторов из таблицы html."""
     results = {"results": []}
     soup = BeautifulSoup(data, features="lxml")
