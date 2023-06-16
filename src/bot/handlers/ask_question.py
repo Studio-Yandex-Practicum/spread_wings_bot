@@ -1,12 +1,6 @@
 from pydantic import ValidationError
 from telegram import Update
-from telegram.ext import (
-    CallbackQueryHandler,
-    ContextTypes,
-    ConversationHandler,
-    MessageHandler,
-    filters,
-)
+from telegram.ext import ContextTypes
 
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
@@ -15,10 +9,7 @@ from bot.constants.messages import (
     THANKS_FOR_THE_QUESTION,
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
-from bot.constants.patterns import CONTACT_TYPE_PATTERN
 from bot.constants.states.ask_question_states import AskQuestionStates
-from bot.constants.states.main_states import PATTERN, States
-from bot.handlers.main_handlers import start_handler
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
 from bot.validators import Contacts
@@ -97,36 +88,3 @@ async def get_contact(
             reply_markup=assistance_keyboard_markup,
         )
     return AskQuestionStates.END
-
-
-ask_question_handler = ConversationHandler(
-    entry_points=[
-        MessageHandler(filters.Regex("^.*$"), get_question),
-    ],
-    states={
-        AskQuestionStates.QUESTION: [
-            MessageHandler(filters.Regex("^.*$"), get_name),
-        ],
-        AskQuestionStates.NAME: [
-            CallbackQueryHandler(
-                get_name,
-                pattern=PATTERN.format(
-                    state=AskQuestionStates.CONTACT_TYPE.value
-                ),
-            ),
-        ],
-        AskQuestionStates.CONTACT_TYPE: [
-            CallbackQueryHandler(
-                select_contact_type, pattern=CONTACT_TYPE_PATTERN
-            )
-        ],
-        AskQuestionStates.ENTER_YOUR_CONTACT: [
-            MessageHandler(filters.Regex(r"^[^\/].*$"), get_contact)
-        ],
-    },
-    fallbacks=[start_handler],
-    map_to_parent={
-        AskQuestionStates.END: States.ASSISTANCE,
-        States.ASSISTANCE: States.ASSISTANCE,
-    },
-)

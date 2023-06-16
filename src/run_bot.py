@@ -1,17 +1,27 @@
 import logging.config
+from warnings import filterwarnings
 
 from telegram.ext import (
     ApplicationBuilder,
     CallbackQueryHandler,
     ConversationHandler,
+    MessageHandler,
+    filters,
 )
+from telegram.warnings import PTBUserWarning
 
-from bot.constants.patterns import HELP_TYPE_PATTERN
+from bot.constants.patterns import CONTACT_TYPE_PATTERN, HELP_TYPE_PATTERN
 from bot.constants.regions import Regions
+from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.constants.states.main_states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
-from bot.handlers.ask_question import ask_question_handler
+from bot.handlers.ask_question import (
+    get_contact,
+    get_name,
+    get_question,
+    select_contact_type,
+)
 from bot.handlers.assistance import (
     ask_question_assistance,
     contact_with_us_assistance,
@@ -36,8 +46,49 @@ def main():
     """Application launch point."""
     logging.config.dictConfig(LOGGING_CONFIG)
     logger = logging.getLogger("bot")
+    filterwarnings(
+        action="ignore",
+        message=r".*CallbackQueryHandler",
+        category=PTBUserWarning,
+    )
     logger.info("start")
-
+    ask_question_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex("^.*$"), get_question),
+        ],
+        states={
+            AskQuestionStates.QUESTION: [
+                MessageHandler(filters.Regex("^.*$"), get_name),
+            ],
+            AskQuestionStates.NAME: [
+                CallbackQueryHandler(
+                    get_name,
+                    pattern=PATTERN.format(
+                        state=AskQuestionStates.CONTACT_TYPE.value
+                    ),
+                ),
+            ],
+            AskQuestionStates.CONTACT_TYPE: [
+                CallbackQueryHandler(
+                    select_contact_type, pattern=CONTACT_TYPE_PATTERN
+                )
+            ],
+            AskQuestionStates.ENTER_YOUR_CONTACT: [
+                MessageHandler(filters.Regex(r"^[^\/].*$"), get_contact)
+            ],
+            States.ASK_QUESTION: [
+                CallbackQueryHandler(
+                    ask_question_assistance,
+                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
+                )
+            ],
+        },
+        fallbacks=[],
+        map_to_parent={
+            AskQuestionStates.END: States.ASSISTANCE,
+            States.ASSISTANCE: States.ASSISTANCE,
+        },
+    )
     main_handler = ConversationHandler(
         entry_points=[start_handler],
         states={
