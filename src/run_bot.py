@@ -89,6 +89,7 @@ def main():
             States.ASSISTANCE: States.ASSISTANCE,
         },
     )
+    logger.info("ask_question_handler deploy")
     main_handler = ConversationHandler(
         entry_points=[start_handler],
         states={
@@ -147,6 +148,7 @@ def main():
             start_handler,
         ],
     )
+    logger.info("main_handler deploy")
     app = (
         ApplicationBuilder()
         .token(settings.telegram_token.get_secret_value())
