@@ -18,6 +18,7 @@ requests-cache = "^1.0.1"
 lxml = "^4.9.2"
 attrs = "^23.1.0"
 pymysql = "^1.0.3"
+phonenumbers = "^8.13.14"
 
 
 [tool.poetry.group.dev.dependencies]
