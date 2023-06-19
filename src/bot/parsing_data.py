@@ -7,18 +7,16 @@ from bot.db.crud.extract import extract_data_from_db
 class Parser:
     """Парсер."""
 
-    def __init__(self, sql_request: str):
-        """На вход принимает sql-запрос и скрывает его."""
-        self._sql_request = sql_request
+    def __init__(self, data: str):
+        """На вход принимает html-код и скрывает его."""
+        self._data = data
 
     async def parser_table(
         self,
-        session: AsyncSession,
     ) -> dict:
         """Парсер стандартной html-таблицы."""
-        data = await extract_data_from_db(session, self._sql_request)
         results = {"results": []}
-        soup = BeautifulSoup(data, features="lxml")
+        soup = BeautifulSoup(self._data, features="lxml")
         tbody_tag = soup.find("tbody")
         tr_tags = tbody_tag.find_all("tr")
         attributes_dict = [tr_tag.text for tr_tag in tr_tags[0]][1::2]
@@ -39,8 +37,9 @@ async def get_coordinators(session: AsyncSession) -> dict:
         "SELECT post_content FROM detfond_posts WHERE post_name IN"
         '("bot-kontakty-koordinatorov")'
     )
-    parser = Parser(sql_request)
-    coordinators = await parser.parser_table(session)
+    data = await extract_data_from_db(session, sql_request)
+    parser = Parser(data)
+    coordinators = await parser.parser_table()
     return coordinators
 
 
