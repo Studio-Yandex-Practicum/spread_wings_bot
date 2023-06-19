@@ -1,9 +1,13 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
+from bot.constants.contacts import Contacts
 from bot.constants.messages import ASK_YOUR_QUESTION, ASSISTANCE_MESSAGE
 from bot.constants.states.main_states import States
-from bot.keyboards.assistance import region_keyboard_markup
+from bot.keyboards.assistance import (
+    contact_show_keyboard_markup,
+    region_keyboard_markup,
+)
 
 
 async def receive_assistance(
@@ -22,7 +26,13 @@ async def contact_with_us_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Обработчик для связи с нами."""
-    pass
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(
+        text=Contacts[context.user_data[States.REGION]].value,
+        reply_markup=contact_show_keyboard_markup,
+    )
+    return States.ASSISTANCE_TYPE
 
 
 async def ask_question_assistance(

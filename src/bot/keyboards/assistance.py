@@ -7,6 +7,7 @@ from bot.constants.buttons import (
     DONATION_BUTTON,
     SEND_REQUEST,
 )
+from bot.constants.contacts import Contacts
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
 from bot.constants.urls import DONATION_URL
@@ -37,16 +38,32 @@ region_keyboard.append(
 
 contact_keyboard = [
     [
-        InlineKeyboardButton(SEND_REQUEST, callback_data=States.BACK.value),
         InlineKeyboardButton(
-            CONTACTS, callback_data=States.SHOW_CONTACTS.value
+            CONTACTS, callback_data=States.SHOW_CONTACT.value
         ),
     ],
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.REGION.value)],
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON, callback_data=f"back_to_{States.ASSISTANCE.value}"
+        )
+    ],
 ]
 
 contact_show_keyboard = [
-    [InlineKeyboardButton(BACK_BUTTON, callback_data=States.CONTACT_US.value)]
+    [
+        InlineKeyboardButton(
+            CONTACTS, callback_data=Contacts.MOSCOW_CITY.value
+        ),
+        InlineKeyboardButton(
+            SEND_REQUEST, callback_data=States.ASK_QUESTION.value
+        ),
+    ],
+    [
+        InlineKeyboardButton(
+            BACK_BUTTON,
+            callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
+        )
+    ],
 ]
 
 
