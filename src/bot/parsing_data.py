@@ -5,7 +5,7 @@ from bot.db.crud.extract import extract_data_from_db
 
 
 class Parser:
-    """Парсер контактов координаторов из таблицы html."""
+    """Парсер."""
 
     def __init__(self, sql_request: str):
         """На вход принимает sql-запрос и скрывает его."""
