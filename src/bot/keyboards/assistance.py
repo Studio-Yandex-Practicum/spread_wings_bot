@@ -66,7 +66,6 @@ contact_show_keyboard = [
     ],
 ]
 
-
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
 contact_keyboard_markup = InlineKeyboardMarkup(contact_keyboard)
