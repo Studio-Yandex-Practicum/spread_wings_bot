@@ -369,6 +369,7 @@ python-dateutil = ">=2.4"
 name = "filelock"
 version = "3.12.2"
 description = "A platform independent file lock."
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
