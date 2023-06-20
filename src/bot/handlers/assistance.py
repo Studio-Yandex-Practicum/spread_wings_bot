@@ -30,7 +30,6 @@ async def contact_with_us_assistance(
     await query.answer()
     await query.edit_message_text(
         text=Contacts[context.user_data[States.REGION]].value,
-        # reply_markup=contact_show_keyboard_markup,
         reply_markup=assistance_questions_keyboard_contact,
     )
     return States.SELECTED_TYPE
