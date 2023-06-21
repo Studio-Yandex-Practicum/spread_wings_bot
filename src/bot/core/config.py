@@ -1,5 +1,5 @@
 from dotenv import find_dotenv
-from pydantic import AnyUrl, BaseSettings, SecretStr
+from pydantic import AnyUrl, BaseSettings, EmailStr, SecretStr
 
 
 class CustomDsn(AnyUrl):
@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     db_url: CustomDsn
     telegram_token: SecretStr
     debug: bool = False
+    email_host: str
+    email_port: int
+    email_account: EmailStr
+    email_password: str
+    default_email_address: str
 
     class Config:
         """Env settings."""

@@ -1,0 +1,34 @@
+on:
+  workflow_run:
+    workflows: [Create and publish a Docker image]
+    types: [completed]
+    branches: [develop]
+
+jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    environment:
+      name: stage_deploy
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: ssh pull and start
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          script: |
+            cd /home/deploy/spread_wings_bot/infra/dev/
+            git pull
+            rm .env
+            touch .env
+            echo DB_URL=${{ secrets.DB_URL }} >> .env
+            echo DEFAULT_EMAIL_ADDRESS=${{ secrets.DEFAULT_EMAIL_ADDRESS }} >> .env
+            echo EMAIL_ACCOUNT=${{ secrets.EMAIL_ACCOUNT }} >> .env
+            echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
+            echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
+            echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+            echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
+            sudo docker-compose -f docker-compose.stage.yaml stop
+            sudo docker-compose -f docker-compose.stage.yaml pull
+            sudo docker-compose -f docker-compose.stage.yaml up -d

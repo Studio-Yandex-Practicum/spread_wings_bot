@@ -1,26 +1,19 @@
 from pydantic import ValidationError
 from telegram import Update
-from telegram.ext import (
-    CallbackQueryHandler,
-    ContextTypes,
-    ConversationHandler,
-    MessageHandler,
-    filters,
-)
+from telegram.ext import ContextTypes
 
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
     ENTER_YOUR_CONTCACT,
+    QUESTION_FAIL,
     THANKS_FOR_THE_QUESTION,
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
-from bot.constants.patterns import CONTACT_TYPE_PATTERN
 from bot.constants.states.ask_question_states import AskQuestionStates
-from bot.constants.states.main_states import PATTERN, States
-from bot.handlers.main_handlers import start_handler
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
 from bot.validators import Contacts
+from mailing import BotMailer, MailForm
 
 
 async def get_question(
@@ -79,40 +72,19 @@ async def get_contact(
         return AskQuestionStates.ENTER_YOUR_CONTACT
 
     context.user_data["contact"] = raw_contact
-    await update.message.reply_text(
-        THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
-    )
+    try:
+        question_form = MailForm(
+            name=context.user_data["name"],
+            contact=context.user_data["contact"],
+            question=context.user_data["question"],
+        )
+        await BotMailer.send_message(question_form)
+        await update.message.reply_text(
+            THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
+        )
+    except Exception as error:
+        await update.message.reply_text(
+            QUESTION_FAIL.format(error),
+            reply_markup=assistance_keyboard_markup,
+        )
     return AskQuestionStates.END
-
-
-ask_question_handler = ConversationHandler(
-    entry_points=[
-        MessageHandler(filters.Regex("^.*$"), get_question),
-    ],
-    states={
-        AskQuestionStates.QUESTION: [
-            MessageHandler(filters.Regex("^.*$"), get_name),
-        ],
-        AskQuestionStates.NAME: [
-            CallbackQueryHandler(
-                get_name,
-                pattern=PATTERN.format(
-                    state=AskQuestionStates.CONTACT_TYPE.value
-                ),
-            ),
-        ],
-        AskQuestionStates.CONTACT_TYPE: [
-            CallbackQueryHandler(
-                select_contact_type, pattern=CONTACT_TYPE_PATTERN
-            )
-        ],
-        AskQuestionStates.ENTER_YOUR_CONTACT: [
-            MessageHandler(filters.Regex(r"^[^\/].*$"), get_contact)
-        ],
-    },
-    fallbacks=[start_handler],
-    map_to_parent={
-        AskQuestionStates.END: States.ASSISTANCE,
-        States.ASSISTANCE: States.ASSISTANCE,
-    },
-)

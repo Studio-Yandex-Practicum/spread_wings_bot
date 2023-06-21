@@ -93,4 +93,3 @@ contact_show_keyboard_markup = InlineKeyboardMarkup(contact_show_keyboard)
 assistance_questions_keyboard_contact = InlineKeyboardMarkup(
     contact_questions_keyboard
 )
-# проверка на комит
