@@ -72,6 +72,26 @@ poetry update
    pre-commit install
    ```
 
+### Запуск ```Redis``` (работает в редиме ```debug=False```):
+
+1. Убедиться, что ```Docker``` установлен:
+2. Загрузить образ ```Redis```:
+   ```shell
+   sudo docker image pull redis
+   ```
+3. Из папки ```infra/dev/``` запустить ```docker-compose```:
+   ```shell
+   sudo docker-compose -f docker-compose.stage.yaml up
+   ```
+
+3.1. Проверка доступности ```Redis```:
+   ```shell
+   python
+   import redis
+   r = redis.from_url('redis://localhost:6379')
+   print(r.ping())
+   exit()
+   ```
 
 ### Требования к тестам
 #### Запуск тестов
