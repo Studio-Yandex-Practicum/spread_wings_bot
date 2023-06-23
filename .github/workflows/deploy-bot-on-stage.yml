@@ -22,13 +22,21 @@ jobs:
             git pull
             rm .env
             touch .env
+
+            echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
+            echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
+            echo REDIS=${{ secrets.REDIS }} >> .env
+
             echo DB_URL=${{ secrets.DB_URL }} >> .env
+
             echo DEFAULT_EMAIL_ADDRESS=${{ secrets.DEFAULT_EMAIL_ADDRESS }} >> .env
             echo EMAIL_ACCOUNT=${{ secrets.EMAIL_ACCOUNT }} >> .env
             echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
             echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
             echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+
             echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
+
             sudo docker-compose -f docker-compose.stage.yaml stop
             sudo docker-compose -f docker-compose.stage.yaml pull
             sudo docker-compose -f docker-compose.stage.yaml up -d

@@ -1,27 +1,24 @@
 version: '3.8'
 
 services:
-  bot:
-    image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
-    restart: always
-    env_file:
-      - ./.env
-
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
     restart: always
-    command: bash -c "
-        mkdir /data/log -p
-        && mkdir /data/bases -p
-        && touch /data/log/redis-server.log
-        && redis-server /usr/local/etc/redis.conf
-      "
+    command: bash -c " mkdir /data/log -p && mkdir /data/bases -p && touch /data/log/redis-server.log && redis-server /usr/local/etc/redis.conf "
 
     volumes:
       - ./redis.conf:/usr/local/etc/redis.conf
       - data_value:/data
+
+  bot:
+  image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
+  depends_on:
+    - redis
+  restart: always
+  env_file:
+    - ./.env
 
 volumes:
   data_value:
