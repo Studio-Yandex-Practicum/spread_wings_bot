@@ -154,19 +154,19 @@ def main():
         ],
     )
     logger.info("main_handler deploy")
-    if settings.debug:
-        logger.info("Redis persistence DISABLE")
-        app = (
-            ApplicationBuilder()
-            .token(settings.telegram_token.get_secret_value())
-            .build()
-        )
-    else:
+    if settings.redis:
         logger.info("Redis persistence ENABLE")
         app = (
             ApplicationBuilder()
             .token(settings.telegram_token.get_secret_value())
             .persistence(persistence)
+            .build()
+        )
+    else:
+        logger.info("Redis persistence DISABLE")
+        app = (
+            ApplicationBuilder()
+            .token(settings.telegram_token.get_secret_value())
             .build()
         )
     app.add_handlers(

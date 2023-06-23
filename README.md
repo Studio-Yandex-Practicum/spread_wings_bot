@@ -72,7 +72,7 @@ poetry update
    pre-commit install
    ```
 
-### Запуск ```Redis``` (работает в редиме ```debug=False```):
+### Запуск ```Redis``` (работает в режиме ```redis=True```):
 
 1. Убедиться, что ```Docker``` установлен:
 2. Загрузить образ ```Redis```:

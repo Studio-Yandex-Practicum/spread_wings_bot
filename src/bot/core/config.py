@@ -20,8 +20,9 @@ class Settings(BaseSettings):
     email_password: str
     default_email_address: str
 
-    redis_host: str = "localhost"
-    redis_port: int = 6379
+    redis_host: str
+    redis_port: int
+    redis: bool = True
 
     class Config:
         """Env settings."""
