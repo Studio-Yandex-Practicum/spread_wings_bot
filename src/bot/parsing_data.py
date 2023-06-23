@@ -47,6 +47,12 @@ async def get_regions(session: AsyncSession) -> dict:
     """Получение регионов."""
     coordinators = await get_coordinators(session)
     regions = set()
+    results = dict()
     for coordinator in coordinators["results"]:
         regions.add(coordinator["Регион"])
-    return {"regions": list(regions)}
+    index = 0
+    for region in list(regions):
+        index += 1
+        key = f"REGION_{index}"
+        results[key] = region
+    return results

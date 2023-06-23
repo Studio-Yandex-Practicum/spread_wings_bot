@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from src.bot.core.config import settings
+from bot.core.config import settings
 
 
 async def start_session():
