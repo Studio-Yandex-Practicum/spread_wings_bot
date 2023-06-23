@@ -16,6 +16,7 @@ from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.constants.states.main_states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
+from bot.core.redis import persistence
 from bot.handlers.ask_question import (
     get_contact,
     get_name,
@@ -56,6 +57,8 @@ def main():
         entry_points=[
             MessageHandler(filters.Regex("^.*$"), get_question),
         ],
+        persistent=True,
+        name="ask_question_handler",
         states={
             AskQuestionStates.QUESTION: [
                 MessageHandler(filters.Regex("^.*$"), get_name),
@@ -92,6 +95,8 @@ def main():
     logger.info("ask_question_handler deploy")
     main_handler = ConversationHandler(
         entry_points=[start_handler],
+        persistent=True,
+        name="main_handler",
         states={
             States.ASSISTANCE: [
                 CallbackQueryHandler(
@@ -149,11 +154,21 @@ def main():
         ],
     )
     logger.info("main_handler deploy")
-    app = (
-        ApplicationBuilder()
-        .token(settings.telegram_token.get_secret_value())
-        .build()
-    )
+    if settings.redis:
+        logger.info("Redis persistence ENABLE")
+        app = (
+            ApplicationBuilder()
+            .token(settings.telegram_token.get_secret_value())
+            .persistence(persistence)
+            .build()
+        )
+    else:
+        logger.info("Redis persistence DISABLE")
+        app = (
+            ApplicationBuilder()
+            .token(settings.telegram_token.get_secret_value())
+            .build()
+        )
     app.add_handlers(
         [main_handler, help_handler, menu_handler, answer_all_messages_handler]
     )
