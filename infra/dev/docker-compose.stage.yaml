@@ -13,12 +13,12 @@ services:
       - data_value:/data
 
   bot:
-  image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
-  depends_on:
-    - redis
-  restart: always
-  env_file:
-    - ./.env
+    image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
+    depends_on:
+      - redis
+    restart: always
+    env_file:
+      - ./.env
 
 volumes:
   data_value:
