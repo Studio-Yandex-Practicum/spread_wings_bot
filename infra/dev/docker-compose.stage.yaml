@@ -3,9 +3,11 @@ version: '3.8'
 services:
   bot:
     image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
-    restart: always
+    #restart: always
     env_file:
-      - ./.env
+      - ../../src/.env
+    depends_on:
+      - redis
 
   redis:
     image: redis:latest
