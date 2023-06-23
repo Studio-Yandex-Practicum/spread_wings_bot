@@ -1,7 +1,5 @@
-import json
-
 from factory import Factory, Faker, SubFactory
-from service import generate_dict_factory
+from service import factory_to_html, generate_dict_factory
 
 NUMBER_OF_CONTACTS = 50
 
@@ -49,6 +47,7 @@ class ContactsFactory(Factory):
 
     email = Faker("email", locale="ru_RU")
     phone_number = Faker("phone_number", locale="ru_RU")
+    telegram = Faker("first_name")
 
 
 class CoordinatorFactory(Factory):
@@ -89,5 +88,5 @@ class RegionCoordinatorFactory(Factory):
 
 
 factory_to_dict = generate_dict_factory(RegionCoordinatorFactory)
-with open("contact_data.json", "w", encoding="utf-8") as f:
-    json.dump(factory_to_dict(), f, indent=2, ensure_ascii=False)
+
+factory_to_html(factory_to_dict())
