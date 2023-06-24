@@ -17,7 +17,7 @@ CONTACT_US_MESSAGE = "[Заглушка] Задать вопрос."
 
 ASK_YOUR_QUESTION = "Задайте Ваш вопрос"
 WHAT_IS_YOUR_NAME_MESSAGE = "Как к Вам обращаться?"
-CONTACT_TYPE_MESSAGE = "{name}, как с Вами свзязаться?"
+CONTACT_TYPE_MESSAGE = "{name}, как с Вами связаться?"
 THANKS_FOR_THE_QUESTION = (
     "Спасибо за обращение. Сотрудник фонда свяжется "
     "с Вами в ближайшее время."
