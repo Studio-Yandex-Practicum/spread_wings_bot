@@ -20,7 +20,7 @@ jobs:
       - name: Check out master
         uses: actions/checkout@master
       - name: Requiremets path to production branch
-        if: ${{ github.base_ref == 'feature/check_vulnerabilities' }}
+        if: ${{ github.base_ref == 'origin/feature/check_vulnerabilities' }}
         run: echo "DEP_PATH=$PRODUCTION" >> $GITHUB_ENV
       - name: Requiremets path to develop branch
         if: ${{ github.base_ref == 'develop' }}
