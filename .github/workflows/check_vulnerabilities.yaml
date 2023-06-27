@@ -20,10 +20,10 @@ jobs:
       - name: Check out master
         uses: actions/checkout@master
       - name: Requiremets path to production branch
-        if: ${{ github.base_ref == 'master' }}
+        if: ${{ github.base_ref == 'feature/check_vulnerabilities' }}
         run: echo "DEP_PATH=$PRODUCTION" >> $GITHUB_ENV
       - name: Requiremets path to develop branch
-        if: ${{ github.base_ref == 'feature/check_vulnerabilities' }}
+        if: ${{ github.base_ref == 'develop' }}
         run: echo "DEP_PATH=$DEVELOP" >> $GITHUB_ENV
       - name: Security vulnerabilities scan
         uses: aufdenpunkt/python-safety-check@master
