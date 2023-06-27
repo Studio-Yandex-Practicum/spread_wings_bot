@@ -3,14 +3,7 @@ from collections import defaultdict
 from copy import deepcopy
 from typing import Any, DefaultDict, Dict, Optional, Tuple
 
-from redis.asyncio import Redis
 from telegram.ext import BasePersistence
-
-from bot.core.config import settings
-
-redis_instance = Redis(
-    host=settings.redis_host, port=settings.redis_port, decode_responses=True
-)
 
 
 class RedisPersistence(BasePersistence):
@@ -175,6 +168,3 @@ class RedisPersistence(BasePersistence):
     async def update_callback_data(self, data: Any) -> None:
         """Not used."""
         pass
-
-
-persistence = RedisPersistence(redis_instance)
