@@ -91,8 +91,7 @@ class QuestionFundFactory(Factory):
     some_question = SubFactory(QuestionFactory)
 
 
-factory_to_dict = generate_dict_factory(QuestionFundFactory)
-factory_to_dict2 = generate_dict_factory(QuestionFactory)
+factory_to_dict = generate_dict_factory(QuestionFactory)
 
 Base = declarative_base()
 
@@ -176,7 +175,7 @@ def parse_and_recreate_record(record, question_cnt):
         if i == 0:
             continue
         tds = trs[i].find_all("td")
-        new_question = factory_to_dict2()
+        new_question = factory_to_dict()
         tds[0].string = new_question["question"]
         tds[1].string = new_question["short_description"]
         tds[2].string = new_question["answer"]
@@ -185,7 +184,7 @@ def parse_and_recreate_record(record, question_cnt):
         for i in range(question_cnt - len(trs)):
             new_tr = soup.new_tag("tr", attrs={"style": "height: 16px;"})
             for j in range(4):
-                new_question = factory_to_dict2()
+                new_question = factory_to_dict()
                 new_question_values = list(new_question.values())
                 new_td = soup.new_tag(
                     "td",
