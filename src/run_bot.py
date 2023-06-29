@@ -1,11 +1,13 @@
 import logging.config
 from warnings import filterwarnings
 
+from redis.asyncio import Redis
 from telegram.ext import (
     ApplicationBuilder,
     CallbackQueryHandler,
     ConversationHandler,
     MessageHandler,
+    PicklePersistence,
     filters,
 )
 from telegram.warnings import PTBUserWarning
@@ -16,6 +18,7 @@ from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.constants.states.main_states import PATTERN, States
 from bot.core.config import settings
 from bot.core.log_config import LOGGING_CONFIG
+from bot.core.redis_persistence import RedisPersistence
 from bot.handlers.ask_question import (
     get_contact,
     get_name,
@@ -56,6 +59,8 @@ def main():
         entry_points=[
             MessageHandler(filters.Regex("^.*$"), get_question),
         ],
+        persistent=True,
+        name="ask_question_handler",
         states={
             AskQuestionStates.QUESTION: [
                 MessageHandler(filters.Regex("^.*$"), get_name),
@@ -92,6 +97,8 @@ def main():
     logger.info("ask_question_handler deploy")
     main_handler = ConversationHandler(
         entry_points=[start_handler],
+        persistent=True,
+        name="main_handler",
         states={
             States.ASSISTANCE: [
                 CallbackQueryHandler(
@@ -149,9 +156,23 @@ def main():
         ],
     )
     logger.info("main_handler deploy")
+
+    if settings.redis:
+        redis_instance = Redis(
+            host=settings.redis_host,
+            port=settings.redis_port,
+            decode_responses=True,
+        )
+        persistence = RedisPersistence(redis_instance)
+        logger.info("Redis persistence ENABLE")
+    else:
+        persistence = PicklePersistence(filepath="local_persistence")
+        logger.info("Redis persistence DISABLE")
+
     app = (
         ApplicationBuilder()
         .token(settings.telegram_token.get_secret_value())
+        .persistence(persistence)
         .build()
     )
     app.add_handlers(

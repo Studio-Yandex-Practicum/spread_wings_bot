@@ -2,15 +2,11 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.constants.contacts import Contacts
-from bot.constants.messages import (
-    ASSISTANCE_MESSAGE,
-    ASSISTANCE_TYPE_MESSAGE,
-    HOW_CAN_WE_HELP,
-)
+from bot.constants.messages import ASSISTANCE_MESSAGE, ASSISTANCE_TYPE_MESSAGE
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
 from bot.keyboards.assistance import (
-    contact_keyboard_markup,
+    assistance_questions_keyboard_contact,
     contact_show_keyboard_markup,
     region_keyboard_markup,
 )
@@ -72,9 +68,10 @@ async def contact_with_us(
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        text=HOW_CAN_WE_HELP, reply_markup=contact_keyboard_markup
+        text="Выбор вопроса из списка",
+        reply_markup=assistance_questions_keyboard_contact,
     )
-    return States.ASSISTANCE_TYPE
+    return States.SELECTED_TYPE
 
 
 async def show_contact(
