@@ -1,9 +1,7 @@
-import json
+import sys
 
 from factory import Factory, Faker, SubFactory
 from service import generate_dict_factory
-
-NUMBER_OF_CONTACTS = 50
 
 
 class Region:
@@ -49,6 +47,7 @@ class ContactsFactory(Factory):
 
     email = Faker("email", locale="ru_RU")
     phone_number = Faker("phone_number", locale="ru_RU")
+    telegram = Faker("first_name")
 
 
 class CoordinatorFactory(Factory):
@@ -71,23 +70,65 @@ class RegionFactory(Factory):
 
         model = Region
 
-    city = Faker("city", locale="ru_RU")
+    city = Faker("region", locale="ru_RU")
     coordinator = SubFactory(CoordinatorFactory)
 
 
-class RegionCoordinatorFactory(Factory):
-    """Creating nested factories."""
+if __name__ == "__main__":
+    NUMBER = int(sys.argv[1])
 
-    class Meta:
-        """Connection to RegionCoordinator Model."""
+    class RegionCoordinatorFactory(Factory):
+        """Creating nested factories."""
 
-        model = RegionCoordinator
+        class Meta:
+            """Connection to RegionCoordinator Model."""
 
-    for i in range(1, NUMBER_OF_CONTACTS + 1):
-        locals()[f"region_{i}"] = SubFactory(RegionFactory)
-    del i
+            model = RegionCoordinator
 
+        for i in range(1, NUMBER + 1):
+            locals()[f"region_{i}"] = SubFactory(RegionFactory)
+        del i
 
-factory_to_dict = generate_dict_factory(RegionCoordinatorFactory)
-with open("contact_data.json", "w", encoding="utf-8") as f:
-    json.dump(factory_to_dict(), f, indent=2, ensure_ascii=False)
+    factory_to_dict = generate_dict_factory(RegionCoordinatorFactory)
+
+    def factory_to_html(data):
+        """Create HTML template with coordinator's info."""
+        filename = "coordinator_contacts.html"
+        start_template = (
+            '<table style="border-collapse: collapse;'
+            ' width: 100.303%; height: 112px;">\n'
+            "  <tbody>\n"
+        )
+        main_template = (
+            '    <tr style="height: 16px;">\n'
+            '      <td style="width: 20%;'
+            ' height: 16px;">{region}</td>\n'
+            '      <td style="width: 20%;'
+            ' height: 16px;">{coord_name}</td>\n'
+            '      <td style="width: 20%;'
+            ' height: 16px;">{email}</td>\n'
+            '      <td style="width: 20%;'
+            ' height: 16px;">{phone}</td>\n'
+            '      <td style="width: 20%;'
+            ' height: 16px;">@{telegram}</td>\n'
+            "    </tr>\n"
+        )
+        end_template = "  </tbody>\n" "</table>\n"
+
+        with open(filename, "w", encoding="utf-8") as tags:
+            tags.write(start_template)
+            for contact in data.values():
+                coordinator = contact.get("coordinator")
+                contacts = coordinator.get("contacts")
+                tags.write(
+                    main_template.format(
+                        region=contact.get("city"),
+                        coord_name=coordinator.get("name"),
+                        email=contacts.get("email"),
+                        phone=contacts.get("phone_number"),
+                        telegram=contacts.get("telegram").lower(),
+                    )
+                )
+            tags.write(end_template)
+
+    factory_to_html(factory_to_dict())

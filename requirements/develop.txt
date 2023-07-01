@@ -18,6 +18,7 @@ faker==18.11.1 ; python_full_version >= "3.11.1" and python_full_version < "4.0.
 filelock==3.12.2 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"
 flake8==6.0.0 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"
 greenlet==2.0.2 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0" and (platform_machine == "win32" or platform_machine == "WIN32" or platform_machine == "AMD64" or platform_machine == "amd64" or platform_machine == "x86_64" or platform_machine == "ppc64le" or platform_machine == "aarch64")
+greenlet==2.0.2 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0" and (platform_machine == "aarch64" or platform_machine == "ppc64le" or platform_machine == "x86_64" or platform_machine == "amd64" or platform_machine == "AMD64" or platform_machine == "win32" or platform_machine == "WIN32")
 h11==0.14.0 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"
 httpcore==0.17.2 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"
 httpx==0.24.1 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"

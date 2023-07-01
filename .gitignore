@@ -132,3 +132,9 @@ dmypy.json
 .idea
 
 *.sqlite
+
+# Persistence file from bot
+local_persistence
+
+# Others
+coordinator_contacts.html
