@@ -88,7 +88,7 @@ def main():
                 )
             ],
         },
-        fallbacks=[],
+        fallbacks=[start_handler],
         map_to_parent={
             AskQuestionStates.END: States.ASSISTANCE,
             States.ASSISTANCE: States.ASSISTANCE,
