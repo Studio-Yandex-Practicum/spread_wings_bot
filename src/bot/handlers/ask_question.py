@@ -20,8 +20,15 @@ async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
     """Question field handler."""
+    # print('entered get_question function')
     question = update.message.text
-    context.user_data["question"] = question
+    if 'question' in context.user_data:
+        del context.user_data["question"]
+        context.user_data["question"] = question
+        print(f'Old message deleted. Now is {context.user_data["question"]}')
+    else:
+        context.user_data["question"] = question
+
     await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE, reply_markup=back_to_question_keyboard_markup)
     return AskQuestionStates.QUESTION
 
@@ -30,6 +37,7 @@ async def get_name(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
     """Name field handler."""
+    # print('entered get_name function')
     name = update.message.text
     context.user_data["name"] = name
     await update.message.reply_text(
