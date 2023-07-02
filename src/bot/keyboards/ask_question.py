@@ -14,7 +14,7 @@ ask_question_keyboard = [
 
 back_to_keyboard = [
     [
-        InlineKeyboardButton(text=BACK_BUTTON, callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}"),
+        InlineKeyboardButton(text=BACK_BUTTON, callback_data=f"back_to_{States.SHOW_CONTACT.value}"),
     ],
 ]
 back_to_keyboard.append(
