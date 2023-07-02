@@ -10,7 +10,7 @@ from bot.constants.messages import (
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
 from bot.constants.states.ask_question_states import AskQuestionStates
-from bot.keyboards.ask_question import ask_question_keyboard_markup, back_to_keyboard_markup
+from bot.keyboards.ask_question import ask_question_keyboard_markup, back_to_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
 from bot.validators import Contacts
 from mailing import BotMailer, MailForm
@@ -22,7 +22,7 @@ async def get_question(
     """Question field handler."""
     question = update.message.text
     context.user_data["question"] = question
-    await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE, reply_markup=back_to_keyboard_markup)
+    await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE, reply_markup=back_to_question_keyboard_markup)
     return AskQuestionStates.QUESTION
 
 
