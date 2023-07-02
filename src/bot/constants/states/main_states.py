@@ -11,6 +11,7 @@ class States(str, enum.Enum):
     ASSISTANCE_TYPE = "assistance_type"  # п.с. "Чем мы можем помочь"
     BACK = "back"
     BACK_TO_REGION = "back_to_region"
+    HOME = "home"
 
     FUND_PROGRAMS = "fund_programs"
     ASK_QUESTION = "ask_question"

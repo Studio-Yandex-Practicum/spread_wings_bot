@@ -12,6 +12,7 @@ SOCIAL_HELP_BUTTON = "Социальная помощь"
 PSYCHOLOGICAL_HELP_BUTTON = "Психологическая помощь"
 PROGRAMS_BUTTON = "Наши программы"
 ASK_QUESTION = "Задать свой вопрос"
+HOME_BUTTON = "В начало"
 
 # Способы связи
 EMAIL = "Эл. почта"
