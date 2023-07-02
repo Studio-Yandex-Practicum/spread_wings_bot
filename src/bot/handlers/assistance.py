@@ -8,6 +8,7 @@ from bot.keyboards.assistance import (
     assistance_questions_keyboard_contact,
     region_keyboard_markup,
 )
+from bot.keyboards.ask_question import back_to_keyboard_markup
 
 
 async def receive_assistance(
@@ -41,5 +42,5 @@ async def ask_question_assistance(
     """Обработчик для задания вопроcа."""
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(text=ASK_YOUR_QUESTION)
+    await query.edit_message_text(text=ASK_YOUR_QUESTION, reply_markup=back_to_keyboard_markup)
     return States.ASK_QUESTION
