@@ -1,4 +1,6 @@
+import asyncio
 import logging.config
+import threading
 from warnings import filterwarnings
 
 from redis.asyncio import Redis
@@ -44,8 +46,12 @@ from bot.handlers.service_handlers import (
     menu_handler,
 )
 
+loop = asyncio.new_event_loop()
+thread = threading.Thread(target=asyncio.set_event_loop, args=(loop,))
+thread.run()
 
-def main():
+
+async def main():
     """Application launch point."""
     logging.config.dictConfig(LOGGING_CONFIG)
     logger = logging.getLogger("bot")
@@ -55,6 +61,7 @@ def main():
         category=PTBUserWarning,
     )
     logger.info("start")
+
     ask_question_handler = ConversationHandler(
         entry_points=[
             MessageHandler(filters.Regex("^.*$"), get_question),
@@ -178,8 +185,11 @@ def main():
     app.add_handlers(
         [main_handler, help_handler, menu_handler, answer_all_messages_handler]
     )
-    app.run_polling()
+    logger.info("main app add handler")
+    loop.run_until_complete(app.run_polling())
+    logger.info("main end")
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
+    loop.close()
