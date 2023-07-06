@@ -131,6 +131,9 @@ dmypy.json
 # PyCharm
 .idea
 
+# VSCode
+.vscode
+
 *.sqlite
 
 # Persistence file from bot
