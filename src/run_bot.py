@@ -31,11 +31,11 @@ from bot.handlers.assistance import (
     receive_assistance,
 )
 from bot.handlers.assistance_types import (
-    contact_with_us,
     fund_programs,
     select_type_of_help,
     selected_type_assistance,
     show_contact,
+    show_contacts,
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
@@ -127,9 +127,19 @@ def main():
                     pattern=PATTERN.format(state=States.CONTACT_US.value),
                 ),
             ],
+            States.QUESTIONS_AND_CONTACTS: [
+                CallbackQueryHandler(
+                    ask_question_assistance,
+                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
+                ),
+                CallbackQueryHandler(
+                    ask_question_assistance,
+                    pattern=PATTERN.format(state=States.CONTACT_US.value),
+                ),
+            ],
             States.CONTACT_US: [
                 CallbackQueryHandler(
-                    contact_with_us,
+                    show_contact,
                     pattern=PATTERN.format(state=States.CONTACT_US.value),
                 )
             ],
@@ -139,11 +149,15 @@ def main():
                     pattern=PATTERN.format(state=States.SHOW_CONTACT.value),
                 )
             ],
-            States.SELECTED_TYPE: [
+            States.SELECT_CONTACT_TYPE: [
                 CallbackQueryHandler(
                     ask_question_assistance,
                     pattern=PATTERN.format(state=States.ASK_QUESTION.value),
-                )
+                ),
+                CallbackQueryHandler(
+                    show_contacts,
+                    pattern=PATTERN.format(state=States.CONTACT_US.value),
+                ),
             ],
             States.ASK_QUESTION: [ask_question_handler],
         },

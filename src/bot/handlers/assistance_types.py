@@ -6,7 +6,7 @@ from bot.constants.messages import ASSISTANCE_MESSAGE, ASSISTANCE_TYPE_MESSAGE
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
 from bot.keyboards.assistance import (
-    assistance_questions_keyboard_contact,
+    assistance_questions_keyboard_markup,
     contact_show_keyboard_markup,
     region_keyboard_markup,
 )
@@ -41,7 +41,7 @@ async def selected_type_assistance(
         text="Выбор вопроса из списка",
         reply_markup=assistance_questions_keyboard_markup,
     )
-    return States.SELECTED_TYPE
+    return States.QUESTIONS_AND_CONTACTS
 
 
 async def fund_programs(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -61,17 +61,17 @@ async def back_to_region(
     return States.REGION
 
 
-async def contact_with_us(
+async def show_contacts(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Связаться с нами."""
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        text="Выбор вопроса из списка",
-        reply_markup=assistance_questions_keyboard_contact,
+        text="Список контактов \n8-800-555-35-35",
+        reply_markup=assistance_questions_keyboard_markup,
     )
-    return States.SELECTED_TYPE
+    return States.SELECT_CONTACT_TYPE
 
 
 async def show_contact(

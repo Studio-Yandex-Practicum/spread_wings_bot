@@ -5,7 +5,7 @@ from bot.constants.contacts import Contacts
 from bot.constants.messages import ASK_YOUR_QUESTION, ASSISTANCE_MESSAGE
 from bot.constants.states.main_states import States
 from bot.keyboards.assistance import (
-    assistance_questions_keyboard_contact,
+    contact_type_keyboard_markup,
     region_keyboard_markup,
 )
 
@@ -30,9 +30,10 @@ async def contact_with_us_assistance(
     await query.answer()
     await query.edit_message_text(
         text=Contacts[context.user_data[States.REGION]].value,
-        reply_markup=assistance_questions_keyboard_contact,
+        reply_markup=contact_type_keyboard_markup,
     )
-    return States.SELECTED_TYPE
+    print(States.SELECT_CONTACT_TYPE)
+    return States.SELECT_CONTACT_TYPE
 
 
 async def ask_question_assistance(
