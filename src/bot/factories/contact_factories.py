@@ -70,7 +70,7 @@ class RegionFactory(Factory):
 
         model = Region
 
-    city = Faker("city", locale="ru_RU")
+    city = Faker("region", locale="ru_RU")
     coordinator = SubFactory(CoordinatorFactory)
 
 
