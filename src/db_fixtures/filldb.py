@@ -2,7 +2,13 @@ from mysql.connector import Error as MySQLError
 from mysql.connector import errorcode
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from queries import CREATE_DB, SET_SQL_MODE, TABLES, USE_DB
+from queries import (
+    CREATE_DB,
+    INSERT_COORDINATORS_QUERY,
+    SET_SQL_MODE,
+    TABLES,
+    USE_DB,
+)
 
 
 class DB_Connection:
@@ -28,7 +34,6 @@ class DB_Connection:
             )
             return self.conn
         except MySQLError as err:
-            # print(err)
             if err.errno == errorcode.CR_CONN_HOST_ERROR:
                 print('Подключите контейнер БД командой "make rundb"')
                 exit(1)
@@ -65,12 +70,19 @@ def create_database_tables(cursor: MySQLCursor) -> None:
             print("OK")
 
 
+def insert_into_db(cursor: MySQLCursor) -> None:
+    """Insert data in table."""
+    cursor.execute(USE_DB)
+    cursor.execute(INSERT_COORDINATORS_QUERY)
+
+
 def main():
     """Start fill db."""
     with DB_Connection() as conn:
         cursor = conn.cursor()
         create_database(cursor=cursor)
         create_database_tables(cursor=cursor)
+        insert_into_db(cursor=cursor)
 
 
 if __name__ == "__main__":

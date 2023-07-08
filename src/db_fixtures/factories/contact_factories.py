@@ -1,7 +1,11 @@
 import sys
 
 from factory import Factory, Faker, SubFactory
-from service import generate_dict_factory
+from service import (
+    create_html_file,
+    factory_to_html_text,
+    generate_dict_factory,
+)
 
 
 class Region:
@@ -90,6 +94,9 @@ if __name__ == "__main__":
         del i
 
     factory_to_dict = generate_dict_factory(RegionCoordinatorFactory)
+    data_text = factory_to_html_text(factory_to_dict())
+
+    create_html_file(filename="coordinator_contacts.html", data=data_text)
 
     def factory_to_html(data):
         """Create HTML template with coordinator's info."""
