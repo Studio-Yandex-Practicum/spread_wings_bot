@@ -129,10 +129,6 @@ def main():
                     ask_question,
                     pattern=PATTERN.format(state=States.ASK_QUESTION.value),
                 ),
-                CallbackQueryHandler(
-                    contact_with_us,
-                    pattern=PATTERN.format(state=States.CONTACT_US.value),
-                ),
             ],
             States.CONTACT_US: [
                 CallbackQueryHandler(

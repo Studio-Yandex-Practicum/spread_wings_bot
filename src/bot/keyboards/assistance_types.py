@@ -65,14 +65,6 @@ assistance_questions_keyboard = [
 assistance_questions_keyboard.append(
     [
         InlineKeyboardButton(
-            text=CONTACT_US_BUTTON, callback_data=States.CONTACT_US.value
-        )
-    ]
-)
-
-assistance_questions_keyboard.append(
-    [
-        InlineKeyboardButton(
             text=ASK_QUESTION, callback_data=States.ASK_QUESTION.value
         )
     ]
