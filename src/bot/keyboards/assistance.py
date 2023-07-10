@@ -11,8 +11,6 @@ from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
 from bot.constants.urls import DONATION_URL
 
-# assistance_keyboard
-
 assistance_keyboard = [
     [
         InlineKeyboardButton(
@@ -25,8 +23,6 @@ assistance_keyboard = [
 ]
 
 assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
-
-# region_keyboard
 
 region_keyboard = [
     [InlineKeyboardButton(region.value, callback_data=region.name)]
@@ -42,8 +38,6 @@ region_keyboard.append(
 )
 
 region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
-
-# contact_show_keyboard
 
 contact_type_keyboard = [
     [
@@ -65,8 +59,6 @@ contact_type_keyboard = [
 ]
 
 contact_type_keyboard_markup = InlineKeyboardMarkup(contact_type_keyboard)
-
-# contact_show_keyboard
 
 contact_show_keyboard = [
     [

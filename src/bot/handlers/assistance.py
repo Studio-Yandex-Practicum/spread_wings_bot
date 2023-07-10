@@ -7,6 +7,7 @@ from bot.constants.messages import (
     ASSISTANCE_MESSAGE,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
+    SELECT_QUESTION,
 )
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
@@ -55,7 +56,7 @@ async def selected_type_assistance(
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        text="Выбор вопроса из списка",
+        text=SELECT_QUESTION,
         reply_markup=assistance_questions_keyboard_markup,
     )
     return States.QUESTIONS_AND_CONTACTS

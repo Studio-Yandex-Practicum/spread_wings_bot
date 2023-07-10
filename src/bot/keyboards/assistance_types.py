@@ -13,8 +13,6 @@ from bot.constants.list_of_questions import LegalQuestions
 from bot.constants.states.main_states import States
 from bot.constants.types_of_assistance import AssistanceTypes
 
-# assistance_types_keyboard
-
 assistance_types_keyboard = [
     [
         InlineKeyboardButton(
@@ -54,8 +52,6 @@ assistance_types_keyboard = [
 assistance_types_keyboard_markup = InlineKeyboardMarkup(
     assistance_types_keyboard
 )
-
-# assistance_questions_keyboard
 
 assistance_questions_keyboard = [
     [InlineKeyboardButton(question.value, callback_data=question.name)]
