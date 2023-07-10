@@ -26,13 +26,10 @@ from bot.handlers.ask_question import (
     select_contact_type,
 )
 from bot.handlers.assistance import (
-    ask_question_assistance,
-    contact_with_us_assistance,
-    receive_assistance,
-)
-from bot.handlers.assistance_types import (
+    ask_question,
     contact_with_us,
     fund_programs,
+    receive_assistance,
     select_type_of_help,
     selected_type_assistance,
     show_contact,
@@ -83,7 +80,7 @@ def main():
             ],
             States.ASK_QUESTION: [
                 CallbackQueryHandler(
-                    ask_question_assistance,
+                    get_question,
                     pattern=PATTERN.format(state=States.ASK_QUESTION.value),
                 )
             ],
@@ -123,26 +120,30 @@ def main():
                     pattern=PATTERN.format(state=States.FUND_PROGRAMS.value),
                 ),
                 CallbackQueryHandler(
-                    contact_with_us_assistance,
+                    contact_with_us,
                     pattern=PATTERN.format(state=States.CONTACT_US.value),
+                ),
+            ],
+            States.QUESTIONS_AND_CONTACTS: [
+                CallbackQueryHandler(
+                    ask_question,
+                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
                 ),
             ],
             States.CONTACT_US: [
                 CallbackQueryHandler(
-                    contact_with_us,
-                    pattern=PATTERN.format(state=States.CONTACT_US.value),
-                )
+                    show_contact,
+                    pattern=PATTERN.format(state=States.SHOW_CONTACT.value),
+                ),
+                CallbackQueryHandler(
+                    ask_question,
+                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
+                ),
             ],
             States.SHOW_CONTACT: [
                 CallbackQueryHandler(
                     show_contact,
                     pattern=PATTERN.format(state=States.SHOW_CONTACT.value),
-                )
-            ],
-            States.SELECTED_TYPE: [
-                CallbackQueryHandler(
-                    ask_question_assistance,
-                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
                 )
             ],
             States.ASK_QUESTION: [ask_question_handler],
