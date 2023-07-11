@@ -15,7 +15,9 @@ HOW_CAN_WE_HELP = "Чем мы можем помочь?"
 MENU_MESSAGE = "Команды и меню обновлены"
 CONTACT_US_MESSAGE = "[Заглушка] Задать вопрос."
 
+SELECT_QUESTION = "Выбор вопроса из списка"
 ASK_YOUR_QUESTION = "Задайте Ваш вопрос"
+HOW_TO_CONTACT = "Как Вам удобно связаться с нами?"
 WHAT_IS_YOUR_NAME_MESSAGE = "Как к Вам обращаться?"
 CONTACT_TYPE_MESSAGE = "{name}, как с Вами связаться?"
 THANKS_FOR_THE_QUESTION = (

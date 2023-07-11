@@ -49,6 +49,10 @@ assistance_types_keyboard = [
     ],
 ]
 
+assistance_types_keyboard_markup = InlineKeyboardMarkup(
+    assistance_types_keyboard
+)
+
 assistance_questions_keyboard = [
     [InlineKeyboardButton(question.value, callback_data=question.name)]
     for question in LegalQuestions
@@ -71,10 +75,6 @@ assistance_questions_keyboard.append(
     ]
 )
 
-
-assistance_types_keyboard_markup = InlineKeyboardMarkup(
-    assistance_types_keyboard
-)
 
 assistance_questions_keyboard_markup = InlineKeyboardMarkup(
     assistance_questions_keyboard
