@@ -18,3 +18,15 @@ MAIN_COORDINATORS_TEMPLATE = (
     " height: 16px;'>{telegram}</td>\n"
     "    </tr>\n"
 )
+MAIN_QUESTONS_TEMPLATE = (
+    "    <tr style='height: 16px;'>\n"
+    "      <td style='width: 20%;"
+    " height: 16px;'>{question}</td>\n"
+    "      <td style='width: 20%;"
+    " height: 16px;'>{short_description}</td>\n"
+    "      <td style='width: 20%;"
+    " height: 16px;'>{answer}</td>\n"
+    "      <td style='width: 20%;"
+    " height: 16px;'>{regions}</td>\n"
+    "    </tr>\n"
+)

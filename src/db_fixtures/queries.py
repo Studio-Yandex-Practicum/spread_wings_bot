@@ -1,4 +1,5 @@
 from factories.contact_factories import generate_coordinators
+from factories.question_factories import generate_questions
 
 # To create a database and configure it:
 DB_NAME = "krilya_dets1"
@@ -40,15 +41,50 @@ TABLES["detfond_posts"] = (
 )
 
 # To insert test data into detfond_posts table
-html_data = generate_coordinators(count=10)
+html_coordinators_data = generate_coordinators(count=10)
+html_questions_data = generate_questions(10)
+
 INSERT_COORDINATORS_QUERY = (
     "insert into detfond_posts ( `ID`, post_author, post_date, post_date_gmt, "
     "post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, "
     "post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, "
-    'guid, menu_order, post_type, post_mime_type, comment_count) values ( 2, 1, "2023-06-28 17:00:18", '
+    'guid, menu_order, post_type, post_mime_type, comment_count) values ( 1, 1, "2023-06-28 17:00:18", '
     '"2023-06-28 14:00:18", "{}", "Бот контакты координаторов", 0, "publish", "closed", "closed", '
     '0, "bot-kontakty-koordinatorov", 0, 0, "2023-07-02 22:31:4", "2023-07-02 19:31:45", 0, 0, '
     '"http://jetrai.online/?page_id=17014", 0, "page", 0, 0); '.format(
-        html_data
+        html_coordinators_data
+    )
+)
+INSERT_PSYCHOLOGY_QUESTIONS_QUERY = (
+    "insert into detfond_posts ( `ID`, post_author, post_date, post_date_gmt, "
+    "post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, "
+    "post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, "
+    'guid, menu_order, post_type, post_mime_type, comment_count) values ( 2, 1, "2023-07-28 17:00:18", '
+    '"2023-07-28 14:00:18", "{}", "Бот психологическая помощь", 0, "publish", "closed", "closed", '
+    '0, "bot-psixologicheskaya-pomoshh", 0, 0, "2023-08-02 22:31:4", "2023-08-02 19:31:45", 0, 0, '
+    '"http://jetrai.online/?page_id=17015", 0, "page", 0, 0); '.format(
+        html_questions_data
+    )
+)
+INSERT_SOCIAL_QUESTIONS_QUERY = (
+    "insert into detfond_posts ( `ID`, post_author, post_date, post_date_gmt, "
+    "post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, "
+    "post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, "
+    'guid, menu_order, post_type, post_mime_type, comment_count) values ( 3, 1, "2023-08-28 17:00:18", '
+    '"2023-08-28 14:00:18", "{}", "Бот социальная помощь", 0, "publish", "closed", "closed", '
+    '0, "bot-socialnaya-pomoshh", 0, 0, "2023-09-02 22:31:4", "2023-09-02 19:31:45", 0, 0, '
+    '"http://jetrai.online/?page_id=17016", 0, "page", 0, 0); '.format(
+        html_questions_data
+    )
+)
+INSERT_LEGAL_QUESTIONS_QUERY = (
+    "insert into detfond_posts ( `ID`, post_author, post_date, post_date_gmt, "
+    "post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, "
+    "post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, "
+    'guid, menu_order, post_type, post_mime_type, comment_count) values ( 4, 1, "2023-09-28 17:00:18", '
+    '"2023-09-28 14:00:18", "{}", "Бот юридическая помощь", 0, "publish", "closed", "closed", '
+    '0, "bot-yuridicheskaya-pomoshh", 0, 0, "2023-10-02 22:31:4", "2023-10-02 19:31:45", 0, 0, '
+    '"http://jetrai.online/?page_id=17017", 0, "page", 0, 0); '.format(
+        html_questions_data
     )
 )

@@ -1,43 +1,21 @@
-import json
-
-from factory import Factory, Faker, SubFactory
-from service import generate_dict_factory
+from factories.service import generate_dict_factory
+from factories.templates import (
+    END_COMMON_TEMPLATE,
+    MAIN_QUESTONS_TEMPLATE,
+    START_COMMON_TEMPLATE,
+)
+from factory import Factory, Faker
 
 
 class Question:
     """Model to make Question factories."""
 
-    def __init__(self, question, answer):
+    def __init__(self, question, short_description, answer, regions):
         """To initialize."""
         self.question = question
+        self.short_description = short_description
         self.answer = answer
-
-
-class FundProgram:
-    """Class-helper to make FundProgram factories."""
-
-    def __init__(self, name, description):
-        """To initialize."""
-        self.name = name
-        self.description = description
-
-
-class QuestionFund:
-    """Class-helper to make nested dict."""
-
-    pass
-
-
-class FundProgramFactory(Factory):
-    """Creating FundPrograms factory."""
-
-    class Meta:
-        """Connection to FundProgram Model."""
-
-        model = FundProgram
-
-    name = Faker("word", locale="ru_RU")
-    description = Faker("text", max_nb_chars=500, locale="ru_RU")
+        self.regions = regions
 
 
 class QuestionFactory(Factory):
@@ -48,29 +26,34 @@ class QuestionFactory(Factory):
 
         model = Question
 
-    question = Faker("word", locale="ru_RU")
+    question = Faker("text", max_nb_chars=150, locale="ru_RU")
+    short_description = Faker("text", max_nb_chars=50, locale="ru_RU")
     answer = Faker("text", max_nb_chars=1000, locale="ru_RU")
+    # TODO сделать несколько регионов в строке через запятую
+    regions = Faker("region", locale="ru_RU")
 
 
-class QuestionFundFactory(Factory):
-    """Creating nested factories."""
+def generate_questions(count: int) -> str:
+    """Generate html string of coordinators."""
+    questions_data = {}
+    for i in range(count):
+        questions_data[i] = generate_dict_factory(QuestionFactory)()
 
-    class Meta:
-        """Connection to QuestionFund Model."""
+    list_of_main_templates = []
+    for question in questions_data.values():
+        list_of_main_templates.append(
+            MAIN_QUESTONS_TEMPLATE.format(
+                question=question.get("question"),
+                short_description=question.get("short_description"),
+                answer=question.get("answer"),
+                regions=question.get("regions"),
+            )
+        )
+    result = f"{START_COMMON_TEMPLATE}{''.join(list_of_main_templates)}{END_COMMON_TEMPLATE}"
+    return result
 
-        model = QuestionFund
 
-    legal_question1 = SubFactory(QuestionFactory)
-    legal_question2 = SubFactory(QuestionFactory)
-    social_question1 = SubFactory(QuestionFactory)
-    social_question2 = SubFactory(QuestionFactory)
-    psycho_question1 = SubFactory(QuestionFactory)
-    psycho_question2 = SubFactory(QuestionFactory)
-    fund_program1 = SubFactory(FundProgramFactory)
-    fund_program2 = SubFactory(FundProgramFactory)
-
-
-factory_to_dict = generate_dict_factory(QuestionFundFactory)
-
-with open("question_data.json", "w", encoding="utf-8") as f:
-    json.dump(factory_to_dict(), f, indent=2, ensure_ascii=False)
+if __name__ == "__main__":
+    count = int(input("Необходимое количество вопросов: "))
+    questions = generate_questions(count=count)
+    print(questions)

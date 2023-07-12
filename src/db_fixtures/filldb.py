@@ -5,6 +5,9 @@ from mysql.connector.cursor import MySQLCursor
 from queries import (
     CREATE_DB,
     INSERT_COORDINATORS_QUERY,
+    INSERT_LEGAL_QUESTIONS_QUERY,
+    INSERT_PSYCHOLOGY_QUESTIONS_QUERY,
+    INSERT_SOCIAL_QUESTIONS_QUERY,
     SET_SQL_MODE,
     TABLES,
     USE_DB,
@@ -76,6 +79,9 @@ def insert_into_db(cursor: MySQLCursor) -> None:
         print("Наполнение таблицы тестовыми данными: ", end="")
         cursor.execute(USE_DB)
         cursor.execute(INSERT_COORDINATORS_QUERY)
+        cursor.execute(INSERT_SOCIAL_QUESTIONS_QUERY)
+        cursor.execute(INSERT_PSYCHOLOGY_QUESTIONS_QUERY)
+        cursor.execute(INSERT_LEGAL_QUESTIONS_QUERY)
     except MySQLError as err:
         print(err)
     else:
