@@ -72,8 +72,14 @@ def create_database_tables(cursor: MySQLCursor) -> None:
 
 def insert_into_db(cursor: MySQLCursor) -> None:
     """Insert data in table."""
-    cursor.execute(USE_DB)
-    cursor.execute(INSERT_COORDINATORS_QUERY)
+    try:
+        print("Наполнение таблицы тестовыми данными: ", end="")
+        cursor.execute(USE_DB)
+        cursor.execute(INSERT_COORDINATORS_QUERY)
+    except MySQLError as err:
+        print(err)
+    else:
+        print("OK")
 
 
 def main():
@@ -83,6 +89,8 @@ def main():
         create_database(cursor=cursor)
         create_database_tables(cursor=cursor)
         insert_into_db(cursor=cursor)
+        cursor.close()
+        conn.commit()
 
 
 if __name__ == "__main__":

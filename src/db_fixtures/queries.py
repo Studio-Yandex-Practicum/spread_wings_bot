@@ -1,3 +1,5 @@
+from factories.contact_factories import generate_coordinators
+
 # To create a database and configure it:
 DB_NAME = "krilya_dets1"
 CREATE_DB = "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8mb4'".format(
@@ -37,29 +39,16 @@ TABLES["detfond_posts"] = (
     ") "
 )
 
-# INSERT_COORDINATORS_QUERY = f"INSERT INTO customers (ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status) VALUES (%s, %s)"
-
-
-ID = 17014
-post_author = 1
-post_date = "2023-06-28 17:00:18"
-post_date_gmt = "2023-06-28 14:00:18"
-post_content = "html"
-post_title = "Бот контакты координаторов"
-post_excerpt = None
-post_status = "publish"
-comment_status = "closed"
-ping_status = "closed"
-post_password = None
-post_name = "bot-kontakty-koordinatorov"
-to_ping = None
-pinged = None
-post_modified = "2023-07-02 22:31:45"
-post_modified_gmt = "2023-07-02 19:31:45"
-post_content_filtered = None
-post_parent = 0
-guid = "http://jetrai.online/?page_id=17014"
-menu_order = 0
-post_type = "page"
-post_mime_type = None
-comment_count = 0
+# To insert test data into detfond_posts table
+html_data = generate_coordinators(count=10)
+INSERT_COORDINATORS_QUERY = (
+    "insert into detfond_posts ( `ID`, post_author, post_date, post_date_gmt, "
+    "post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, "
+    "post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, "
+    'guid, menu_order, post_type, post_mime_type, comment_count) values ( 2, 1, "2023-06-28 17:00:18", '
+    '"2023-06-28 14:00:18", "{}", "Бот контакты координаторов", 0, "publish", "closed", "closed", '
+    '0, "bot-kontakty-koordinatorov", 0, 0, "2023-07-02 22:31:4", "2023-07-02 19:31:45", 0, 0, '
+    '"http://jetrai.online/?page_id=17014", 0, "page", 0, 0); '.format(
+        html_data
+    )
+)

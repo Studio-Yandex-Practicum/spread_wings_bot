@@ -1,44 +1,30 @@
-import sys
-
-from factory import Factory, Faker, SubFactory
-from service import (
-    create_html_file,
-    factory_to_html_text,
-    generate_dict_factory,
+from factories.service import generate_dict_factory
+from factories.templates import (
+    END_COMMON_TEMPLATE,
+    MAIN_COORDINATORS_TEMPLATE,
+    START_COMMON_TEMPLATE,
 )
-
-
-class Region:
-    """Model to make Region factories."""
-
-    def __init__(self, city, coordinator):
-        """To initialize."""
-        self.city = city
-        self.coordinator = coordinator
-
-
-class Coordinator:
-    """Model to make Coordinator factories."""
-
-    def __init__(self, name, contacts):
-        """To initialize."""
-        self.name = name
-        self.contacts = contacts
+from factory import Factory, Faker, LazyAttribute, SubFactory
 
 
 class Contacts:
     """Model to make contacts factories."""
 
-    def __init__(self, email, phone_number):
+    def __init__(self, email: str, phone_number: str, telegram: str) -> None:
         """To initialize."""
         self.email = email
         self.phone_number = phone_number
+        self.telegram = telegram
 
 
-class RegionCoordinator:
-    """Class-helper to make nested dict."""
+class Coordinator:
+    """Model to make Coordinator factories."""
 
-    pass
+    def __init__(self, name: str, region: str, contacts: Contacts) -> None:
+        """To initialize."""
+        self.name = name
+        self.region = region
+        self.contacts = contacts
 
 
 class ContactsFactory(Factory):
@@ -51,7 +37,7 @@ class ContactsFactory(Factory):
 
     email = Faker("email", locale="ru_RU")
     phone_number = Faker("phone_number", locale="ru_RU")
-    telegram = Faker("first_name")
+    telegram = LazyAttribute(lambda obj: f'@{obj.email.split("@")[0]}')
 
 
 class CoordinatorFactory(Factory):
@@ -63,79 +49,33 @@ class CoordinatorFactory(Factory):
         model = Coordinator
 
     name = Faker("name", locale="ru_RU")
+    region = Faker("region", locale="ru_RU")
     contacts = SubFactory(ContactsFactory)
 
 
-class RegionFactory(Factory):
-    """Creating Regions factory."""
+def generate_coordinators(count: int) -> str:
+    """Generate html string of coordinators."""
+    coordinators_data = {}
+    for i in range(count):
+        coordinators_data[i] = generate_dict_factory(CoordinatorFactory)()
 
-    class Meta:
-        """Connection to Region Model."""
-
-        model = Region
-
-    city = Faker("region", locale="ru_RU")
-    coordinator = SubFactory(CoordinatorFactory)
+    list_of_main_templates = []
+    for coordinator in coordinators_data.values():
+        contacts = coordinator.get("contacts")
+        list_of_main_templates.append(
+            MAIN_COORDINATORS_TEMPLATE.format(
+                region=coordinator.get("region"),
+                name=coordinator.get("name"),
+                email=contacts.get("email"),
+                phone=contacts.get("phone_number"),
+                telegram=contacts.get("telegram"),
+            )
+        )
+    result = f"{START_COMMON_TEMPLATE}{''.join(list_of_main_templates)}{END_COMMON_TEMPLATE}"
+    return result
 
 
 if __name__ == "__main__":
-    NUMBER = int(sys.argv[1])
-
-    class RegionCoordinatorFactory(Factory):
-        """Creating nested factories."""
-
-        class Meta:
-            """Connection to RegionCoordinator Model."""
-
-            model = RegionCoordinator
-
-        for i in range(1, NUMBER + 1):
-            locals()[f"region_{i}"] = SubFactory(RegionFactory)
-        del i
-
-    factory_to_dict = generate_dict_factory(RegionCoordinatorFactory)
-    data_text = factory_to_html_text(factory_to_dict())
-
-    create_html_file(filename="coordinator_contacts.html", data=data_text)
-
-    def factory_to_html(data):
-        """Create HTML template with coordinator's info."""
-        filename = "coordinator_contacts.html"
-        start_template = (
-            '<table style="border-collapse: collapse;'
-            ' width: 100.303%; height: 112px;">\n'
-            "  <tbody>\n"
-        )
-        main_template = (
-            '    <tr style="height: 16px;">\n'
-            '      <td style="width: 20%;'
-            ' height: 16px;">{region}</td>\n'
-            '      <td style="width: 20%;'
-            ' height: 16px;">{coord_name}</td>\n'
-            '      <td style="width: 20%;'
-            ' height: 16px;">{email}</td>\n'
-            '      <td style="width: 20%;'
-            ' height: 16px;">{phone}</td>\n'
-            '      <td style="width: 20%;'
-            ' height: 16px;">@{telegram}</td>\n'
-            "    </tr>\n"
-        )
-        end_template = "  </tbody>\n" "</table>\n"
-
-        with open(filename, "w", encoding="utf-8") as tags:
-            tags.write(start_template)
-            for contact in data.values():
-                coordinator = contact.get("coordinator")
-                contacts = coordinator.get("contacts")
-                tags.write(
-                    main_template.format(
-                        region=contact.get("city"),
-                        coord_name=coordinator.get("name"),
-                        email=contacts.get("email"),
-                        phone=contacts.get("phone_number"),
-                        telegram=contacts.get("telegram").lower(),
-                    )
-                )
-            tags.write(end_template)
-
-    factory_to_html(factory_to_dict())
+    count = int(input("Необходимое количество координаторов: "))
+    coordinators = generate_coordinators(count=count)
+    print(coordinators)
