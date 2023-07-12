@@ -40,7 +40,11 @@ async def ask_question_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Обработчик для задания вопроcа."""
+    print('Entered ask_question_assistance function')
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(text=ASK_YOUR_QUESTION, reply_markup=back_to_keyboard_markup)
+    await query.edit_message_text(
+        text=ASK_YOUR_QUESTION,
+        reply_markup=back_to_keyboard_markup
+    )
     return States.ASK_QUESTION
