@@ -32,6 +32,7 @@ anyio = "^3.7.0"
 pytest-tornasync = "^0.6.0.post2"
 factory-boy = "^3.2.1"
 python-telegram-bot = "^20.3"
+mysql-connector-python = "^8.0.33"
 
 
 [tool.pytest.ini_options]
