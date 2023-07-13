@@ -11,6 +11,8 @@
 
    1.1 [Инструкции и ритуалы на проекте](docs/materials/instructions.md)
 
+   1.2 [ER - диаграмма сущностей](docs/er_diagramm/er_pdf.pdf)
+
 2. [Структура проекта](#structure)
 3. [Подготовка к запуску](#start)
 
