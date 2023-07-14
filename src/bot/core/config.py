@@ -1,5 +1,5 @@
 from dotenv import find_dotenv
-from pydantic import AnyUrl, BaseSettings, EmailStr, SecretStr
+from pydantic import AnyUrl, BaseSettings, EmailStr, SecretStr, Field
 
 
 class CustomDsn(AnyUrl):
@@ -13,6 +13,7 @@ class Settings(BaseSettings):
 
     db_url: CustomDsn
     telegram_token: SecretStr
+    django_token: str = Field(..., env="DJANGO_SECRET_KEY")
     debug: bool = False
     email_host: str
     email_port: int
@@ -27,7 +28,7 @@ class Settings(BaseSettings):
     class Config:
         """Env settings."""
 
-        env_file = find_dotenv(".env")
+        env_file = find_dotenv(".env", raise_error_if_not_found=True)
         env_file_encoding = "utf-8"
 
 
