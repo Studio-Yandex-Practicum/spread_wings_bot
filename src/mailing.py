@@ -1,18 +1,9 @@
 import re
 import smtplib
 
-from pydantic import BaseModel, EmailStr
-
 from bot.core.config import settings
 from bot.core.exceptions import InvalidRecipientEmailAddress
-
-
-class MailForm(BaseModel):
-    """Модель входящих данных по вопросу."""
-
-    question: str
-    name: str
-    contact: EmailStr | str
+from bot.models.question import Question
 
 
 class BotMailer:
@@ -25,7 +16,7 @@ class BotMailer:
     DEFAULT_SUBJECT = "Вопрос из телеграм бота"
     DEFAULT_ADDRESS = settings.default_email_address
     EMAIL_TEMPLATE = "From: {}\nTo: {}\nSubject: {}\n\n{}"
-    TEXT_TEMPLATE = "Пользователь {} ({}) задает вопрос: {}"
+    TEXT_TEMPLATE = "Пользователь {} ({})\nТема вопроса: {}\nВопрос: {}"
     REG = r"[^@]+@[^@]+\.[^@]+"
 
     @classmethod
@@ -36,7 +27,8 @@ class BotMailer:
     @classmethod
     async def send_message(
         cls,
-        mail_form: MailForm,
+        mail_form: Question,
+        contact_type,
         address=DEFAULT_ADDRESS,
         subject=DEFAULT_SUBJECT,
     ):
@@ -51,7 +43,10 @@ class BotMailer:
         smtp_object = smtplib.SMTP_SSL(cls.SMTP_SERVER, cls.SERVER_PORT)
         smtp_object.login(cls.SENDER_ACCOUNT, cls.SENDER_PASSWORD)
         text = cls.TEXT_TEMPLATE.format(
-            mail_form.name, mail_form.contact, mail_form.question
+            mail_form.name,
+            getattr(mail_form.contact, contact_type.lower()),
+            mail_form.question_type,
+            mail_form.question,
         )
         msg = cls.EMAIL_TEMPLATE.format(
             cls.SENDER_ACCOUNT, address, subject, text

@@ -12,8 +12,8 @@ from bot.constants.messages import (
 from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
-from bot.validators import Contacts
-from mailing import BotMailer, MailForm
+from bot.models.question import Contacts, Question
+from mailing import BotMailer
 
 
 async def get_question(
@@ -44,11 +44,20 @@ async def select_contact_type(
 ) -> AskQuestionStates:
     """Type of contact field handler."""
     query = update.callback_query
-    await query.answer()
     contact_type = query.data
     context.user_data["contact_type"] = contact_type
     if contact_type == "TELEGRAM":
+        if not query.message.chat.username:
+            await query.bot.answer_callback_query(
+                query.id,
+                "У вас в настройках не указан username,"
+                " пожалуйста, либо зайдите в настройки вашего"
+                " telegram аккаунта придумайте и введите username,"
+                " либо выберите другую форму связи.",
+                show_alert=True,
+            )
         context.user_data["contact"] = "@" + query.message.chat.username
+        await query.answer()
         await query.edit_message_text(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
@@ -73,12 +82,15 @@ async def get_contact(
 
     context.user_data["contact"] = raw_contact
     try:
-        question_form = MailForm(
+        question_form = Question(
             name=context.user_data["name"],
             contact=context.user_data["contact"],
             question=context.user_data["question"],
+            question_type=context.user_data["question_type"],
         )
-        await BotMailer.send_message(question_form)
+        await BotMailer.send_message(
+            question_form, context.user_data["contact_type"]
+        )
         await update.message.reply_text(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
