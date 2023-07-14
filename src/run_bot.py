@@ -54,13 +54,13 @@ def main():
     logger.info("start")
     ask_question_handler = ConversationHandler(
         entry_points=[
-            MessageHandler(filters.Regex("^.*$"), get_question),
+            MessageHandler(filters.Regex(r"^[^\/].*$"), get_question),
         ],
         persistent=True,
         name="ask_question_handler",
         states={
             AskQuestionStates.QUESTION: [
-                MessageHandler(filters.Regex("^.*$"), get_name),
+                MessageHandler(filters.Regex(r"^[^\/].*$"), get_name),
             ],
             AskQuestionStates.NAME: [
                 CallbackQueryHandler(
