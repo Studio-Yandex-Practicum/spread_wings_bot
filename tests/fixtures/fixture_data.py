@@ -5,7 +5,7 @@ import pytest
 
 
 @pytest.fixture
-def current_timestamp() -> datetime:
+def current_timestamp() -> float:
     """Возвращаем текущее время."""
     return datetime.now().timestamp()
 
