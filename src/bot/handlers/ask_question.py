@@ -44,20 +44,11 @@ async def select_contact_type(
 ) -> AskQuestionStates:
     """Type of contact field handler."""
     query = update.callback_query
+    await query.answer()
     contact_type = query.data
     context.user_data["contact_type"] = contact_type
     if contact_type == "TELEGRAM":
-        if not query.message.chat.username:
-            await query.bot.answer_callback_query(
-                query.id,
-                "У вас в настройках не указан username,"
-                " пожалуйста, либо зайдите в настройки вашего"
-                " telegram аккаунта придумайте и введите username,"
-                " либо выберите другую форму связи.",
-                show_alert=True,
-            )
         context.user_data["contact"] = "@" + query.message.chat.username
-        await query.answer()
         await query.edit_message_text(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
