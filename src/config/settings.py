@@ -1,15 +1,19 @@
 from pathlib import Path
 import os
+from ast import literal_eval
 
-from bot.core.config import settings  # noqa
+from dotenv import find_dotenv, load_dotenv
 
+
+load_dotenv(find_dotenv(".env", raise_error_if_not_found=True))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = settings.django_token
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
-DEBUG = True
+DEBUG = literal_eval(os.environ.get("DEBUG", "True"))
 
+# TODO: hide to env and parse
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
@@ -22,7 +26,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "users",
+    "bot.apps.BotConfig",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -59,7 +64,13 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+}
+DB_URL = os.environ.get("DB_URL")  # legacy, probably
+
+REDIS = {
+    "host": os.environ.get("REDIS_HOST"),
+    "port": os.environ.get("REDIS_PORT"),
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -88,3 +99,46 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MAILING = {
+    "host": os.environ.get("EMAIL_HOST"),
+    "port": os.environ.get("EMAIL_PORT"),
+    "account": os.environ.get("EMAIL_ACCOUNT"),
+    "password": os.environ.get("EMAIL_PASSWORD"),
+    "default_address": os.environ.get("DEFAULT_EMAIL_ADDRESS"),
+}
+
+# Telegram bot settings
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+USE_REDIS_PERSISTENCE = literal_eval(os.environ.get("REDIS", "False"))
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default_formatter": {
+            "format": '%(asctime)s - [%(levelname)s] - %(message)s',
+            "datefmt": "%d.%m.%Y %H:%M:%S"
+        }
+    },
+    "handlers": {
+        "stream_handler": {
+            "class": "logging.StreamHandler",
+            "formatter": "default_formatter",
+        },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "default_formatter",
+            "filename": BASE_DIR / "logs" / "bot.log",
+            "maxBytes": 10**6,
+            "backupCount": 5,
+        },
+    },
+    "loggers": {
+        "bot": {
+            "handlers": ["stream_handler", "file"],
+            "level": "INFO",
+            "propagate": True,
+        }
+    },
+}

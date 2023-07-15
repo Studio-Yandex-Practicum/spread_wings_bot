@@ -20,6 +20,8 @@ attrs = "^23.1.0"
 pymysql = "^1.0.3"
 redis = "^4.5.5"
 django = "^4.2.3"
+uvicorn = "^0.23.0"
+django-asgi-lifespan = "^0.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
