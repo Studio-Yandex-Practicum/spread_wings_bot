@@ -1,10 +1,11 @@
-from factories.service import generate_dict_factory
-from factories.templates import (
+from factory import Factory, Faker, LazyAttribute, SubFactory
+
+from .service import generate_dict_factory
+from .templates import (
     END_COMMON_TEMPLATE,
     MAIN_COORDINATORS_TEMPLATE,
     START_COMMON_TEMPLATE,
 )
-from factory import Factory, Faker, LazyAttribute, SubFactory
 
 
 class Contacts:
