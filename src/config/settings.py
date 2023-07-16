@@ -1,9 +1,8 @@
-from pathlib import Path
 import os
 from ast import literal_eval
+from pathlib import Path
 
 from dotenv import find_dotenv, load_dotenv
-
 
 load_dotenv(find_dotenv(".env", raise_error_if_not_found=True))
 
@@ -111,14 +110,19 @@ MAILING = {
 # Telegram bot settings
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 USE_REDIS_PERSISTENCE = literal_eval(os.environ.get("REDIS", "False"))
+WEBHOOK_ENABLED = literal_eval(os.environ.get("WEBHOOK_ENABLED", "False"))
+WEBHOOK_URL = os.environ.get(
+    "WEBHOOK_URL", "http://127.0.0.1:8000/bot/webhook/"
+)
+WEBHOOK_SECRET_KEY = os.environ.get("WEBHOOK_SECRET_KEY", "not-so-secret-key")
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
         "default_formatter": {
-            "format": '%(asctime)s - [%(levelname)s] - %(message)s',
-            "datefmt": "%d.%m.%Y %H:%M:%S"
+            "format": "%(asctime)s - [%(levelname)s] - %(message)s",
+            "datefmt": "%d.%m.%Y %H:%M:%S",
         }
     },
     "handlers": {
