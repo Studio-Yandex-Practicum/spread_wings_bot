@@ -79,9 +79,7 @@ async def get_contact(
             question=context.user_data["question"],
             question_type=context.user_data["question_type"],
         )
-        await BotMailer.send_message(
-            question_form, context.user_data["contact_type"]
-        )
+        await BotMailer.send_message(question_form)
         await update.message.reply_text(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
