@@ -13,7 +13,7 @@ deletedb:
 # for start bot with mySQL container:
 runbot-db:
 	docker compose -f infra/dev/docker-compose.local.yaml up -d
-	python src/run_bot.py
+	cd src && python -m uvicorn config.asgi:application --reload && cd ..
 
 filldb:
-	python src/db_fixtures/filldb.py
+	python src/utils/db_fixtures/filldb.py

@@ -1,8 +1,13 @@
-import logging.config
+import asyncio
+import logging
+from typing import Self
 from warnings import filterwarnings
 
+from django.conf import settings
 from redis.asyncio import Redis
+from telegram import Update
 from telegram.ext import (
+    Application,
     ApplicationBuilder,
     CallbackQueryHandler,
     ConversationHandler,
@@ -12,20 +17,17 @@ from telegram.ext import (
 )
 from telegram.warnings import PTBUserWarning
 
-from bot.constants.patterns import CONTACT_TYPE_PATTERN, HELP_TYPE_PATTERN
-from bot.constants.regions import Regions
-from bot.constants.states.ask_question_states import AskQuestionStates
-from bot.constants.states.main_states import PATTERN, States
-from bot.core.config import settings
-from bot.core.log_config import LOGGING_CONFIG
-from bot.core.redis_persistence import RedisPersistence
-from bot.handlers.ask_question import (
+from .constants.patterns import CONTACT_TYPE_PATTERN, HELP_TYPE_PATTERN
+from .constants.regions import Regions
+from .constants.states.ask_question_states import AskQuestionStates
+from .constants.states.main_states import PATTERN, States
+from .handlers.ask_question import (
     get_contact,
     get_name,
     get_question,
     select_contact_type,
 )
-from bot.handlers.assistance import (
+from .handlers.assistance import (
     ask_question,
     contact_with_us,
     fund_programs,
@@ -34,24 +36,84 @@ from bot.handlers.assistance import (
     selected_type_assistance,
     show_contact,
 )
-from bot.handlers.back_handler import back_button
-from bot.handlers.main_handlers import help_handler, start_handler
-from bot.handlers.service_handlers import (
+from .handlers.back_handler import back_button
+from .handlers.main_handlers import help_handler, start_handler
+from .handlers.service_handlers import (
     answer_all_messages_handler,
     menu_handler,
 )
+from .persistence import RedisPersistence
+
+logger = logging.getLogger("bot")
 
 
-def main():
+class Bot:
+    """Interface for Telegram bot library. Implements Singleton pattern."""
+
+    _instance: Self | None = None
+
+    def __new__(cls):
+        """Singleton pattern implementation."""
+        if not cls._instance:
+            cls._instance = super(Bot, cls).__new__(cls)
+        return cls._instance
+
+    def __init__(self) -> None:
+        """Create the bot instance."""
+        self._app = build_app()
+        self._stop_event = asyncio.Event()
+
+    def start(self) -> None:
+        """Start the bot. It will check for updates until the stop() method is called."""
+        logger.info("Bot starting...")
+        self._stop_event.clear()
+        asyncio.ensure_future(self._run(), loop=asyncio.get_event_loop())
+
+    def stop(self) -> None:
+        """Set the stop event to stop the bot."""
+        logger.info("Bot stopping...")
+        self._stop_event.set()
+
+    async def _run(self) -> None:
+        async with self._app:
+            await self._app.start()
+            if not settings.WEBHOOK_ENABLED:
+                await self._app.bot.delete_webhook()
+                await self._app.updater.start_polling()
+                logger.info("Polling started")
+            else:
+                await self._app.bot.set_webhook(
+                    url=settings.WEBHOOK_URL,
+                    secret_token=settings.WEBHOOK_SECRET_KEY,
+                    allowed_updates=["message", "callback_query"],
+                )
+                logger.info(f"Webhook set up at {settings.WEBHOOK_URL}")
+
+            await self._stop_event.wait()
+
+            await self._app.updater.stop()
+            await self._app.stop()
+
+    async def process_update(self, data: dict) -> None:
+        """Process the update from Telegram. Manual call."""
+        await self._app.update_queue.put(Update.de_json(data, self._app.bot))
+
+    @classmethod
+    def get_instance(cls) -> Self:
+        """Get the bot instance or raise an exception if it is not initialized."""
+        if cls._instance is None:
+            raise RuntimeError("Bot is not initialized")
+        return cls._instance
+
+
+def build_app() -> Application:
     """Application launch point."""
-    logging.config.dictConfig(LOGGING_CONFIG)
-    logger = logging.getLogger("bot")
+    logger.info("Building the application...")
     filterwarnings(
         action="ignore",
         message=r".*CallbackQueryHandler",
         category=PTBUserWarning,
     )
-    logger.info("start")
     ask_question_handler = ConversationHandler(
         entry_points=[
             MessageHandler(filters.Regex(r"^[^\/].*$"), get_question),
@@ -158,10 +220,10 @@ def main():
     )
     logger.info("main_handler deploy")
 
-    if settings.redis:
+    if settings.USE_REDIS_PERSISTENCE:
         redis_instance = Redis(
-            host=settings.redis_host,
-            port=settings.redis_port,
+            host=settings.REDIS["host"],
+            port=settings.REDIS["port"],
             decode_responses=True,
         )
         persistence = RedisPersistence(redis_instance)
@@ -172,15 +234,11 @@ def main():
 
     app = (
         ApplicationBuilder()
-        .token(settings.telegram_token.get_secret_value())
+        .token(settings.TELEGRAM_TOKEN)
         .persistence(persistence)
         .build()
     )
     app.add_handlers(
         [main_handler, help_handler, menu_handler, answer_all_messages_handler]
     )
-    app.run_polling()
-
-
-if __name__ == "__main__":
-    main()
+    return app

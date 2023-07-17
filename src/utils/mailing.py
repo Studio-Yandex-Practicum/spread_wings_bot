@@ -2,9 +2,9 @@ import re
 import smtplib
 
 from pydantic import BaseModel, EmailStr
+from django.conf import settings
 
-from bot.core.config import settings
-from bot.core.exceptions import InvalidRecipientEmailAddress
+from bot.exceptions import InvalidRecipientEmailAddress
 
 
 class MailForm(BaseModel):
@@ -18,12 +18,12 @@ class MailForm(BaseModel):
 class BotMailer:
     """Класс для отправки сообщений на почту."""
 
-    SMTP_SERVER = settings.email_host
-    SERVER_PORT = settings.email_port
-    SENDER_ACCOUNT = settings.email_account
-    SENDER_PASSWORD = settings.email_password
+    SMTP_SERVER = settings.MAILING["host"]
+    SERVER_PORT = settings.MAILING["port"]
+    SENDER_ACCOUNT = settings.MAILING["account"]
+    SENDER_PASSWORD = settings.MAILING["password"]
     DEFAULT_SUBJECT = "Вопрос из телеграм бота"
-    DEFAULT_ADDRESS = settings.default_email_address
+    DEFAULT_ADDRESS = settings.MAILING["default_address"]
     EMAIL_TEMPLATE = "From: {}\nTo: {}\nSubject: {}\n\n{}"
     TEXT_TEMPLATE = "Пользователь {} ({}) задает вопрос: {}"
     REG = r"[^@]+@[^@]+\.[^@]+"
