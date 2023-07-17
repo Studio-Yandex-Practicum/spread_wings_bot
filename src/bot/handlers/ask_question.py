@@ -13,7 +13,7 @@ from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
 from bot.models.question import Contacts, Question
-from mailing import BotMailer
+from utils.mailing import BotMailer
 
 
 async def get_question(

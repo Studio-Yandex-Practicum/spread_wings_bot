@@ -11,7 +11,7 @@
 
    1.1 [Инструкции и ритуалы на проекте](docs/materials/instructions.md)
 
-   1.2 [ER - диаграмма сущностей](docs/er_diagramm/er_pdf.pdf)
+   1.2 [ER - диаграмма сущностей](docs/er_diagramm/er_draw.pdf)
 
 2. [Структура проекта](#structure)
 3. [Подготовка к запуску](#start)
@@ -221,6 +221,15 @@ poetry update
 
 
 Запуск бота в локальной среде рекомендуется выполнять с помощью команд:
+
+запуск django-приложения (Без БД) вместе с ботом для локальной разработки:
+```shell
+# Перейти в директорию c кодовой базой проекта src/, где лежит manage.py
+cd src/
+
+# Запустить веб-сервер командой
+poetry run uvicorn config.asgi:application --reload
+```
 
 запуск бота с контейнером MySQL:
 ```shell
