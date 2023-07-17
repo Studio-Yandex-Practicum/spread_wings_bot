@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
     ENTER_YOUR_CONTCACT,
+    NO_TELEGRAM_USERNAME,
     QUESTION_FAIL,
     THANKS_FOR_THE_QUESTION,
     WHAT_IS_YOUR_NAME_MESSAGE,
@@ -44,11 +45,18 @@ async def select_contact_type(
 ) -> AskQuestionStates:
     """Type of contact field handler."""
     query = update.callback_query
-    await query.answer()
     contact_type = query.data
     context.user_data["contact_type"] = contact_type
     if contact_type == "TELEGRAM":
+        if not query.message.chat.username:
+            await context.bot.answer_callback_query(
+                callback_query_id=update.callback_query.id,
+                text=NO_TELEGRAM_USERNAME,
+                show_alert=True,
+            )
+            return AskQuestionStates.CONTACT_TYPE
         context.user_data["contact"] = "@" + query.message.chat.username
+        await query.answer()
         await query.edit_message_text(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
