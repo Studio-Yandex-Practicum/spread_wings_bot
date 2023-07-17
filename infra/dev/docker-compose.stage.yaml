@@ -13,13 +13,28 @@ services:
       - ./redis.conf:/usr/local/etc/redis.conf
       - data_value:/data
 
+  db:
+    image: postgres:15.3-alpine
+    container_name: spread-wings-db
+    env_file:
+      - ../../.env
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+
   bot:
     image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
     depends_on:
       - redis
+      - db
     restart: always
     env_file:
       - ./.env
 
 volumes:
   data_value:
+  db_data:
