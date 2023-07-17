@@ -54,6 +54,8 @@ async def selected_type_assistance(
 ):
     """Обработчик для выбранного типа помощи."""
     query = update.callback_query
+    question_type = query.data
+    context.user_data["question_type"] = question_type
     await query.answer()
     await query.edit_message_text(
         text=SELECT_QUESTION,
