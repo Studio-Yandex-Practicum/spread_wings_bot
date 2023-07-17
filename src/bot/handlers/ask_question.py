@@ -12,7 +12,7 @@ from bot.constants.messages import (
 from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
-from bot.models.question import Contacts, Question
+from bot.models.users_questions import UserContacts, UserQuestion
 from utils.mailing import BotMailer
 
 
@@ -64,16 +64,16 @@ async def get_contact(
     raw_contact = update.message.text
     try:
         if context.user_data["contact_type"] == "EMAIL":
-            Contacts(email=raw_contact)
+            UserContacts(email=raw_contact)
         else:
-            Contacts(phone=raw_contact)
+            UserContacts(phone=raw_contact)
     except ValidationError:
         await update.message.reply_text(text="Неверный формат")
         return AskQuestionStates.ENTER_YOUR_CONTACT
 
     context.user_data["contact"] = raw_contact
     try:
-        question_form = Question(
+        question_form = UserQuestion(
             name=context.user_data["name"],
             contact=context.user_data["contact"],
             question=context.user_data["question"],

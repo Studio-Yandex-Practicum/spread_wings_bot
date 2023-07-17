@@ -4,7 +4,7 @@ import smtplib
 from django.conf import settings
 
 from bot.exceptions import InvalidRecipientEmailAddress
-from bot.models.question import Question
+from bot.models.users_questions import UserQuestion
 
 
 class BotMailer:
@@ -31,7 +31,7 @@ class BotMailer:
     @classmethod
     async def send_message(
         cls,
-        mail_form: Question,
+        mail_form: UserQuestion,
         address=DEFAULT_ADDRESS,
         subject=DEFAULT_SUBJECT,
     ):
