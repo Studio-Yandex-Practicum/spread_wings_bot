@@ -69,7 +69,6 @@ DATABASES = {
         "PORT": os.environ.get("POSTGRES_PORT", default="5432"),
     },
 }
-DB_URL = os.environ.get("DB_URL")  # legacy, probably
 
 REDIS = {
     "host": os.environ.get("REDIS_HOST"),
@@ -112,7 +111,7 @@ MAILING = {
 }
 
 # Telegram bot settings
-TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+TELEGRAM_TOKEN = os.environ.get("YOUR_TELEGRAM_BOT_TOKEN")
 USE_REDIS_PERSISTENCE = literal_eval(os.environ.get("REDIS", "False"))
 WEBHOOK_ENABLED = literal_eval(os.environ.get("WEBHOOK_ENABLED", "False"))
 WEBHOOK_URL = os.environ.get(
