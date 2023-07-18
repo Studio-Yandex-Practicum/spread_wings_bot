@@ -12,10 +12,9 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 DEBUG = literal_eval(os.environ.get("DEBUG", "True"))
 
-# TODO: hide to env and parse
+SERVER_ADDRESS = os.environ.get("SERVER_ADDRESS", "localhost")
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
+    SERVER_ADDRESS,
 ]
 
 INSTALLED_APPS = [

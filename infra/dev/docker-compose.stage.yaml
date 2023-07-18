@@ -8,7 +8,6 @@ services:
       - "6379:6379"
     restart: always
     command: bash -c " mkdir /data/log -p && mkdir /data/bases -p && touch /data/log/redis-server.log && redis-server /usr/local/etc/redis.conf "
-
     volumes:
       - ./redis.conf:/usr/local/etc/redis.conf
       - data_value:/data
@@ -17,7 +16,7 @@ services:
     image: postgres:15.3-alpine
     container_name: spread-wings-db
     env_file:
-      - ../../.env
+      - ./.env
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"
     ports:
