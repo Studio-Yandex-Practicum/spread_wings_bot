@@ -1,7 +1,7 @@
 from factory import Factory, Faker
 
-from .service import generate_dict_factory
-from .templates import (
+from utils.db_fixtures.factories.service import generate_dict_factory
+from utils.db_fixtures.factories.templates import (
     END_COMMON_TEMPLATE,
     MAIN_QUESTONS_TEMPLATE,
     START_COMMON_TEMPLATE,
