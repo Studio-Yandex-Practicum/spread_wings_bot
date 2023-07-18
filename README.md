@@ -231,28 +231,29 @@ cd src/
 poetry run uvicorn config.asgi:application --reload
 ```
 
-запуск бота с контейнером MySQL:
+запуск бота с контейнером PostgreSQL:
 ```shell
 make runbot-db
 ```
 
-запуск контейнера с MySQL:
+запуск контейнера с PostgreSQL:
 ```shell
 make rundb
 ```
 
-остановка контейнера с MySQL:
+остановка контейнера с PostgreSQL:
 ```shell
 make stopdb
 ```
 
-остановка контейнера с MySQL и удаление базы данных:
+остановка контейнера с PostgreSQL и удаление базы данных:
 ```shell
 make deletedb
 ```
 
-наполнение MySQL тестовыми данными:
+наполнение PostgreSQL тестовыми данными:
 ```shell
+# Not ready yet
 make filldb
 ```
 
