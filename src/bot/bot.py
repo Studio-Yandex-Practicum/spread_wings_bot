@@ -17,17 +17,17 @@ from telegram.ext import (
 )
 from telegram.warnings import PTBUserWarning
 
-from .constants.patterns import CONTACT_TYPE_PATTERN, HELP_TYPE_PATTERN
-from .constants.regions import Regions
-from .constants.states.ask_question_states import AskQuestionStates
-from .constants.states.main_states import PATTERN, States
-from .handlers.ask_question import (
+from bot.constants.patterns import CONTACT_TYPE_PATTERN, HELP_TYPE_PATTERN
+from bot.constants.regions import Regions
+from bot.constants.states.ask_question_states import AskQuestionStates
+from bot.constants.states.main_states import PATTERN, States
+from bot.handlers.ask_question import (
     get_contact,
     get_name,
     get_question,
     select_contact_type,
 )
-from .handlers.assistance import (
+from bot.handlers.assistance import (
     ask_question,
     contact_with_us,
     fund_programs,
@@ -36,13 +36,13 @@ from .handlers.assistance import (
     selected_type_assistance,
     show_contact,
 )
-from .handlers.back_handler import back_button
-from .handlers.main_handlers import help_handler, start_handler
-from .handlers.service_handlers import (
+from bot.handlers.back_handler import back_button
+from bot.handlers.main_handlers import help_handler, start_handler
+from bot.handlers.service_handlers import (
     answer_all_messages_handler,
     menu_handler,
 )
-from .persistence import RedisPersistence
+from bot.persistence import RedisPersistence
 
 logger = logging.getLogger("bot")
 
