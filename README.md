@@ -222,28 +222,38 @@ poetry update
 
 Запуск бота в локальной среде рекомендуется выполнять с помощью команд:
 
-запуск бота с контейнером MySQL:
+запуск django-приложения (Без БД) вместе с ботом для локальной разработки:
+```shell
+# Перейти в директорию c кодовой базой проекта src/, где лежит manage.py
+cd src/
+
+# Запустить веб-сервер командой
+poetry run uvicorn config.asgi:application --reload
+```
+
+запуск бота с контейнером PostgreSQL:
 ```shell
 make runbot-db
 ```
 
-запуск контейнера с MySQL:
+запуск контейнера с PostgreSQL:
 ```shell
 make rundb
 ```
 
-остановка контейнера с MySQL:
+остановка контейнера с PostgreSQL:
 ```shell
 make stopdb
 ```
 
-остановка контейнера с MySQL и удаление базы данных:
+остановка контейнера с PostgreSQL и удаление базы данных:
 ```shell
 make deletedb
 ```
 
-наполнение MySQL тестовыми данными:
+наполнение PostgreSQL тестовыми данными:
 ```shell
+# Not ready yet
 make filldb
 ```
 

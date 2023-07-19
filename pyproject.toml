@@ -10,29 +10,25 @@ readme = "README.md"
 python = "^3.11.1"
 python-telegram-bot = "^20.3"
 pydantic = {extras = ["email"], version = "^1.10.8"}
-sqlalchemy = "2.0.16"
-aiomysql = "^0.1.1"
 python-dotenv = "^1.0.0"
-beautifulsoup4 = "^4.12.2"
 requests-cache = "^1.0.1"
-lxml = "^4.9.2"
 attrs = "^23.1.0"
-pymysql = "^1.0.3"
 redis = "^4.5.5"
+django = "^4.2.3"
+uvicorn = "^0.23.0"
+django-asgi-lifespan = "^0.1.0"
+psycopg2-binary = "^2.9.6"
 
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.0.0"
 isort = "^5.12.0"
 pre-commit = "^3.3.1"
-python-dotenv = "^1.0.0"
 black = "^23.3.0"
 pytest = "^7.3.1"
 anyio = "^3.7.0"
 pytest-tornasync = "^0.6.0.post2"
 factory-boy = "^3.2.1"
-python-telegram-bot = "^20.3"
-mysql-connector-python = "^8.0.33"
 
 
 [tool.pytest.ini_options]

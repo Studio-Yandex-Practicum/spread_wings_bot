@@ -1,10 +1,11 @@
-from factories.service import generate_dict_factory
-from factories.templates import (
+from factory import Factory, Faker
+
+from utils.db_fixtures.factories.service import generate_dict_factory
+from utils.db_fixtures.factories.templates import (
     END_COMMON_TEMPLATE,
     MAIN_QUESTONS_TEMPLATE,
     START_COMMON_TEMPLATE,
 )
-from factory import Factory, Faker
 
 
 class Question:
