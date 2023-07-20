@@ -4,7 +4,7 @@ import smtplib
 from django.conf import settings
 
 from bot.exceptions import InvalidRecipientEmailAddress
-from bot.models.users_questions import UserQuestion
+from bot.other_models.users_questions import UserQuestion
 
 
 class BotMailer:
