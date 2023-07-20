@@ -35,13 +35,9 @@ jobs:
 
             echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
             echo DEBUG=False >> .env
-            echo SERVER_HOST=${{ secrets.SERVER_ADDRESS }} >> .env
+            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
 
-            echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-            echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-            echo DB_USER=${{ secrets.DB_USER }} >> .env
-            echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+            echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
 
             echo DEFAULT_EMAIL_ADDRESS=${{ secrets.DEFAULT_EMAIL_ADDRESS }} >> .env
             echo EMAIL_ACCOUNT=${{ secrets.EMAIL_ACCOUNT }} >> .env
