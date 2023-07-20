@@ -10,4 +10,6 @@ RUN pip install --upgrade pip
 
 RUN pip install -r ./requirements/develop.txt
 
-CMD [ "python", "./src/run_bot.py" ]
+WORKDIR ./src
+
+CMD [ "uvicorn", "config.asgi:application" ]
