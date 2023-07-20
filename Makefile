@@ -10,10 +10,10 @@ stopdb:
 deletedb:
 	docker compose -f infra/dev/docker-compose.local.yaml down --volumes
 
-# for start bot with mySQL container:
+# for start bot with Database container:
 runbot-db:
 	docker compose -f infra/dev/docker-compose.local.yaml up -d
-	cd src && python -m uvicorn config.asgi:application --reload && cd ..
+	cd src && poetry run uvicorn config.asgi:application --reload && cd ..
 
 filldb:
 	python src/utils/db_fixtures/filldb.py

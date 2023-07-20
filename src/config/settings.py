@@ -1,22 +1,18 @@
-import os
-from ast import literal_eval
 from pathlib import Path
 
-from dotenv import find_dotenv, load_dotenv
+import environ
+from dotenv import find_dotenv
 
-load_dotenv(find_dotenv(".env", raise_error_if_not_found=True))
+env = environ.Env()
+environ.Env.read_env(find_dotenv(".env", raise_error_if_not_found=True))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
-DEBUG = literal_eval(os.environ.get("DEBUG", "True"))
+DEBUG = env.bool("DEBUG")
 
-# TODO: hide to env and parse
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -60,19 +56,14 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB", default="postgres"),
-        "USER": os.environ.get("POSTGRES_USER", default="postgres"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", default="postgres"),
-        "HOST": os.environ.get("POSTGRES_HOST", default="localhost"),
-        "PORT": os.environ.get("POSTGRES_PORT", default="5432"),
-    },
+    "default": env.db_url(
+        "DATABASE_URL", engine="django.db.backends.postgresql"
+    ),
 }
 
 REDIS = {
-    "host": os.environ.get("REDIS_HOST"),
-    "port": os.environ.get("REDIS_PORT"),
+    "host": env.str("REDIS_HOST"),
+    "port": env.str("REDIS_PORT"),
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -103,21 +94,19 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MAILING = {
-    "host": os.environ.get("EMAIL_HOST"),
-    "port": os.environ.get("EMAIL_PORT"),
-    "account": os.environ.get("EMAIL_ACCOUNT"),
-    "password": os.environ.get("EMAIL_PASSWORD"),
-    "default_address": os.environ.get("DEFAULT_EMAIL_ADDRESS"),
+    "host": env.str("EMAIL_HOST"),
+    "port": env.str("EMAIL_PORT"),
+    "account": env.str("EMAIL_ACCOUNT"),
+    "password": env.str("EMAIL_PASSWORD"),
+    "default_address": env.str("DEFAULT_EMAIL_ADDRESS"),
 }
 
 # Telegram bot settings
-TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
-USE_REDIS_PERSISTENCE = literal_eval(os.environ.get("REDIS", "False"))
-WEBHOOK_ENABLED = literal_eval(os.environ.get("WEBHOOK_ENABLED", "False"))
-WEBHOOK_URL = os.environ.get(
-    "WEBHOOK_URL", "http://127.0.0.1:8000/bot/webhook/"
-)
-WEBHOOK_SECRET_KEY = os.environ.get("WEBHOOK_SECRET_KEY", "not-so-secret-key")
+TELEGRAM_TOKEN = env.str("TELEGRAM_TOKEN")
+USE_REDIS_PERSISTENCE = env.bool("REDIS", default=False)
+WEBHOOK_ENABLED = env.bool("WEBHOOK_ENABLED", default=False)
+WEBHOOK_URL = env.str("WEBHOOK_URL", default=None)
+WEBHOOK_SECRET_KEY = env.str("WEBHOOK_SECRET_KEY", default=None)
 
 LOGGING = {
     "version": 1,
