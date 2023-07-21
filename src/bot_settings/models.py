@@ -12,14 +12,14 @@ class BotSettings(models.Model):
         (TEXT, "TEXT"),
     )
     key = models.CharField(
-        max_length=31,
+        max_length=100,
         verbose_name="Ключ настройки",
         primary_key=True,
     )
     title = models.CharField(max_length=255, verbose_name="Название настройки")
     value = models.CharField(max_length=255, verbose_name="Значение настройки")
     type = models.CharField(
-        max_length=31,
+        max_length=100,
         verbose_name="Тип значения",
         choices=__VALUE_TYPES,
     )

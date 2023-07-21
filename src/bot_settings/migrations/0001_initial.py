@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 (
                     "key",
                     models.CharField(
-                        max_length=31,
+                        max_length=100,
                         primary_key=True,
                         serialize=False,
                         verbose_name="Ключ настройки",
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                     "type",
                     models.CharField(
                         choices=[("url", "URL"), ("text", "TEXT")],
-                        max_length=31,
+                        max_length=100,
                         verbose_name="Тип значения",
                     ),
                 ),
