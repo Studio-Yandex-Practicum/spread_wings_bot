@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "bot_settings.apps.BotSettingsConfig",
     "bot.apps.BotConfig",
     "users.apps.UsersConfig",
 ]
@@ -106,6 +107,11 @@ USE_REDIS_PERSISTENCE = env.bool("REDIS", default=False)
 WEBHOOK_ENABLED = env.bool("WEBHOOK_ENABLED", default=False)
 WEBHOOK_URL = env.str("WEBHOOK_URL", default=None)
 WEBHOOK_SECRET_KEY = env.str("WEBHOOK_SECRET_KEY", default=None)
+
+# Applications settings
+DONATION_URL = env.str(
+    "DONATION_URL", default="https://detskyfond.info/pomogi/"
+)
 
 LOGGING = {
     "version": 1,
