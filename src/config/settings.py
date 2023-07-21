@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "bot_settings.apps.BotSettingsConfig",
     "bot.apps.BotConfig",
     "users.apps.UsersConfig",
+    "core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [

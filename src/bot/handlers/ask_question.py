@@ -13,7 +13,7 @@ from bot.constants.messages import (
 from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import assistance_keyboard_markup
-from bot.models.users_questions import UserContacts, UserQuestion
+from bot.models_pydantic.users_questions import UserContacts, UserQuestion
 from utils.mailing import BotMailer
 
 
