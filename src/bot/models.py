@@ -25,8 +25,8 @@ class Coordinator(BaseModel):
 
 class Question(BaseModel):
 
-    question = models.CharField(max_length=4096)
-    answer = models.TextField()
+    question = models.CharField(max_length=200)
+    answer = models.CharField(max_length=3856)
     short_description = models.CharField(max_length=20)
     regions = models.ManyToManyField(Region,
                                      related_name='questions',

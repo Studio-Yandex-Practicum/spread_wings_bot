@@ -13,4 +13,4 @@ class BaseModel(models.Model):
 class Region(BaseModel):
 
     region_name = models.CharField(max_length=200, unique=True)
-    region_key = models.PositiveSmallIntegerField(unique=True)
+    region_key = models.CharField(max_length=200, unique=True)
