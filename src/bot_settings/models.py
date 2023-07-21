@@ -1,8 +1,10 @@
 from django.core.validators import URLValidator
 from django.db import models
 
+from core.models import BaseModel
 
-class BotSettings(models.Model):
+
+class BotSettings(BaseModel):
     """Model for bot settings."""
 
     URL = "url"
