@@ -1,52 +1,34 @@
 from django.db import models
-from django.core.validators import RegexValidator
 
-from .models.users_questions import PHONE
-
-TELEGRAM_USERNAME = r"^[\w\_]{5,32}$"
+from core.models import BaseModel, Region
+from bot.validators import phone_regex, telegram_regex
 
 
-class BaseModel(models.Model):
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-class FundRegion(BaseModel):
-
-    region_name = models.CharField(max_length=200, unique=True)
-
-
-class FundCoordinator(BaseModel):
+class Coordinator(BaseModel):
 
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    region = models.ForeignKey(FundRegion,
-                               on_delete=models.SET_NULL,
+    region = models.ForeignKey(Region,
+                               on_delete=models.PROTECT,
                                null=True,
                                related_name='coordinators')
     email_address = models.EmailField(unique=True)
-    phone_regex = RegexValidator(regex=PHONE)
     phone_number = models.CharField(max_length=12,
                                     unique=True,
                                     validators=[phone_regex],
                                     blank=True)
-    telegram_regex = RegexValidator(regex=TELEGRAM_USERNAME)
     telegram_account = models.CharField(max_length=32,
                                         unique=True,
                                         validators=[telegram_regex],
                                         blank=True)
 
 
-class FundQuestion(BaseModel):
+class Question(BaseModel):
 
-    question = models.TextField()
+    question = models.CharField(max_length=4096)
     answer = models.TextField()
-    short_description = models.CharField(max_length=200)
-    regions = models.ManyToManyField(FundRegion,
+    short_description = models.CharField(max_length=20)
+    regions = models.ManyToManyField(Region,
                                      related_name='questions',
                                      blank=True)
 
@@ -55,7 +37,7 @@ class FundProgram(BaseModel):
 
     title = models.CharField(max_length=200,
                              unique=True)
-    description = models.TextField()
-    regions = models.ManyToManyField(FundRegion,
+    description = models.CharField(max_length=500)
+    regions = models.ManyToManyField(Region,
                                      related_name='programs',
                                      blank=True)
