@@ -4,13 +4,12 @@ import environ
 from dotenv import find_dotenv
 
 env = environ.Env()
-environ.Env.read_env(find_dotenv(".env", raise_error_if_not_found=True))
+if DEBUG := env.bool("DEBUG", default=True):
+    environ.Env.read_env(find_dotenv(".env", raise_error_if_not_found=True))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
-
-DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
@@ -23,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "bot.apps.BotConfig",
     "users.apps.UsersConfig",
+    "core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
