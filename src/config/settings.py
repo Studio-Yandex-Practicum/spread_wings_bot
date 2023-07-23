@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "bot_settings.apps.BotSettingsConfig",
     "bot.apps.BotConfig",
     "users.apps.UsersConfig",
     "core.apps.CoreConfig",
