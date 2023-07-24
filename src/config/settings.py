@@ -58,7 +58,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql",
         "HOST": env.str("POSTGRES_HOST"),
         "PORT": env.str("POSTGRES_PORT"),
         "NAME": env.str("POSTGRES_DB"),
