@@ -39,12 +39,12 @@ class UserAdmin(BaseUserAdmin):
         "first_name",
         "last_name",
         "email",
-        # "region",
+        "region",
         "is_staff",
         "role",
     )
     search_fields = ("first_name", "last_name", "email")
-    ordering = ("email",)
+    ordering = ("region",)
 
 
 admin.site.register(User, UserAdmin)

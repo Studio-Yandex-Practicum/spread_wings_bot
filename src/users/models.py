@@ -2,6 +2,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from core.models import Region
+
+from .manager import UserManager
+
 
 class User(AbstractUser):
     """User's model."""
@@ -28,13 +32,14 @@ class User(AbstractUser):
         default=UserRole.REGION_ADMIN,
         verbose_name="Роль пользователя",
     )
-    # TODO: add Region model into django
-    # region = models.ForeignKey(
-    #     Region,
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     verbose_name="Регион пользователя"
-    # )
+    region = models.ForeignKey(
+        Region,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Регион пользователя",
+    )
+
+    objects = UserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
