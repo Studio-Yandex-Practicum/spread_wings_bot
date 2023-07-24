@@ -1,5 +1,4 @@
 import asyncio
-import logging
 
 from pydantic import ValidationError
 from telegram import Update
