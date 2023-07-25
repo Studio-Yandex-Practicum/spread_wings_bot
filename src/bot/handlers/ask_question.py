@@ -12,7 +12,7 @@ from bot.constants.messages import (
 )
 from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.keyboards.ask_question import ask_question_keyboard_markup
-from bot.keyboards.assistance import assistance_keyboard_markup
+from bot.keyboards.assistance import build_assistance_keyboard
 from bot.models_pydantic.users_questions import UserContacts, UserQuestion
 from utils.mailing import BotMailer
 
@@ -46,6 +46,8 @@ async def select_contact_type(
     """Type of contact field handler."""
     query = update.callback_query
     contact_type = query.data
+    assistance_keyboard_markup = await build_assistance_keyboard()
+
     context.user_data["contact_type"] = contact_type
     if contact_type == "TELEGRAM":
         if not query.message.chat.username:
@@ -70,6 +72,8 @@ async def get_contact(
 ) -> AskQuestionStates:
     """Contact field handler."""
     raw_contact = update.message.text
+    assistance_keyboard_markup = await build_assistance_keyboard()
+
     try:
         if context.user_data["contact_type"] == "EMAIL":
             UserContacts(email=raw_contact)
