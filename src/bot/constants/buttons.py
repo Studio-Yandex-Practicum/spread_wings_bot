@@ -1,6 +1,8 @@
 # Общие кнопки
 BACK_BUTTON = "Назад"
 CONTACT_US_BUTTON = "Связаться с нами"
+ASK_QUESTION = "Задать свой вопрос"
+HOME_BUTTON = "В начало"
 
 # Кнопки для блока "Помочь или получить помощь"
 ASSISTANCE_BUTTON = "Получить помощь"
@@ -11,8 +13,6 @@ LEGAL_HELP_BUTTON = "Юридическая помощь"
 SOCIAL_HELP_BUTTON = "Социальная помощь"
 PSYCHOLOGICAL_HELP_BUTTON = "Психологическая помощь"
 PROGRAMS_BUTTON = "Наши программы"
-ASK_QUESTION = "Задать свой вопрос"
-HOME_BUTTON = "В начало"
 
 # Способы связи
 EMAIL = "Эл. почта"
@@ -21,4 +21,3 @@ TELEGRAM = "Тelegram"
 
 # кнопки для блока "связаться с нами"
 CONTACTS = "Контакты"
-SEND_REQUEST = "Отправить запрос"

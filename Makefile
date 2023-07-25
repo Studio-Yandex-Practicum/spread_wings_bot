@@ -1,7 +1,19 @@
-# To generate factories with coordinators info use command:
-# 'make generate_contacts amount=5', where 'amount' is <int> value
-# of factories you want to generate, e.g. 5.
+# for start mySQL container:
+rundb:
+	docker compose -f infra/dev/docker-compose.local.yaml up -d
 
+# for stop mySQL container:
+stopdb:
+	docker compose -f infra/dev/docker-compose.local.yaml down
 
-generate_contacts:
-	python src/bot/factories/contact_factories.py ${amount}
+# for stop mySQL container and delete database:
+deletedb:
+	docker compose -f infra/dev/docker-compose.local.yaml down --volumes
+
+# for start bot with Database container:
+runbot-db:
+	docker compose -f infra/dev/docker-compose.local.yaml up -d
+	cd src && poetry run uvicorn config.asgi:application --reload && cd ..
+
+filldb:
+	python src/utils/db_fixtures/filldb.py

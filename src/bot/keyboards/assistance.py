@@ -1,3 +1,4 @@
+from async_lru import alru_cache
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.constants.buttons import (
@@ -6,23 +7,30 @@ from bot.constants.buttons import (
     BACK_BUTTON,
     CONTACTS,
     DONATION_BUTTON,
-    SEND_REQUEST,
 )
-from bot.constants.list_of_questions import LegalQuestions
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
-from bot.constants.urls import DONATION_URL
+from bot_settings.models import BotSettings
 
-assistance_keyboard = [
-    [
-        InlineKeyboardButton(
-            text=ASSISTANCE_BUTTON, callback_data=States.ASSISTANCE.value
-        )
-    ],
-    [
-        InlineKeyboardButton(text=DONATION_BUTTON, url=DONATION_URL),
-    ],
-]
+
+@alru_cache(ttl=600)
+async def build_assistance_keyboard() -> InlineKeyboardMarkup:
+    """Build telegram assistance keyboard async. After building cache it."""
+    setting = await BotSettings.objects.aget(key="donation_url")
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=ASSISTANCE_BUTTON,
+                    callback_data=States.ASSISTANCE.value,
+                )
+            ],
+            [
+                InlineKeyboardButton(text=DONATION_BUTTON, url=setting.value),
+            ],
+        ]
+    )
+
 
 region_keyboard = [
     [InlineKeyboardButton(region.value, callback_data=region.name)]
@@ -37,23 +45,17 @@ region_keyboard.append(
     ]
 )
 
-contact_keyboard = [
+region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
+
+contact_type_keyboard = [
     [
         InlineKeyboardButton(
-            CONTACTS, callback_data=States.SHOW_CONTACT.value
+            ASK_QUESTION, callback_data=States.ASK_QUESTION.value
         ),
     ],
     [
         InlineKeyboardButton(
-            BACK_BUTTON, callback_data=f"back_to_{States.ASSISTANCE.value}"
-        )
-    ],
-]
-
-contact_show_keyboard = [
-    [
-        InlineKeyboardButton(
-            SEND_REQUEST, callback_data=States.ASK_QUESTION.value
+            CONTACTS, callback_data=States.SHOW_CONTACT.value
         ),
     ],
     [
@@ -63,33 +65,16 @@ contact_show_keyboard = [
         )
     ],
 ]
-contact_questions_keyboard = [
-    [InlineKeyboardButton(question.value, callback_data=question.name)]
-    for question in LegalQuestions
-]
 
-contact_questions_keyboard.append(
-    [
-        InlineKeyboardButton(
-            text=ASK_QUESTION, callback_data=States.ASK_QUESTION.value
-        )
-    ]
-)
+contact_type_keyboard_markup = InlineKeyboardMarkup(contact_type_keyboard)
 
-contact_questions_keyboard.append(
+contact_show_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_BUTTON,
-            callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
+            callback_data=f"back_to_{States.CONTACT_US.value}",
         )
     ]
-)
+]
 
-
-assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
-region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
-contact_keyboard_markup = InlineKeyboardMarkup(contact_keyboard)
 contact_show_keyboard_markup = InlineKeyboardMarkup(contact_show_keyboard)
-assistance_questions_keyboard_contact = InlineKeyboardMarkup(
-    contact_questions_keyboard
-)

@@ -23,19 +23,27 @@ jobs:
             rm .env
             touch .env
 
+            echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
+
+            echo WEBHOOK_ENABLED=${{ secrets.WEBHOOK_ENABLED }} >> .env
+            echo WEBHOOK_URL=${{ secrets.WEBHOOK_URL }} >> .env
+            echo WEBHOOK_SECRET_KEY=${{ secrets.WEBHOOK_SECRET_KEY }} >> .env
+
             echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
             echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
             echo REDIS=${{ secrets.REDIS }} >> .env
 
-            echo DB_URL=${{ secrets.DB_URL }} >> .env
+            echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
+            echo DEBUG=False >> .env
+            echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+
+            echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
 
             echo DEFAULT_EMAIL_ADDRESS=${{ secrets.DEFAULT_EMAIL_ADDRESS }} >> .env
             echo EMAIL_ACCOUNT=${{ secrets.EMAIL_ACCOUNT }} >> .env
             echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
             echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
             echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
-
-            echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
 
             sudo docker-compose -f docker-compose.stage.yaml stop
             sudo docker-compose -f docker-compose.stage.yaml pull

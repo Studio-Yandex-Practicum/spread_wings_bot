@@ -5,15 +5,16 @@ from telegram.ext import ContextTypes
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
     ENTER_YOUR_CONTCACT,
+    NO_TELEGRAM_USERNAME,
     QUESTION_FAIL,
     THANKS_FOR_THE_QUESTION,
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
 from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.keyboards.ask_question import ask_question_keyboard_markup, back_to_keyboard_markup
-from bot.keyboards.assistance import assistance_keyboard_markup
-from bot.validators import Contacts
-from mailing import BotMailer, MailForm
+from bot.keyboards.assistance import build_assistance_keyboard
+from bot.models_pydantic.users_questions import UserContacts, UserQuestion
+from utils.mailing import BotMailer
 
 
 async def get_question(
@@ -52,11 +53,20 @@ async def select_contact_type(
     """Type of contact field handler."""
     print('entered select_contact_type function')
     query = update.callback_query
-    await query.answer()
     contact_type = query.data
+    assistance_keyboard_markup = await build_assistance_keyboard()
+
     context.user_data["contact_type"] = contact_type
     if contact_type == "TELEGRAM":
+        if not query.message.chat.username:
+            await context.bot.answer_callback_query(
+                callback_query_id=update.callback_query.id,
+                text=NO_TELEGRAM_USERNAME,
+                show_alert=True,
+            )
+            return AskQuestionStates.CONTACT_TYPE
         context.user_data["contact"] = "@" + query.message.chat.username
+        await query.answer()
         await query.edit_message_text(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
@@ -70,21 +80,24 @@ async def get_contact(
 ) -> AskQuestionStates:
     """Contact field handler."""
     raw_contact = update.message.text
+    assistance_keyboard_markup = await build_assistance_keyboard()
+
     try:
         if context.user_data["contact_type"] == "EMAIL":
-            Contacts(email=raw_contact)
+            UserContacts(email=raw_contact)
         else:
-            Contacts(phone=raw_contact)
+            UserContacts(phone=raw_contact)
     except ValidationError:
         await update.message.reply_text(text="Неверный формат")
         return AskQuestionStates.ENTER_YOUR_CONTACT
 
     context.user_data["contact"] = raw_contact
     try:
-        question_form = MailForm(
+        question_form = UserQuestion(
             name=context.user_data["name"],
             contact=context.user_data["contact"],
             question=context.user_data["question"],
+            question_type=context.user_data["question_type"],
         )
         await BotMailer.send_message(question_form)
         await update.message.reply_text(
