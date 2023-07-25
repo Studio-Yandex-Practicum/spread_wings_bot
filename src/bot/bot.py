@@ -64,7 +64,7 @@ class Bot:
         """Start the bot. It will check for updates until the stop() method is called."""
         logger.info("Bot starting...")
         self._stop_event.clear()
-        asyncio.ensure_future(self._run(), loop=asyncio.get_event_loop())
+        asyncio.ensure_future(self._run(), loop=asyncio.get_running_loop())
 
     def stop(self) -> None:
         """Set the stop event to stop the bot."""

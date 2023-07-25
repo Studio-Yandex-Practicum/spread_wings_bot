@@ -1,3 +1,4 @@
+from async_lru import alru_cache
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.constants.buttons import (
@@ -9,20 +10,27 @@ from bot.constants.buttons import (
 )
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
-from bot.constants.urls import DONATION_URL
+from bot_settings.models import BotSettings
 
-assistance_keyboard = [
-    [
-        InlineKeyboardButton(
-            text=ASSISTANCE_BUTTON, callback_data=States.ASSISTANCE.value
-        )
-    ],
-    [
-        InlineKeyboardButton(text=DONATION_BUTTON, url=DONATION_URL),
-    ],
-]
 
-assistance_keyboard_markup = InlineKeyboardMarkup(assistance_keyboard)
+@alru_cache(ttl=600)
+async def build_assistance_keyboard() -> InlineKeyboardMarkup:
+    """Build telegram assistance keyboard async. After building cache it."""
+    setting = await BotSettings.objects.aget(key="donation_url")
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=ASSISTANCE_BUTTON,
+                    callback_data=States.ASSISTANCE.value,
+                )
+            ],
+            [
+                InlineKeyboardButton(text=DONATION_BUTTON, url=setting.value),
+            ],
+        ]
+    )
+
 
 region_keyboard = [
     [InlineKeyboardButton(region.value, callback_data=region.name)]
