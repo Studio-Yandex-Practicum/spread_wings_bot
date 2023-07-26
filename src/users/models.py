@@ -29,7 +29,6 @@ class User(AbstractUser):
     role = models.CharField(
         max_length=12,
         choices=UserRole.choices,
-        default=UserRole.REGION_ADMIN,
         verbose_name="Роль пользователя",
     )
     region = models.ForeignKey(
@@ -45,4 +44,4 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}, {self.role}"
+        return f"{self.first_name} {self.last_name}"

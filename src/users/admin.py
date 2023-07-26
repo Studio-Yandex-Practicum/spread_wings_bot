@@ -43,6 +43,7 @@ class UserAdmin(BaseUserAdmin):
         "is_staff",
         "role",
     )
+    list_editable = ("role",)
     search_fields = ("first_name", "last_name", "email")
     ordering = ("region",)
 
