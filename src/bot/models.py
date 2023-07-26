@@ -13,7 +13,7 @@ class Coordinator(BaseModel):
                                null=True,
                                related_name='coordinators')
     email_address = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=12,
+    phone_number = models.CharField(max_length=20,
                                     unique=True,
                                     validators=[phone_regex],
                                     blank=True)
