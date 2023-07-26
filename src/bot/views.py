@@ -7,7 +7,7 @@ from django.conf import settings
 from django.http import HttpRequest, JsonResponse
 from django.views import View
 
-from bot import Bot
+from bot.bot import Bot
 
 logger = logging.getLogger(__name__)
 
