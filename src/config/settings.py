@@ -72,6 +72,8 @@ REDIS = {
     "port": env.str("REDIS_PORT"),
 }
 
+AUTH_USER_MODEL = "users.user"
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
