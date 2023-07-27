@@ -1,6 +1,7 @@
 # for start mySQL container:
 rundb:
 	docker compose -f infra/dev/docker-compose.local.yaml up -d
+	poetry run python src/manage.py migrate
 
 # for stop mySQL container:
 stopdb:
