@@ -100,11 +100,9 @@ STATIC_ROOT = str(BASE_DIR / "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Mailing module settings
-if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = env.str(
+    "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+)
 EMAIL_TEMPLATE_NAME = "email.html"
 EMAIL_HOST = env.str("EMAIL_HOST")
 EMAIL_PORT = env.int("EMAIL_PORT")
