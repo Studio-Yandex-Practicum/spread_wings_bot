@@ -1,3 +1,5 @@
+import asyncio
+
 from pydantic import ValidationError
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -14,7 +16,7 @@ from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import build_assistance_keyboard
 from bot.models_pydantic.users_questions import UserContacts, UserQuestion
-from utils.mailing import BotMailer
+from core.mailing import send_email
 
 
 async def get_question(
@@ -91,9 +93,17 @@ async def get_contact(
             question=context.user_data["question"],
             question_type=context.user_data["question_type"],
         )
-        await BotMailer.send_message(question_form)
-        await update.message.reply_text(
-            THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
+        await asyncio.gather(
+            *[
+                send_email(
+                    subject="Вопрос из телеграм бота",
+                    message=question_form.to_representation(),
+                ),
+                update.message.reply_text(
+                    THANKS_FOR_THE_QUESTION,
+                    reply_markup=assistance_keyboard_markup,
+                ),
+            ]
         )
     except Exception as error:
         await update.message.reply_text(

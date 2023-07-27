@@ -33,6 +33,13 @@ class UserQuestion(BaseModel):
     contact: str
     question_type: str
 
+    def to_representation(self):
+        return (
+            f"Пользователь {self.name} (контакт: {self.contact})\n"
+            f"Тема вопроса: {self.question_type}\n"
+            f"Вопрос: {self.question}"
+        )
+
     class Config:
         """Additional params."""
 

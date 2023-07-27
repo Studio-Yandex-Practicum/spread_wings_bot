@@ -41,8 +41,8 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": False,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -100,13 +100,17 @@ STATIC_ROOT = str(BASE_DIR / "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MAILING = {
-    "host": env.str("EMAIL_HOST"),
-    "port": env.str("EMAIL_PORT"),
-    "account": env.str("EMAIL_ACCOUNT"),
-    "password": env.str("EMAIL_PASSWORD"),
-    "default_address": env.str("DEFAULT_EMAIL_ADDRESS"),
-}
+EMAIL_BACKEND = env.str(
+    "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
+)
+EMAIL_TEMPLATE_NAME = "email.html"
+EMAIL_HOST = env.str("EMAIL_HOST")
+EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_HOST_USER = env.str("EMAIL_ACCOUNT")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_PASSWORD")
+EMAIL_TIMEOUT = 5  # seconds
+EMAIL_USE_SSL = True
+DEFAULT_RECEIVER = env.str("DEFAULT_EMAIL_ADDRESS")
 
 # Telegram bot settings
 TELEGRAM_TOKEN = env.str("TELEGRAM_TOKEN")
@@ -142,6 +146,11 @@ LOGGING = {
             "handlers": ["stream_handler", "file"],
             "level": "INFO",
             "propagate": True,
-        }
+        },
+        "core": {
+            "handlers": ["stream_handler", "file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
     },
 }
