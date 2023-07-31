@@ -38,7 +38,10 @@ from bot.handlers.assistance import (
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
-from bot.handlers.service_handlers import answer_all_messages_handler
+from bot.handlers.service_handlers import (
+    answer_all_messages_handler,
+    back_button_handler,
+)
 from bot.persistence import RedisPersistence
 
 logger = logging.getLogger("bot")
@@ -235,5 +238,12 @@ def build_app() -> Application:
         .persistence(persistence)
         .build()
     )
-    app.add_handlers([main_handler, help_handler, answer_all_messages_handler])
+    app.add_handlers(
+        [
+            main_handler,
+            help_handler,
+            answer_all_messages_handler,
+            back_button_handler,
+        ]
+    )
     return app
