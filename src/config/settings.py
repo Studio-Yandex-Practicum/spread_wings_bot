@@ -89,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru"
 
 TIME_ZONE = "UTC"
 
@@ -98,7 +98,13 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-STATIC_ROOT = str(BASE_DIR / "static")
+if DEBUG:
+    STATICFILES_DIRS = [BASE_DIR / "static"]
+    [dir_.mkdir(exist_ok=True) for dir_ in STATICFILES_DIRS]
+else:
+    STATIC_ROOT = BASE_DIR / "static"
+    STATIC_ROOT.mkdir(exist_ok=True)
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
