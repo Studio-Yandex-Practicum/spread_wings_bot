@@ -1,14 +1,13 @@
+import logging
+
 from telegram import Update
-from telegram.ext import (
-    CallbackQueryHandler,
-    ContextTypes,
-    MessageHandler,
-    filters,
-)
+from telegram.error import TelegramError
+from telegram.ext import ContextTypes, MessageHandler, filters
 
 from bot.constants.messages import ANSWER_TO_USER_MESSAGE
-from bot.handlers.back_handler import back_button
 from bot.keyboards.get_back import get_back_keyboard
+
+logger = logging.getLogger("bot")
 
 
 async def answer_all_messages(
@@ -22,35 +21,19 @@ async def answer_all_messages(
     user_message_id = update.message.message_id
     bot_last_message_id = user_message_id - 1
 
-    # Если последний ID доступен, пробуем изменить сообщение
-    if bot_last_message_id:
-        try:
-            await context.bot.edit_message_text(
-                ANSWER_TO_USER_MESSAGE,
-                chat_id=update.effective_chat.id,
-                message_id=bot_last_message_id,
-                reply_markup=get_back_keyboard(),
-            )
-        except Exception as e:
-            # Если изменение не получилось, выдаем ошибку
-            print(f"Failed to edit message: {e}")
-
-    # Если сообщение от бота не найдено или его нет, пишем новое сообщение с текстом и инлайном
-    if not bot_last_message_id:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+    try:
+        message = await context.bot.edit_message_text(
             text=ANSWER_TO_USER_MESSAGE,
+            chat_id=update.effective_chat.id,
+            message_id=bot_last_message_id,
             reply_markup=get_back_keyboard(),
         )
-
-    # Обновляем последнее сообщение с ID = сообщению бота
-    context.user_data["last_bot_message_id"] = bot_last_message_id
-
-    await back_button(update, context)
+    except TelegramError as error:
+        logger.error("Error while editing message: %s", error)
+    else:
+        # Обновляем последнее сообщение с ID = сообщению бота
+        context.user_data["last_bot_message_id"] = message.message_id
 
 
 # Определяем хендлер ответа на сообщения пользователя
 answer_all_messages_handler = MessageHandler(filters.ALL, answer_all_messages)
-
-# Определяем хендлер кнопки назад
-back_button_handler = CallbackQueryHandler(back_button, pattern=r"^back$")
