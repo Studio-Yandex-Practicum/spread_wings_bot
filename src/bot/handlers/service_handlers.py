@@ -16,9 +16,7 @@ async def answer_all_messages(
     await update.message.delete()
 
     user_message_id = update.message.message_id
-    print(user_message_id)
     bot_last_message_id = user_message_id - 1
-    print(bot_last_message_id)
 
     if bot_last_message_id:
         try:
