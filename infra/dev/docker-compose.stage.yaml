@@ -33,6 +33,13 @@ services:
     restart: always
     env_file:
       - ./.env
+    command: >
+      bash -c "
+        python3 manage.py collectstatic --noinput &&
+        python3 manage.py migrate &&
+        python3 manage.py createsuperuser --email example@yandex.ru --noinput &&
+        poetry run uvicorn config.asgi:application --reload
+      "
 
 volumes:
   data_value:
