@@ -35,9 +35,9 @@ services:
       - ./.env
     command: >
       bash -c "
-        python3 manage.py collectstatic --noinput &&
-        python3 manage.py migrate &&
-        python3 manage.py createsuperuser --email example@yandex.ru --noinput &&
+        python manage.py collectstatic --noinput &&
+        python manage.py migrate &&
+        python manage.py createsuperuser --email example@yandex.ru --noinput &&
         poetry run uvicorn config.asgi:application --reload
       "
 
