@@ -17,3 +17,8 @@ class Region(BaseModel):
 
     def __str__(self):
         return self.region_name
+
+    class Meta:
+        verbose_name = "Регион"
+        verbose_name_plural = "Регионы"
+        ordering = ("region_name",)
