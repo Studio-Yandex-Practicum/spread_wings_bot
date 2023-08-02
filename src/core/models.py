@@ -14,3 +14,11 @@ class Region(BaseModel):
 
     region_name = models.CharField(max_length=200, unique=True)
     region_key = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.region_name
+
+    class Meta:
+        verbose_name = "Регион"
+        verbose_name_plural = "Регионы"
+        ordering = ("region_name",)
