@@ -42,7 +42,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": False,
+        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -98,7 +98,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-if DEBUG:
+if not DEBUG:
     STATICFILES_DIRS = [BASE_DIR / "static"]
     [dir_.mkdir(exist_ok=True) for dir_ in STATICFILES_DIRS]
 else:
