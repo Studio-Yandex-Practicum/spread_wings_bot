@@ -17,3 +17,9 @@ runbot-db:
 
 filldb:
 	python src/utils/db_fixtures/filldb.py
+
+collectstatic:
+	python src/manage.py collectstatic
+
+migrate:
+	python src/manage.py migrate

@@ -34,6 +34,21 @@ services:
     env_file:
       - ./.env
 
+  django_commands:
+    image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
+    depends_on:
+      - redis
+      - db
+      - bot
+    env_file:
+      - ./.env
+    command: >
+      bash -c "
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        python manage.py createsuperuser --email example@yandex.ru --noinput
+      "
+
 volumes:
   data_value:
   db_data:
