@@ -39,6 +39,7 @@ services:
     depends_on:
       - redis
       - db
+      - bot
     env_file:
       - ./.env
     command: >
