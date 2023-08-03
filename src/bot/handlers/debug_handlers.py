@@ -3,7 +3,7 @@ import logging
 
 from typing import Callable
 
-from src.config.settings import DEBUG
+from django.conf import settings
 
 logger = logging.getLogger("core")
 
@@ -11,7 +11,7 @@ logger = logging.getLogger("core")
 def debug_logger(name: str) -> Callable:
     """Log function for handlers"""
     def log(func: Callable) -> Callable:
-        if not DEBUG:
+        if not settings.DEBUG:
             return func
 
         @functools.wraps(func)
