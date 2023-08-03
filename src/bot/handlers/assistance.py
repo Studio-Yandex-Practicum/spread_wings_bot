@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.constants.contacts import Contacts
+from bot.handlers.debug_handlers import debug_logger
 from bot.constants.messages import (
     ASK_YOUR_QUESTION,
     ASSISTANCE_MESSAGE,
@@ -22,6 +23,7 @@ from bot.keyboards.assistance_types import (
 )
 
 
+@debug_logger(name='receive_assistance')
 async def receive_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -34,6 +36,7 @@ async def receive_assistance(
     return States.REGION
 
 
+@debug_logger(name='select_type_of_help')
 async def select_type_of_help(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -49,6 +52,7 @@ async def select_type_of_help(
     return States.ASSISTANCE_TYPE
 
 
+@debug_logger(name='selected_type_assistance')
 async def selected_type_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ):
@@ -64,11 +68,13 @@ async def selected_type_assistance(
     return States.QUESTIONS_AND_CONTACTS
 
 
+@debug_logger(name='fund_programs')
 async def fund_programs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработчик для вывода информации о программах Фонда."""
     pass
 
 
+@debug_logger(name='ask_question')
 async def ask_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -79,6 +85,7 @@ async def ask_question(
     return States.ASK_QUESTION
 
 
+@debug_logger(name='contact_with_us')
 async def contact_with_us(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -92,6 +99,7 @@ async def contact_with_us(
     return States.CONTACT_US
 
 
+@debug_logger(name='show_contact')
 async def show_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:

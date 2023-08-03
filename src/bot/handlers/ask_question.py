@@ -4,6 +4,7 @@ from pydantic import ValidationError
 from telegram import Update
 from telegram.ext import ContextTypes
 
+from bot.handlers.debug_handlers import debug_logger
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
     ENTER_YOUR_CONTCACT,
@@ -19,6 +20,7 @@ from bot.models_pydantic.users_questions import UserContacts, UserQuestion
 from core.mailing import send_email
 
 
+@debug_logger(name='get_question')
 async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
@@ -29,6 +31,7 @@ async def get_question(
     return AskQuestionStates.QUESTION
 
 
+@debug_logger(name='get_name')
 async def get_name(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
@@ -42,6 +45,7 @@ async def get_name(
     return AskQuestionStates.CONTACT_TYPE
 
 
+@debug_logger(name='select_contact_type')
 async def select_contact_type(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
@@ -69,6 +73,7 @@ async def select_contact_type(
     return AskQuestionStates.ENTER_YOUR_CONTACT
 
 
+@debug_logger(name='get_contact')
 async def get_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:

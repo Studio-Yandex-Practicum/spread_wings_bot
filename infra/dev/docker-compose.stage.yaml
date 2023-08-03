@@ -26,7 +26,7 @@ services:
     restart: always
 
   bot:
-    image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
+    build: ../../  # "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
     depends_on:
       - redis
       - db
