@@ -28,12 +28,13 @@ class UserContacts(BaseModel):
 class UserQuestion(BaseModel):
     """Input data question model."""
 
-    question: str = Field(..., min_length=30)
+    question: str = Field(..., min_length=20)
     name: str = Field(..., min_length=1)
     contact: str
     question_type: str
 
     def to_representation(self):
+        """Representation data."""
         return (
             f"Пользователь {self.name} (контакт: {self.contact})\n"
             f"Тема вопроса: {self.question_type}\n"
