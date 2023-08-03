@@ -26,6 +26,8 @@ from bot.handlers.ask_question import (
     get_name,
     get_question,
     select_contact_type,
+    back,
+    ask_cancel
 )
 from bot.handlers.assistance import (
     ask_question,
@@ -36,7 +38,7 @@ from bot.handlers.assistance import (
     selected_type_assistance,
     show_contact,
 )
-from bot.handlers.back_handler import back_button
+from bot.handlers.back_handler import ask_back_button, back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 from bot.handlers.service_handlers import (
     answer_all_messages_handler,
@@ -146,11 +148,28 @@ def build_app() -> Application:
                     pattern=PATTERN.format(state=States.ASK_QUESTION.value),
                 )
             ],
+            AskQuestionStates.BACK: [
+                CallbackQueryHandler(back)
+            ],
+            States.ASSISTANCE_TYPE: [
+                CallbackQueryHandler(
+                    selected_type_assistance
+                )
+            ]
         },
-        fallbacks=[start_handler],
+        fallbacks=[
+            CallbackQueryHandler(
+                ask_back_button,
+                pattern=r"ask_back_",
+            ),
+            CallbackQueryHandler(
+                ask_cancel,
+                pattern=r"cancel",
+            ),
+            start_handler],
         map_to_parent={
-            AskQuestionStates.END: States.ASSISTANCE,
-            States.ASSISTANCE: States.ASSISTANCE,
+            AskQuestionStates.END: States.ASSISTANCE_TYPE,
+            States.ASSISTANCE_TYPE: States.ASSISTANCE_TYPE,
         },
     )
     logger.info("ask_question_handler deploy")

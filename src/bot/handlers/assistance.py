@@ -15,6 +15,7 @@ from bot.keyboards.assistance import (
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
     region_keyboard_markup,
+    question_form_keyboard_markup
 )
 from bot.keyboards.assistance_types import (
     assistance_questions_keyboard_markup,
@@ -54,6 +55,8 @@ async def selected_type_assistance(
 ):
     """Обработчик для выбранного типа помощи."""
     query = update.callback_query
+    if update.message is None:
+        context.user_data.clear()
     question_type = query.data
     context.user_data["question_type"] = question_type
     await query.answer()
@@ -75,7 +78,10 @@ async def ask_question(
     """Обработчик для задания вопроcа."""
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(text=ASK_YOUR_QUESTION)
+    await query.edit_message_text(
+        text=ASK_YOUR_QUESTION,
+        reply_markup=question_form_keyboard_markup,
+    )
     return States.ASK_QUESTION
 
 

@@ -8,4 +8,6 @@ class AskQuestionStates(str, enum.Enum):
     NAME = "name"
     CONTACT_TYPE = "contact_type"
     ENTER_YOUR_CONTACT = "enter_your_contact"
+    BACK = "back"
+    CANCEL = "ask_cancel"
     END = "end"

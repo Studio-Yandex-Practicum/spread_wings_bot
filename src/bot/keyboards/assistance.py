@@ -6,6 +6,7 @@ from bot.constants.buttons import (
     BACK_BUTTON,
     CONTACTS,
     DONATION_BUTTON,
+    BACK_START_BUTTON
 )
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
@@ -70,3 +71,18 @@ contact_show_keyboard = [
 ]
 
 contact_show_keyboard_markup = InlineKeyboardMarkup(contact_show_keyboard)
+
+question_form_keyboard = [
+    [
+        InlineKeyboardButton(
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.CONTACT_US.value}"
+        ),
+        InlineKeyboardButton(
+            text=BACK_START_BUTTON,
+            callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}"
+        )
+    ]
+]
+
+question_form_keyboard_markup = InlineKeyboardMarkup(question_form_keyboard)
