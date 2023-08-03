@@ -9,12 +9,11 @@ from bot.constants.messages import (
     CONTACT_SHOW_MESSAGE,
     SELECT_QUESTION,
 )
-from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
 from bot.keyboards.assistance import (
+    build_region_keyboard,
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
-    region_keyboard_markup,
 )
 from bot.keyboards.assistance_types import (
     assistance_questions_keyboard_markup,
@@ -26,10 +25,10 @@ async def receive_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Обработчик для выбора региона оказания помощи."""
-    query = update.callback_query
-    await query.answer()
-    await query.edit_message_text(
-        text=ASSISTANCE_MESSAGE, reply_markup=region_keyboard_markup
+    await update.callback_query.answer()
+    keyboard = await build_region_keyboard()
+    await update.callback_query.edit_message_text(
+        text=ASSISTANCE_MESSAGE, reply_markup=keyboard
     )
     return States.REGION
 
@@ -38,11 +37,9 @@ async def select_type_of_help(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Выбор типа необходимой для оказания помощи."""
-    query = update.callback_query
-    if query.data in [reg.name for reg in Regions]:
-        context.user_data[States.REGION] = query.data
-    await query.answer()
-    await query.edit_message_text(
+    context.user_data[States.REGION] = update.callback_query.data
+    await update.callback_query.answer()
+    await update.callback_query.edit_message_text(
         text=ASSISTANCE_TYPE_MESSAGE,
         reply_markup=assistance_types_keyboard_markup,
     )
@@ -51,7 +48,7 @@ async def select_type_of_help(
 
 async def selected_type_assistance(
     update: Update, context: ContextTypes.DEFAULT_TYPE
-):
+) -> States:
     """Обработчик для выбранного типа помощи."""
     query = update.callback_query
     question_type = query.data

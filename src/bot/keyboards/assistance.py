@@ -1,4 +1,5 @@
 from async_lru import alru_cache
+from django.conf import settings
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.constants.buttons import (
@@ -8,12 +9,12 @@ from bot.constants.buttons import (
     CONTACTS,
     DONATION_BUTTON,
 )
-from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
 from bot_settings.models import BotSettings
+from core.models import Region
 
 
-@alru_cache(ttl=600)
+@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     """Build telegram assistance keyboard async. After building cache it."""
     setting = await BotSettings.objects.aget(key="donation_url")
@@ -32,20 +33,28 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     )
 
 
-region_keyboard = [
-    [InlineKeyboardButton(region.value, callback_data=region.name)]
-    for region in Regions
-]
-
-region_keyboard.append(
-    [
-        InlineKeyboardButton(
-            BACK_BUTTON, callback_data=f"back_to_{States.ASSISTANCE.value}"
-        )
+@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
+async def build_region_keyboard() -> InlineKeyboardMarkup:
+    """Build telegram assistance type keyboard async. After building cache it."""
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                text=region.region_name,
+                callback_data=region.region_key,
+            )
+        ]
+        async for region in Region.objects.all()
     ]
-)
+    back_button = [
+        [
+            InlineKeyboardButton(
+                text=BACK_BUTTON,
+                callback_data=f"back_to_{States.ASSISTANCE.value}",
+            )
+        ]
+    ]
+    return InlineKeyboardMarkup(keyboard + back_button)
 
-region_keyboard_markup = InlineKeyboardMarkup(region_keyboard)
 
 contact_type_keyboard = [
     [
