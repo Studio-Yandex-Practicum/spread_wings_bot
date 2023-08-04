@@ -16,7 +16,7 @@ runbot-db:
 	cd src && poetry run uvicorn config.asgi:application --reload && cd ..
 
 filldb:
-	python src/utils/db_fixtures/filldb.py
+	python src/manage.py filldb
 
 collectstatic:
 	python src/manage.py collectstatic

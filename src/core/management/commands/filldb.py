@@ -1,4 +1,4 @@
-from random import choice
+from random import sample, choice, randint
 
 from django.core.management.base import BaseCommand
 
@@ -14,7 +14,9 @@ from bot.models import (Coordinator,
 REGION_COUNT = int(input("Необходимое количество регионов: "))
 COORDINATOR_COUNT = int(input("Необходимое количество координаторов: "))
 PROGRAM_COUNT = int(input("Необходимое количество программ: "))
-QUESTION_COUNT = int(input("Необходимое количество вопросов: "))
+QUESTION_TYPE_LAW_COUNT = int(input("Необходимое количество вопросов юридической помощи: "))
+QUESTION_TYPE_SOCIAL_COUNT = int(input("Необходимое количество вопросов социальной помощи: "))
+QUESTION_TYPE_MENTAL_COUNT = int(input("Необходимое количество вопросов психологической помощи: "))
 
 
 class Command(BaseCommand):
@@ -47,7 +49,29 @@ class Command(BaseCommand):
             fund_program = FundProgramFactory()
             fund_program.regions.add(region)
 
-        for _ in range(QUESTION_COUNT):
-            region = choice(regions)
+        for _ in range(QUESTION_TYPE_LAW_COUNT):
+            regions_count = randint(1, len(regions))
+            regions_for_question = sample(regions, k=regions_count)
             question = QuestionFactory()
-            question.regions.add(region)
+            for region in regions_for_question:
+                question.regions.add(region)
+
+        for _ in range(QUESTION_TYPE_SOCIAL_COUNT):
+            social_type = Question.HELP_TYPES[1][0]
+            regions_count = randint(1, len(regions))
+            regions_for_question = sample(regions, k=regions_count)
+            question = QuestionFactory()
+            for region in regions_for_question:
+                question.regions.add(region)
+            question.question_type = social_type
+            question.save()
+
+        for _ in range(QUESTION_TYPE_MENTAL_COUNT):
+            mental_type = Question.HELP_TYPES[2][0]
+            regions_count = randint(1, len(regions))
+            regions_for_question = sample(regions, k=regions_count)
+            question = QuestionFactory()
+            for region in regions_for_question:
+                question.regions.add(region)
+            question.question_type = mental_type
+            question.save()
