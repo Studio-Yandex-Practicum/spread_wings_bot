@@ -11,6 +11,7 @@ from bot.constants.messages import (
 )
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
+from bot.constants.types_of_assistance import AssistanceTypes
 from bot.keyboards.assistance import (
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
@@ -55,7 +56,7 @@ async def selected_type_assistance(
     """Обработчик для выбранного типа помощи."""
     query = update.callback_query
     question_type = query.data
-    context.user_data["question_type"] = question_type
+    context.user_data["question_type"] = AssistanceTypes[question_type].value
     await query.answer()
     await query.edit_message_text(
         text=SELECT_QUESTION,
@@ -84,6 +85,7 @@ async def contact_with_us(
 ) -> States:
     """Ask question and Show contacts."""
     query = update.callback_query
+    context.user_data["question_type"] = AssistanceTypes.COMMON_QUESTION.value
     await query.answer()
     await query.edit_message_text(
         text=CONTACT_SHOW_MESSAGE,
