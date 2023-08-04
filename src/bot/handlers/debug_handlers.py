@@ -29,6 +29,7 @@ def debug_logger(name: str) -> Callable:
             query_data = 'None'
             if update.callback_query is not None:
                 query_data = update.callback_query.data
+                user_id = update.callback_query.from_user.id
 
             try:
                 logger.debug(
