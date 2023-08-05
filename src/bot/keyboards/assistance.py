@@ -14,7 +14,8 @@ from bot_settings.models import BotSettings
 from core.models import Region
 
 
-@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
+# uncomment the line if we actually need to cache this keyboard
+# @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     """Build telegram assistance keyboard async. After building cache it."""
     setting = await BotSettings.objects.aget(key="donation_url")
