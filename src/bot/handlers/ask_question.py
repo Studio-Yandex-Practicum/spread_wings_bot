@@ -13,19 +13,27 @@ from bot.constants.messages import (
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
 from bot.constants.states.ask_question_states import AskQuestionStates
-from bot.keyboards.ask_question import ask_question_keyboard_markup
+from bot.keyboards.ask_question import (
+    contact_type_question_keyboard_markup,
+    name_question_keyboard_markup,
+)
 from bot.keyboards.assistance import build_assistance_keyboard
 from bot.models_pydantic.users_questions import UserContacts, UserQuestion
 from core.mailing import send_email
+
+from .to_start import check_for_cancel
 
 
 async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
     """Question field handler."""
+    check_for_cancel(update, context)
     question = update.message.text
     context.user_data["question"] = question
-    await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE)
+    await update.message.reply_text(
+        WHAT_IS_YOUR_NAME_MESSAGE, reply_markup=name_question_keyboard_markup
+    )
     return AskQuestionStates.QUESTION
 
 
@@ -33,11 +41,14 @@ async def get_name(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
     """Name field handler."""
+    if update.callback_query is not None:
+        if update.callback_query.data == "cancel":
+            return AskQuestionStates.END
     name = update.message.text
     context.user_data["name"] = name
     await update.message.reply_text(
         CONTACT_TYPE_MESSAGE.format(name=name.capitalize()),
-        reply_markup=ask_question_keyboard_markup,
+        reply_markup=contact_type_question_keyboard_markup,
     )
     return AskQuestionStates.CONTACT_TYPE
 
@@ -48,6 +59,8 @@ async def select_contact_type(
     """Type of contact field handler."""
     query = update.callback_query
     contact_type = query.data
+    if contact_type == "to_start":
+        return AskQuestionStates.END
     assistance_keyboard_markup = await build_assistance_keyboard()
 
     context.user_data["contact_type"] = contact_type

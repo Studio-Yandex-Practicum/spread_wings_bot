@@ -37,6 +37,7 @@ from bot.handlers.assistance import (
     show_contact,
 )
 from bot.handlers.back_handler import back_button
+from bot.handlers.back_question_handler import ask_back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 from bot.handlers.service_handlers import answer_all_messages_handler
 from bot.persistence import RedisPersistence
@@ -144,10 +145,20 @@ def build_app() -> Application:
                 )
             ],
         },
-        fallbacks=[start_handler],
+        fallbacks=[
+            CallbackQueryHandler(
+                ask_back_button,
+                pattern=r"ask_back_",
+            ),
+            CallbackQueryHandler(
+                back_button,
+                pattern=r"back_to_",
+            ),
+            start_handler,
+        ],
         map_to_parent={
-            AskQuestionStates.END: States.ASSISTANCE,
-            States.ASSISTANCE: States.ASSISTANCE,
+            AskQuestionStates.END: States.ASSISTANCE_TYPE,
+            States.ASSISTANCE_TYPE: States.ASSISTANCE_TYPE,
         },
     )
     logger.info("ask_question_handler deploy")

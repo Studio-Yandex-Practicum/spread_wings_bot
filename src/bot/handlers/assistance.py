@@ -11,6 +11,7 @@ from bot.constants.messages import (
 )
 from bot.constants.regions import Regions
 from bot.constants.states.main_states import States
+from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import (
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
@@ -75,7 +76,9 @@ async def ask_question(
     """Обработчик для задания вопроcа."""
     query = update.callback_query
     await query.answer()
-    await query.edit_message_text(text=ASK_YOUR_QUESTION)
+    await query.edit_message_text(
+        text=ASK_YOUR_QUESTION, reply_markup=ask_question_keyboard_markup
+    )
     return States.ASK_QUESTION
 
 
