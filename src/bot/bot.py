@@ -18,7 +18,6 @@ from telegram.ext import (
 from telegram.warnings import PTBUserWarning
 
 from bot.constants.patterns import CONTACT_TYPE_PATTERN, HELP_TYPE_PATTERN
-from bot.constants.regions import Regions
 from bot.constants.states.ask_question_states import AskQuestionStates
 from bot.constants.states.main_states import PATTERN, States
 from bot.handlers.ask_question import (
@@ -40,6 +39,7 @@ from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 from bot.handlers.service_handlers import answer_all_messages_handler
 from bot.persistence import RedisPersistence
+from core.models import Region
 
 logger = logging.getLogger("bot")
 
@@ -57,7 +57,7 @@ class Bot:
 
     def __init__(self) -> None:
         """Create the bot instance."""
-        self._app = build_app()
+        self._app: Application | None = None
         self._stop_event = asyncio.Event()
 
     def start(self) -> None:
@@ -72,6 +72,8 @@ class Bot:
         self._stop_event.set()
 
     async def _run(self) -> None:
+        self._app = await build_app()
+
         async with self._app:
             await self._app.start()
             if not settings.WEBHOOK_ENABLED:
@@ -103,14 +105,19 @@ class Bot:
         return cls._instance
 
 
-def build_app() -> Application:
+async def build_app() -> Application:
     """Application launch point."""
     logger.info("Building the application...")
+    region_keys = [
+        key
+        async for key in Region.objects.values_list("region_key", flat=True)
+    ]
     filterwarnings(
         action="ignore",
         message=r".*CallbackQueryHandler",
         category=PTBUserWarning,
     )
+
     ask_question_handler = ConversationHandler(
         entry_points=[
             MessageHandler(filters.Regex(r"^[^\/].*$"), get_question),
@@ -165,9 +172,9 @@ def build_app() -> Application:
             States.REGION: [
                 CallbackQueryHandler(
                     select_type_of_help,
-                    pattern=PATTERN.format(state=region.name),
+                    pattern=PATTERN.format(state=key),
                 )
-                for region in Regions
+                for key in region_keys
             ],
             States.ASSISTANCE_TYPE: [
                 CallbackQueryHandler(

@@ -123,6 +123,7 @@ DEFAULT_RECEIVER = env.str("DEFAULT_EMAIL_ADDRESS")
 # Telegram bot settings
 TELEGRAM_TOKEN = env.str("TELEGRAM_TOKEN")
 USE_REDIS_PERSISTENCE = env.bool("REDIS", default=False)
+KEYBOARDS_CACHE_TTL = env.float("KEYBOARDS_CACHE_TTL", default=600)
 WEBHOOK_ENABLED = env.bool("WEBHOOK_ENABLED", default=False)
 WEBHOOK_URL = env.str("WEBHOOK_URL", default=None)
 WEBHOOK_SECRET_KEY = env.str("WEBHOOK_SECRET_KEY", default=None)
