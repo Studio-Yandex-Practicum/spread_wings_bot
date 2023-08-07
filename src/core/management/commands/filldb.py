@@ -12,7 +12,6 @@ from bot.models import (Coordinator,
                         Question)
 
 REGION_COUNT = int(input("Необходимое количество регионов: "))
-COORDINATOR_COUNT = int(input("Необходимое количество координаторов: "))
 PROGRAM_COUNT = int(input("Необходимое количество программ: "))
 QUESTION_TYPE_LAW_COUNT = int(input("Необходимое количество вопросов юридической помощи: "))
 QUESTION_TYPE_SOCIAL_COUNT = int(input("Необходимое количество вопросов социальной помощи: "))
@@ -29,20 +28,15 @@ class Command(BaseCommand):
         Coordinator.objects.all().delete()
         Region.objects.all().delete()
         self.stdout.write("Creating new data...")
-        regions = []
-        for _ in range(REGION_COUNT):
-            while True:
-                try:
-                    region = RegionFactory()
-                except Exception:
-                    continue
-                else:
-                    regions.append(region)
-                    break
 
-        for _ in range(COORDINATOR_COUNT):
-            region = choice(regions)
-            CoordinatorFactory(region=region)
+        for _ in range(REGION_COUNT):
+            while len(Region.objects.all()) < REGION_COUNT:
+                region = RegionFactory()
+
+        regions = list(Region.objects.all())
+
+        for _ in range(REGION_COUNT):
+            CoordinatorFactory()
 
         for _ in range(PROGRAM_COUNT):
             region = choice(regions)
