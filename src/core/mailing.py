@@ -8,7 +8,6 @@ from django.template.loader import get_template
 
 from core.validators import MailValidator
 
-
 logger = logging.getLogger("core")
 
 

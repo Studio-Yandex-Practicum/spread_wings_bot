@@ -1,7 +1,7 @@
-from factory import Faker, SubFactory, LazyAttribute
+from factory import Faker, LazyAttribute, SubFactory
 from factory.django import DjangoModelFactory
 
-from bot.models import Coordinator, Question, FundProgram
+from bot.models import Coordinator, FundProgram, Question
 from core.factories import RegionFactory
 
 
@@ -14,7 +14,9 @@ class CoordinatorFactory(DjangoModelFactory):
     region = SubFactory(RegionFactory)
     email_address = Faker("email", locale="ru_RU")
     phone_number = Faker("phone_number", locale="ru_RU")
-    telegram_account = LazyAttribute(lambda obj: f'@{obj.email_address.split("@")[0]}')
+    telegram_account = LazyAttribute(
+        lambda obj: f'@{obj.email_address.split("@")[0]}'
+    )
 
 
 class QuestionFactory(DjangoModelFactory):

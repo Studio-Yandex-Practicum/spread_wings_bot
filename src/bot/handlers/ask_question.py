@@ -13,6 +13,7 @@ from bot.constants.messages import (
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
 from bot.constants.states.ask_question_states import AskQuestionStates
+from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.ask_question import (
     contact_type_question_keyboard_markup,
     name_question_keyboard_markup,
@@ -24,6 +25,7 @@ from core.mailing import send_email
 from .to_start import check_for_cancel
 
 
+@debug_logger(name="get_question")
 async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
@@ -37,6 +39,7 @@ async def get_question(
     return AskQuestionStates.QUESTION
 
 
+@debug_logger(name="get_name")
 async def get_name(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
@@ -53,6 +56,7 @@ async def get_name(
     return AskQuestionStates.CONTACT_TYPE
 
 
+@debug_logger(name="select_contact_type")
 async def select_contact_type(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:
@@ -82,6 +86,7 @@ async def select_contact_type(
     return AskQuestionStates.ENTER_YOUR_CONTACT
 
 
+@debug_logger(name="get_contact")
 async def get_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> AskQuestionStates:

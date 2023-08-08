@@ -3,8 +3,10 @@ from telegram.ext import ContextTypes
 
 from bot.constants.back_functions import FUNCTIONS
 from bot.constants.states.main_states import States
+from bot.handlers.debug_handlers import debug_logger
 
 
+@debug_logger(name="back_button")
 async def back_button(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:

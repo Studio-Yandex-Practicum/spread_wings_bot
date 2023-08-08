@@ -6,9 +6,11 @@ from telegram.ext import CommandHandler, ContextTypes
 from bot.constants.commands import COMMANDS
 from bot.constants.messages import HELP_MESSAGE, START_MESSAGE
 from bot.constants.states.main_states import States
+from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import build_assistance_keyboard
 
 
+@debug_logger(name="start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
     """Точка старта бота. Приветствие. Две кнопки."""
     bot_commands, assistance_keyboard_markup = await asyncio.gather(
@@ -32,6 +34,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
     return States.ASSISTANCE
 
 
+@debug_logger(name="help_command")
 async def help_command(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
