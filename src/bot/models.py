@@ -8,11 +8,11 @@ class Coordinator(BaseModel):
 
     first_name = models.CharField(max_length=200, verbose_name='Имя')
     last_name = models.CharField(max_length=200, verbose_name='Фамилия')
-    region = models.ForeignKey(Region,
-                               on_delete=models.PROTECT,
-                               null=True,
-                               related_name='coordinators',
-                               verbose_name='Регион')
+    region = models.OneToOneField(Region,
+                                  on_delete=models.PROTECT,
+                                  primary_key=True,
+                                  related_name='coordinators',
+                                  verbose_name='Регион')
     email_address = models.EmailField(unique=True, verbose_name='Email')
     phone_number = models.CharField(max_length=20,
                                     unique=True,
