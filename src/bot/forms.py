@@ -1,9 +1,8 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
+from bot.models import Question
 from core.models import Region
-
-from .models import Question
 
 
 class QuestionAdminForm(forms.ModelForm):

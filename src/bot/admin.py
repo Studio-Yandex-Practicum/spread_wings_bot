@@ -1,8 +1,7 @@
 from django.contrib import admin
 
+from bot.forms import QuestionAdminForm
 from bot.models import Coordinator, FundProgram, Question
-
-from .forms import QuestionAdminForm
 
 
 class RegionForAdmin(admin.ModelAdmin):
