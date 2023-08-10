@@ -4,7 +4,6 @@ from pydantic import ValidationError
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.handlers.debug_handlers import debug_logger
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
     ENTER_YOUR_CONTCACT,
@@ -13,28 +12,29 @@ from bot.constants.messages import (
     THANKS_FOR_THE_QUESTION,
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
-from bot.constants.states.ask_question_states import AskQuestionStates
+from bot.constants.states.main_states import States
+from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import build_assistance_keyboard
 from bot.models_pydantic.users_questions import UserContacts, UserQuestion
 from core.mailing import send_email
 
 
-@debug_logger(name='get_question')
+@debug_logger(name="get_question")
 async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> AskQuestionStates:
+) -> States:
     """Question field handler."""
     question = update.message.text
     context.user_data["question"] = question
     await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE)
-    return AskQuestionStates.QUESTION
+    return States.QUESTION
 
 
-@debug_logger(name='get_name')
+@debug_logger(name="get_name")
 async def get_name(
     update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> AskQuestionStates:
+) -> States:
     """Name field handler."""
     name = update.message.text
     context.user_data["name"] = name
@@ -42,13 +42,13 @@ async def get_name(
         CONTACT_TYPE_MESSAGE.format(name=name.capitalize()),
         reply_markup=ask_question_keyboard_markup,
     )
-    return AskQuestionStates.CONTACT_TYPE
+    return States.CONTACT_TYPE
 
 
-@debug_logger(name='select_contact_type')
+@debug_logger(name="select_contact_type")
 async def select_contact_type(
     update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> AskQuestionStates:
+) -> States:
     """Type of contact field handler."""
     query = update.callback_query
     contact_type = query.data
@@ -62,21 +62,21 @@ async def select_contact_type(
                 text=NO_TELEGRAM_USERNAME,
                 show_alert=True,
             )
-            return AskQuestionStates.CONTACT_TYPE
+            return States.CONTACT_TYPE
         context.user_data["contact"] = "@" + query.message.chat.username
         await query.answer()
         await query.edit_message_text(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
-        return AskQuestionStates.END
+        return States.END
     await query.edit_message_text(text=ENTER_YOUR_CONTCACT[contact_type])
-    return AskQuestionStates.ENTER_YOUR_CONTACT
+    return States.ENTER_YOUR_CONTACT
 
 
-@debug_logger(name='get_contact')
+@debug_logger(name="get_contact")
 async def get_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> AskQuestionStates:
+) -> States:
     """Contact field handler."""
     raw_contact = update.message.text
     assistance_keyboard_markup = await build_assistance_keyboard()
@@ -88,7 +88,7 @@ async def get_contact(
             UserContacts(phone=raw_contact)
     except ValidationError:
         await update.message.reply_text(text="Неверный формат")
-        return AskQuestionStates.ENTER_YOUR_CONTACT
+        return States.ENTER_YOUR_CONTACT
 
     context.user_data["contact"] = raw_contact
     try:
@@ -115,4 +115,4 @@ async def get_contact(
             QUESTION_FAIL.format(error),
             reply_markup=assistance_keyboard_markup,
         )
-    return AskQuestionStates.END
+    return States.END

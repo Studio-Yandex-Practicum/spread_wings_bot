@@ -17,8 +17,18 @@ from telegram.ext import (
 )
 from telegram.warnings import PTBUserWarning
 
-from bot.constants.patterns import CONTACT_TYPE_PATTERN, HELP_TYPE_PATTERN
-from bot.constants.states.ask_question_states import AskQuestionStates
+from bot.constants.patterns import (
+    ASK_QUESTION,
+    ASSISTANCE,
+    BACK,
+    CONTACT,
+    CONTACT_TYPE,
+    CONTACT_US,
+    FUND_PROGRAMS,
+    HELP_TYPE,
+    MESSAGE_PATTERN,
+    SHOW_CONTACT,
+)
 from bot.constants.states.main_states import PATTERN, States
 from bot.handlers.ask_question import (
     get_contact,
@@ -31,8 +41,8 @@ from bot.handlers.assistance import (
     contact_with_us,
     fund_programs,
     receive_assistance,
+    select_assistance,
     select_type_of_help,
-    selected_type_assistance,
     show_contact,
 )
 from bot.handlers.back_handler import back_button
@@ -120,40 +130,30 @@ async def build_app() -> Application:
 
     ask_question_handler = ConversationHandler(
         entry_points=[
-            MessageHandler(filters.Regex(r"^[^\/].*$"), get_question),
+            MessageHandler(filters.Regex(MESSAGE_PATTERN), get_question),
         ],
         persistent=True,
         name="ask_question_handler",
         states={
-            AskQuestionStates.QUESTION: [
-                MessageHandler(filters.Regex(r"^[^\/].*$"), get_name),
+            States.QUESTION: [
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
             ],
-            AskQuestionStates.NAME: [
-                CallbackQueryHandler(
-                    get_name,
-                    pattern=PATTERN.format(
-                        state=AskQuestionStates.CONTACT_TYPE.value
-                    ),
-                ),
+            States.NAME: [
+                CallbackQueryHandler(get_name, pattern=CONTACT_TYPE),
             ],
-            AskQuestionStates.CONTACT_TYPE: [
-                CallbackQueryHandler(
-                    select_contact_type, pattern=CONTACT_TYPE_PATTERN
-                )
+            States.CONTACT_TYPE: [
+                CallbackQueryHandler(select_contact_type, pattern=CONTACT),
             ],
-            AskQuestionStates.ENTER_YOUR_CONTACT: [
-                MessageHandler(filters.Regex(r"^[^\/].*$"), get_contact)
+            States.ENTER_YOUR_CONTACT: [
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)
             ],
             States.ASK_QUESTION: [
-                CallbackQueryHandler(
-                    get_question,
-                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
-                )
+                CallbackQueryHandler(get_question, pattern=ASK_QUESTION)
             ],
         },
         fallbacks=[start_handler],
         map_to_parent={
-            AskQuestionStates.END: States.ASSISTANCE,
+            States.END: States.ASSISTANCE,
             States.ASSISTANCE: States.ASSISTANCE,
         },
     )
@@ -164,10 +164,7 @@ async def build_app() -> Application:
         name="main_handler",
         states={
             States.ASSISTANCE: [
-                CallbackQueryHandler(
-                    receive_assistance,
-                    pattern=PATTERN.format(state=States.ASSISTANCE.value),
-                ),
+                CallbackQueryHandler(receive_assistance, pattern=ASSISTANCE),
             ],
             States.REGION: [
                 CallbackQueryHandler(
@@ -177,48 +174,24 @@ async def build_app() -> Application:
                 for key in region_keys
             ],
             States.ASSISTANCE_TYPE: [
-                CallbackQueryHandler(
-                    selected_type_assistance,
-                    pattern=HELP_TYPE_PATTERN,
-                ),
-                CallbackQueryHandler(
-                    fund_programs,
-                    pattern=PATTERN.format(state=States.FUND_PROGRAMS.value),
-                ),
-                CallbackQueryHandler(
-                    contact_with_us,
-                    pattern=PATTERN.format(state=States.CONTACT_US.value),
-                ),
+                CallbackQueryHandler(select_assistance, pattern=HELP_TYPE),
+                CallbackQueryHandler(fund_programs, pattern=FUND_PROGRAMS),
+                CallbackQueryHandler(contact_with_us, pattern=CONTACT_US),
             ],
             States.QUESTIONS_AND_CONTACTS: [
-                CallbackQueryHandler(
-                    ask_question,
-                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
-                ),
+                CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
             ],
             States.CONTACT_US: [
-                CallbackQueryHandler(
-                    show_contact,
-                    pattern=PATTERN.format(state=States.SHOW_CONTACT.value),
-                ),
-                CallbackQueryHandler(
-                    ask_question,
-                    pattern=PATTERN.format(state=States.ASK_QUESTION.value),
-                ),
+                CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
+                CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
             ],
             States.SHOW_CONTACT: [
-                CallbackQueryHandler(
-                    show_contact,
-                    pattern=PATTERN.format(state=States.SHOW_CONTACT.value),
-                )
+                CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
             ],
             States.ASK_QUESTION: [ask_question_handler],
         },
         fallbacks=[
-            CallbackQueryHandler(
-                back_button,
-                pattern=r"back_to_",
-            ),
+            CallbackQueryHandler(back_button, pattern=BACK),
             start_handler,
         ],
     )
