@@ -1,3 +1,5 @@
+import enum
+
 # Общие кнопки
 BACK_BUTTON = "Назад"
 CONTACT_US_BUTTON = "Связаться с нами"
@@ -20,3 +22,12 @@ TELEGRAM = "Тelegram"
 
 # кнопки для блока "связаться с нами"
 CONTACTS = "Контакты"
+
+
+# TODO вопросы будут подхватываться из БД, тут удалить
+class QuestionList(str, enum.Enum):
+    """Question list."""
+
+    FIRST_QUESTION = "[Заглушка]Первый вопрос"
+    SECOND_QUESTION = "[Заглушка]Второй вопрос"
+    THIRD_QUESTION = "[Заглушка]Третий вопрос"

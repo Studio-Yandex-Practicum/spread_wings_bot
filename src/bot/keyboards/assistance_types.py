@@ -8,10 +8,10 @@ from bot.constants.buttons import (
     PROGRAMS_BUTTON,
     PSYCHOLOGICAL_HELP_BUTTON,
     SOCIAL_HELP_BUTTON,
+    QuestionList,
 )
-from bot.constants.list_of_questions import LegalQuestions
-from bot.constants.states.main_states import States
-from bot.constants.types_of_assistance import AssistanceTypes
+from bot.constants.service_const import AssistanceTypes
+from bot.constants.states import States
 
 assistance_types_keyboard = [
     [
@@ -55,7 +55,7 @@ assistance_types_keyboard_markup = InlineKeyboardMarkup(
 
 assistance_questions_keyboard = [
     [InlineKeyboardButton(question.value, callback_data=question.name)]
-    for question in LegalQuestions
+    for question in QuestionList
 ]
 
 assistance_questions_keyboard.append(

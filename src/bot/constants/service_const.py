@@ -1,5 +1,10 @@
 import enum
 
+COMMANDS = [
+    ("/start", "Запустить/перезапустить бота"),
+    ("/help", "Показать, что умеет бот"),
+]
+
 
 class AssistanceTypes(str, enum.Enum):
     """Question types."""

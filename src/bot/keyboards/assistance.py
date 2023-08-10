@@ -9,7 +9,7 @@ from bot.constants.buttons import (
     CONTACTS,
     DONATION_BUTTON,
 )
-from bot.constants.states.main_states import States
+from bot.constants.states import States
 from bot_settings.models import BotSettings
 from core.models import Region
 
