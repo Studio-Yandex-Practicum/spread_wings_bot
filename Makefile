@@ -15,6 +15,7 @@ rundb:
 	  echo -e "$(COLOR_YELLOW)Waiting database to be started...$(COLOR_RESET)"; \
 	  sleep 5 ;\
 	done
+	@sleep 3 ;
 	@echo -e "$(COLOR_GREEN)Database started$(COLOR_RESET)"
 
 # for stop mySQL container:
@@ -30,6 +31,7 @@ deletedb:
 	  echo -e "$(COLOR_YELLOW)Waiting database to be deleted...$(COLOR_RESET)"; \
 	  sleep 5 ;\
 	done
+	@sleep 3 ;
 	@echo -e "$(COLOR_GREEN)Database deleted$(COLOR_RESET)"
 
 # for start bot with Database container:
@@ -45,6 +47,7 @@ filldb:
 	  echo -e "$(COLOR_YELLOW)Waiting database to be filled...$(COLOR_RESET)"; \
 	  sleep 5 ;\
 	done
+	@sleep 3 ;
 	@echo -e "$(COLOR_GREEN)Database filled$(COLOR_RESET)"
 
 
@@ -54,6 +57,7 @@ collectstatic:
 	  echo -e "$(COLOR_YELLOW)Waiting static to be collected...$(COLOR_RESET)"; \
 	  sleep 5 ;\
 	done
+	@sleep 3;
 	@echo -e "$(COLOR_GREEN)Static collected$(COLOR_RESET)"
 
 
@@ -63,4 +67,5 @@ migrate:
 	  echo "Waiting for migrations..."; \
 	  sleep 5; \
 	done
+	@sleep 3;
 	@echo -e "$(COLOR_GREEN)Migrated$(COLOR_RESET)"
