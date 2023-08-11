@@ -11,7 +11,10 @@ runbot-init: deletedb rundb migrate filldb runbot-db
 
 rundb:
 	@echo -e "$(COLOR_YELLOW)Starting database...$(COLOR_RESET)"
-	@docker compose -f $(LOCAL_COMPOSE_FILE) up -d
+	@until docker compose -f $(LOCAL_COMPOSE_FILE) up -d; do \
+	  echo -e "$(COLOR_YELLOW)Waiting database to be started...$(COLOR_RESET)"; \
+	  sleep 5 ;\
+	done
 	@echo -e "$(COLOR_GREEN)Database started$(COLOR_RESET)"
 
 # for stop mySQL container:
@@ -23,7 +26,10 @@ stopdb:
 # for stop mySQL container and delete database:
 deletedb:
 	@echo -e "$(COLOR_YELLOW)Deleting database...$(COLOR_RESET)"
-	@docker compose -f $(LOCAL_COMPOSE_FILE) down --volumes
+	@until docker compose -f $(LOCAL_COMPOSE_FILE) down --volumes; do \
+	  echo -e "$(COLOR_YELLOW)Waiting database to be deleted...$(COLOR_RESET)"; \
+	  sleep 5 ;\
+	done
 	@echo -e "$(COLOR_GREEN)Database deleted$(COLOR_RESET)"
 
 # for start bot with Database container:
