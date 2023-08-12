@@ -7,6 +7,7 @@ class BotConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "bot"
+    verbose_name = "Контент бота"
 
     def on_shutdown(self, **kwargs):
         """Call when the app is shutting down."""
