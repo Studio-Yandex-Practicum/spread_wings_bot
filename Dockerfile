@@ -12,4 +12,4 @@ RUN pip install -r ./requirements/develop.txt
 
 WORKDIR ./src
 
-CMD [ "uvicorn", "config.asgi:application" ]
+CMD [ "uvicorn", "config.asgi:application", "--host", "0.0.0.0", "--port", "8000" ]
