@@ -14,7 +14,7 @@ class CoordinatorFactory(DjangoModelFactory):
     region = Iterator(Region.objects.all())
     email_address = Faker("email", locale="ru_RU")
     phone_number = Faker("phone_number", locale="ru_RU")
-    telegram_account = LazyAttribute(lambda obj: f'@{obj.email_address.split("@")[0]}')
+    telegram_account = LazyAttribute(lambda obj: obj.email_address.split("@")[0])
 
 
 class QuestionFactory(DjangoModelFactory):

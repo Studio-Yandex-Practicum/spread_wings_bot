@@ -1,7 +1,10 @@
 from django.db import models
 
 from core.models import BaseModel, Region
-from bot.validators import phone_regex, telegram_regex
+from bot.validators import (phone_regex,
+                            telegram_regex,
+                            format_phone_number,
+                            format_telegram_link)
 
 
 class Coordinator(BaseModel):
@@ -24,6 +27,11 @@ class Coordinator(BaseModel):
                                         validators=[telegram_regex],
                                         blank=True,
                                         verbose_name='Telegram')
+
+    def save(self, *args, **kwargs):
+        self.telegram_account = format_telegram_link(self.telegram_account)
+        self.phone_number = format_phone_number(self.phone_number)
+        return super(Coordinator, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Координатор"
