@@ -5,12 +5,14 @@ LOCAL_COMPOSE_FILE := infra/dev/docker-compose.local.yaml
 COLOR_RESET = \033[0m
 COLOR_GREEN = \033[32m
 COLOR_YELLOW = \033[33m
+COLOR_WHITE = \033[00m
 
 .DEFAULT_GOAL := help
 .PHONY: help
 
 help:  # Show help
-	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
+	@echo -e "$(COLOR_GREEN)Makefile help:"
+	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "$(COLOR_GREEN)-$$(echo $$l | cut -f 1 -d':'):$(COLOR_WHITE)$$(echo $$l | cut -f 2- -d'#')\n"; done
 
 .PHONY: runbot-init
 runbot-init: deletedb rundb migrate filldb runbot-db
@@ -35,7 +37,7 @@ stopdb: # Stop mySQL Database Docker-image
 
 
 .PHONY: deletedb
-deletedb: ## Stop and delete mySQL database Docker-image and volumes
+deletedb: # Stop and delete mySQL database Docker-image and volumes
 	@echo -e "$(COLOR_YELLOW)Deleting database...$(COLOR_RESET)"
 	@until docker compose -f $(LOCAL_COMPOSE_FILE) down --volumes; do \
 	  echo -e "$(COLOR_YELLOW)Waiting database to be deleted...$(COLOR_RESET)"; \
