@@ -9,6 +9,6 @@ urlpatterns = [
     path("bot/", include("bot.urls"), name="bot"),
 ]
 
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 admin.site.site_header = "Бот фонда 'Расправь крылья'"
 admin.site.site_title = "Бот фонда 'Расправь крылья'"
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
