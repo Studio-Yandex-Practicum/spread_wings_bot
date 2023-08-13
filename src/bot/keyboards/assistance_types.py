@@ -11,25 +11,25 @@ from bot.constants.buttons import (
 )
 from bot.constants.list_of_questions import LegalQuestions
 from bot.constants.states.main_states import States
-from bot.constants.types_of_assistance import AssistanceTypes
+from bot.models import HelpTypes
 
 assistance_types_keyboard = [
     [
         InlineKeyboardButton(
             text=LEGAL_HELP_BUTTON,
-            callback_data=AssistanceTypes.LEGAL_ASSISTANCE.name,
+            callback_data=HelpTypes.LEGAL_ASSISTANCE,
         )
     ],
     [
         InlineKeyboardButton(
             text=SOCIAL_HELP_BUTTON,
-            callback_data=AssistanceTypes.SOCIAL_ASSISTANCE.name,
+            callback_data=HelpTypes.SOCIAL_ASSISTANCE,
         )
     ],
     [
         InlineKeyboardButton(
             text=PSYCHOLOGICAL_HELP_BUTTON,
-            callback_data=AssistanceTypes.PSYCHOLOGICAL_ASSISTANCE.name,
+            callback_data=HelpTypes.PSYCHOLOGICAL_ASSISTANCE,
         )
     ],
     [
