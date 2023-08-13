@@ -44,8 +44,9 @@ async def select_type_of_help(
         update: Update,
         context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
-    """Выбор типа необходимой для оказания помощи."""
-    context.user_data[States.REGION] = update.callback_query.data
+    """Handler to select assistance type."""
+    if States.ASSISTANCE_TYPE.value not in update.callback_query.data:
+        context.user_data[States.REGION] = update.callback_query.data
     await update.callback_query.answer()
     await update.callback_query.edit_message_text(
         text=ASSISTANCE_TYPE_MESSAGE,
