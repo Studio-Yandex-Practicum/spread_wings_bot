@@ -10,7 +10,6 @@ from bot.constants.messages import (
     SELECT_QUESTION,
 )
 from bot.constants.states.main_states import States
-from bot.constants.types_of_assistance import AssistanceTypes
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
     build_question_keyboard,
@@ -28,9 +27,10 @@ QUESTION_TYPE = "question_type"
 
 @debug_logger(name="receive_assistance")
 async def receive_assistance(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
-    """Обработчик для выбора региона оказания помощи."""
+    """Handler to select assistance region."""
     await update.callback_query.answer()
     keyboard = await build_region_keyboard()
     await update.callback_query.edit_message_text(
@@ -41,7 +41,8 @@ async def receive_assistance(
 
 @debug_logger(name="select_type_of_help")
 async def select_type_of_help(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
     """Выбор типа необходимой для оказания помощи."""
     context.user_data[States.REGION] = update.callback_query.data
@@ -82,16 +83,20 @@ async def select_assistance(
 
 
 @debug_logger(name="fund_programs")
-async def fund_programs(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обработчик для вывода информации о программах Фонда."""
+async def fund_programs(
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    """Handler to show fund programs."""
     pass
 
 
 @debug_logger(name="ask_question")
 async def ask_question(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
-    """Обработчик для задания вопроcа."""
+    """Ask question handler."""
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(text=ASK_YOUR_QUESTION)
@@ -100,11 +105,12 @@ async def ask_question(
 
 @debug_logger(name="contact_with_us")
 async def contact_with_us(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
-    """Ask question and Show contacts."""
+    """Ask question and show contacts."""
     query = update.callback_query
-    context.user_data["question_type"] = AssistanceTypes.COMMON_QUESTION.value
+    context.user_data[QUESTION_TYPE] = HelpTypes.COMMON_QUESTION.value
     await query.answer()
     await query.edit_message_text(
         text=CONTACT_SHOW_MESSAGE,
@@ -115,7 +121,8 @@ async def contact_with_us(
 
 @debug_logger(name="show_contact")
 async def show_contact(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
     """Show contacts of the regional curator."""
     query = update.callback_query
