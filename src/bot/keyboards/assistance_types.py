@@ -1,7 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.constants.buttons import (
-    ASK_QUESTION,
     BACK_BUTTON,
     CONTACT_US_BUTTON,
     LEGAL_HELP_BUTTON,
@@ -9,7 +8,6 @@ from bot.constants.buttons import (
     PSYCHOLOGICAL_HELP_BUTTON,
     SOCIAL_HELP_BUTTON,
 )
-from bot.constants.list_of_questions import LegalQuestions
 from bot.constants.states.main_states import States
 from bot.models import HelpTypes
 
@@ -34,21 +32,24 @@ assistance_types_keyboard = [
     ],
     [
         InlineKeyboardButton(
-            text=PROGRAMS_BUTTON, callback_data=States.FUND_PROGRAMS.value
+            text=PROGRAMS_BUTTON,
+            callback_data=States.FUND_PROGRAMS.value,
         )
     ],
     [
         InlineKeyboardButton(
-            text=CONTACT_US_BUTTON, callback_data=States.CONTACT_US.value
+            text=CONTACT_US_BUTTON,
+            callback_data=States.CONTACT_US.value,
         )
     ],
     [
         InlineKeyboardButton(
-            text=BACK_BUTTON, callback_data=f"back_to_{States.REGION.value}"
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.REGION.value}",
         )
     ],
 ]
 
 assistance_types_keyboard_markup = InlineKeyboardMarkup(
-    assistance_types_keyboard
+    assistance_types_keyboard,
 )
