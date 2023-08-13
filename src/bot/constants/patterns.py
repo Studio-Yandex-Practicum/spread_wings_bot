@@ -6,7 +6,7 @@ MESSAGE_PATTERN = r"^[^\/].*$"
 BACK = r"back_to_"
 CONTACT = PATTERN.format(state="EMAIL|PHONE|TELEGRAM")
 HELP_TYPE = PATTERN.format(
-    state="LEGAL_ASSISTANCE|SOCIAL_ASSISTANCE|" "PSYCHOLOGICAL_ASSISTANCE"
+    state="".join(f'{h_type}|' for h_type in HelpTypes.names)
 )
 CONTACT_TYPE = PATTERN.format(state=States.CONTACT_TYPE.value)
 ASK_QUESTION = PATTERN.format(state=States.ASK_QUESTION.value)
