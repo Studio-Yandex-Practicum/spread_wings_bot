@@ -52,30 +52,3 @@ assistance_types_keyboard = [
 assistance_types_keyboard_markup = InlineKeyboardMarkup(
     assistance_types_keyboard
 )
-
-assistance_questions_keyboard = [
-    [InlineKeyboardButton(question.value, callback_data=question.name)]
-    for question in LegalQuestions
-]
-
-assistance_questions_keyboard.append(
-    [
-        InlineKeyboardButton(
-            text=ASK_QUESTION, callback_data=States.ASK_QUESTION.value
-        )
-    ]
-)
-
-assistance_questions_keyboard.append(
-    [
-        InlineKeyboardButton(
-            text=BACK_BUTTON,
-            callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
-        )
-    ]
-)
-
-
-assistance_questions_keyboard_markup = InlineKeyboardMarkup(
-    assistance_questions_keyboard
-)
