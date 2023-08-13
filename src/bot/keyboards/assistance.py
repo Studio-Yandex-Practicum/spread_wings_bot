@@ -27,7 +27,10 @@ QUESTIONS_PER_PAGE = 6
 # uncomment the line if we actually need to cache this keyboard
 # @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_assistance_keyboard() -> InlineKeyboardMarkup:
-    """Build telegram assistance keyboard async. After building cache it."""
+    """
+    Build telegram assistance keyboard async.
+    After building cache it.
+    """
     setting = await BotSettings.objects.aget(key="donation_url")
     return InlineKeyboardMarkup(
         [
@@ -38,7 +41,8 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
                 )
             ],
             [
-                InlineKeyboardButton(text=DONATION_BUTTON, url=setting.value),
+                InlineKeyboardButton(text=DONATION_BUTTON,
+                                     url=setting.value),
             ],
         ]
     )
@@ -46,7 +50,10 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
 
 @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_region_keyboard() -> InlineKeyboardMarkup:
-    """Build telegram assistance type keyboard async. After building cache it."""
+    """
+    Build telegram assistance type keyboard async.
+    After building cache it.
+    """
     keyboard = [
         [
             InlineKeyboardButton(
@@ -73,6 +80,10 @@ async def build_question_keyboard(
         question_type: str,
         page: int,
 ) -> InlineKeyboardMarkup:
+    """
+    Build telegram assistance questions keyboard async.
+    After building cache it.
+    """
     queryset = await sync_to_async(list)(Question.objects.filter(
         regions__region_key=region,
         question_type=question_type,
@@ -90,26 +101,26 @@ async def build_question_keyboard(
                 callback_data=question.get("id"),
             )
         )
-
-    back_button = [
+    telegram_paginator.add_after(
         InlineKeyboardButton(
             text=BACK_BUTTON,
             callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
-        )
-    ]
-    ask_question_button = [
+        ),
         InlineKeyboardButton(
             text=ASK_QUESTION,
             callback_data=States.ASK_QUESTION.value,
-        )
-    ]
-    telegram_paginator.add_after(*back_button, *ask_question_button)
+        ),
+    )
     return telegram_paginator
 
 
 def parse_callback_data(
         callback_data: str,
 ) -> Tuple[Optional[str], Optional[int]]:
+    """
+    Parse callback data to get page number and
+    question type for pagination.
+    """
     match = re.match(PARSE_CALLBACK_DATA, callback_data)
     if match:
         question_type, page_number = match.groups()
