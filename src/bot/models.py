@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel, Region
 from bot.validators import phone_regex, telegram_regex
@@ -31,18 +32,17 @@ class Coordinator(BaseModel):
         ordering = ("last_name",)
 
 
+class HelpTypes(models.TextChoices):
+    """Supporting model to make Choices field."""
+
+    LEGAL_ASSISTANCE = "LEGAL_ASSISTANCE", _("Юридическая помощь")
+    SOCIAL_ASSISTANCE = "SOCIAL_ASSISTANCE", _("Социальная помощь")
+    PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
+        "Психологическая помощь")
+    COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
+
+
 class Question(BaseModel):
-
-    LAW = 'law'
-    SOCIAL = 'social'
-    MENTAL = 'mental'
-
-    HELP_TYPES = [
-        (LAW, 'Юридическая помощь'),
-        (SOCIAL, 'Социальная помощь'),
-        (MENTAL, 'Психологическая помощь')
-    ]
-
     question = models.CharField(max_length=200, verbose_name="Вопрос")
     answer = models.CharField(max_length=3856, verbose_name="Ответ")
     short_description = models.CharField(max_length=20, verbose_name="Короткое описание")
@@ -64,7 +64,6 @@ class Question(BaseModel):
 
 
 class FundProgram(BaseModel):
-
     title = models.CharField(max_length=200,
                              unique=True,
                              verbose_name='Название')
