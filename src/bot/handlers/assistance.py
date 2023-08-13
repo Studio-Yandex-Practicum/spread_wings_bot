@@ -13,14 +13,17 @@ from bot.constants.states.main_states import States
 from bot.constants.types_of_assistance import AssistanceTypes
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
+    build_question_keyboard,
     build_region_keyboard,
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
+    parse_callback_data,
 )
-from bot.keyboards.assistance_types import (
-    assistance_questions_keyboard_markup,
-    assistance_types_keyboard_markup,
-)
+from bot.keyboards.assistance_types import assistance_types_keyboard_markup
+from bot.models import HelpTypes
+
+DEFAULT_PAGE = 1
+QUESTION_TYPE = "question_type"
 
 
 @debug_logger(name="receive_assistance")
@@ -52,18 +55,30 @@ async def select_type_of_help(
 
 @debug_logger(name="selected_type_assistance")
 async def select_assistance(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> States:
-    """Обработчик для выбранного типа помощи."""
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    """Handler for selected assistance type."""
     query = update.callback_query
-    question_type = query.data
-    context.user_data["question_type"] = AssistanceTypes[question_type].value
+    question_type, page_number = parse_callback_data(query.data)
+
+    if question_type:
+        context.user_data[QUESTION_TYPE] = question_type
+
+    page_number = page_number or DEFAULT_PAGE
+    region = context.user_data.get(States.REGION)
+
     await query.answer()
+
+    keyboard = await build_question_keyboard(
+        region,
+        context.user_data[QUESTION_TYPE],
+        page_number,
+    )
     await query.edit_message_text(
         text=SELECT_QUESTION,
-        reply_markup=assistance_questions_keyboard_markup,
+        reply_markup=keyboard.markup,
     )
-    return States.QUESTIONS_AND_CONTACTS
 
 
 @debug_logger(name="fund_programs")
