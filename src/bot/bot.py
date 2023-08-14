@@ -178,10 +178,11 @@ async def build_app() -> Application:
                 CallbackQueryHandler(select_assistance, pattern=HELP_TYPE),
                 CallbackQueryHandler(fund_programs, pattern=FUND_PROGRAMS),
                 CallbackQueryHandler(contact_with_us, pattern=CONTACT_US),
+                CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
             ],
             States.QUESTIONS_AND_CONTACTS: [
                 CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
-            ],
+            ],  # This stage appears to be extra, can be removed
             States.CONTACT_US: [
                 CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
                 CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),

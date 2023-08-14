@@ -9,7 +9,8 @@ from bot.factories import (CoordinatorFactory,
                            QuestionFactory)
 from bot.models import (Coordinator,
                         FundProgram,
-                        Question)
+                        Question,
+                        HelpTypes,)
 
 REGION_COUNT = int(input("Необходимое количество регионов: "))
 PROGRAM_COUNT = int(input("Необходимое количество программ: "))
@@ -51,7 +52,7 @@ class Command(BaseCommand):
                 question.regions.add(region)
 
         for _ in range(QUESTION_TYPE_SOCIAL_COUNT):
-            social_type = Question.HELP_TYPES[1][0]
+            social_type = HelpTypes.SOCIAL_ASSISTANCE
             regions_count = randint(1, len(regions))
             regions_for_question = sample(regions, k=regions_count)
             question = QuestionFactory()
@@ -61,7 +62,7 @@ class Command(BaseCommand):
             question.save()
 
         for _ in range(QUESTION_TYPE_MENTAL_COUNT):
-            mental_type = Question.HELP_TYPES[2][0]
+            mental_type = HelpTypes.PSYCHOLOGICAL_ASSISTANCE
             regions_count = randint(1, len(regions))
             regions_for_question = sample(regions, k=regions_count)
             question = QuestionFactory()

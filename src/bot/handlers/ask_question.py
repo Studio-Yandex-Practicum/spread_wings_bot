@@ -7,7 +7,7 @@ from telegram.ext import ContextTypes
 
 from bot.constants.messages import (
     CONTACT_TYPE_MESSAGE,
-    ENTER_YOUR_CONTCACT,
+    ENTER_YOUR_CONTACT,
     NO_TELEGRAM_USERNAME,
     QUESTION_FAIL,
     THANKS_FOR_THE_QUESTION,
@@ -69,7 +69,7 @@ async def select_contact_type(
             THANKS_FOR_THE_QUESTION, reply_markup=assistance_keyboard_markup
         )
         return States.END
-    await query.edit_message_text(text=ENTER_YOUR_CONTCACT[contact_type])
+    await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
     return States.ENTER_YOUR_CONTACT
 
 

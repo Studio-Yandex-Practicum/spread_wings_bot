@@ -8,15 +8,17 @@ COLOR_YELLOW = \033[33m
 COLOR_WHITE = \033[00m
 
 .DEFAULT_GOAL := help
-.PHONY: help
 
+.PHONY: help
 help:  # Show help
 	@echo -e "$(COLOR_GREEN)Makefile help:"
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "$(COLOR_GREEN)-$$(echo $$l | cut -f 1 -d':'):$(COLOR_WHITE)$$(echo $$l | cut -f 2- -d'#')\n"; done
 
+
 .PHONY: runbot-init
 runbot-init: deletedb rundb migrate filldb runbot-db
 	@echo -e "$(COLOR_YELLOW)Starting initialization...$(COLOR_RESET)"
+	@source $$(poetry env info -p)/bin/activate \
 
 .PHONY: rundb
 rundb: # Build and run Database Docker-image
@@ -56,7 +58,7 @@ runbot-db: # Run Telegram bot on Uvicorn
 .PHONY: filldb
 filldb: # Fill Docker-image Database with test data
 	@echo -e "$(COLOR_YELLOW)Filing database...$(COLOR_RESET)"
-	@until python src/manage.py filldb; do \
+	@until poetry run python src/manage.py filldb; do \
 	  echo -e "$(COLOR_YELLOW)Waiting database to be filled...$(COLOR_RESET)"; \
 	  sleep 5 ;\
 	done
@@ -66,7 +68,7 @@ filldb: # Fill Docker-image Database with test data
 .PHONY: collectstatic
 collectstatic: # Collect project static files
 	@echo -e "$(COLOR_YELLOW)Collecting static...$(COLOR_RESET)"
-	@until python src/manage.py collectstatic; do \
+	@until poetry run python src/manage.py collectstatic; do \
 	  echo -e "$(COLOR_YELLOW)Waiting static to be collected...$(COLOR_RESET)"; \
 	  sleep 5 ;\
 	done
@@ -76,7 +78,7 @@ collectstatic: # Collect project static files
 .PHONY: migrate
 migrate: # Commit migrations to Database
 	@echo -e "$(COLOR_YELLOW)Migrating...$(COLOR_RESET)"
-	@until python src/manage.py migrate; do \
+	@until poetry run python src/manage.py migrate; do \
 	  echo "Waiting for migrations..."; \
 	  sleep 5; \
 	done
