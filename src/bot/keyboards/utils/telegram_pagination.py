@@ -2,7 +2,7 @@ import json
 from collections import namedtuple
 
 InlineKeyboardButton = namedtuple('InlineKeyboardButton',
-                                  ['text', 'callback_data'])
+                                  ['callback_data', 'text'])
 
 DEFAULT_PAGE_NUMBER = 5
 KEYBOARD_PAGE_OFFSET = 3
@@ -112,7 +112,7 @@ class InlineKeyboardPaginator:
             keyboard.append(
                 InlineKeyboardButton(
                     text=str(keyboard_dict[key]),
-                    callback_data=self.data_pattern.format(page=key)
+                    callback_data=self.data_pattern.format(page=key),
                 )
             )
         return _buttons_to_dict(keyboard)
@@ -175,8 +175,8 @@ class InlineKeyboardPaginator:
 def _buttons_to_dict(buttons):
     return [
         {
+            'callback_data': str(button.callback_data),
             'text': button.text,
-            'callback_data': button.callback_data,
         }
         for button
         in buttons
