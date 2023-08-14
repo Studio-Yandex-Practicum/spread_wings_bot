@@ -87,7 +87,7 @@ async def build_question_keyboard(
     queryset = await sync_to_async(list)(Question.objects.filter(
         regions__region_key=region,
         question_type=question_type,
-    ).values("id", "question"))
+    ).values("id", "short_description"))
     data_paginator = Paginator(queryset, QUESTIONS_PER_PAGE)
     telegram_paginator = InlineKeyboardPaginator(
         data_paginator.num_pages,
@@ -97,7 +97,7 @@ async def build_question_keyboard(
     for question in data_paginator.page(page):
         telegram_paginator.add_before(
             InlineKeyboardButton(
-                text=question.get("question"),
+                text=question.get("short_description"),
                 callback_data=question.get("id"),
             )
         )
