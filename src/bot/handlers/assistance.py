@@ -14,9 +14,9 @@ from bot.constants.types_of_assistance import AssistanceTypes
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
     build_region_keyboard,
-    to_the_original_state_and_previous_step_markup,
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
+    to_the_original_state_and_previous_step_keyboard_markup,
 )
 from bot.keyboards.assistance_types import (
     assistance_questions_keyboard_markup,
@@ -82,7 +82,7 @@ async def ask_question(
     await query.answer()
     await query.edit_message_text(
         text=ASK_YOUR_QUESTION,
-        reply_markup=to_the_original_state_and_previous_step_markup
+        reply_markup=to_the_original_state_and_previous_step_keyboard_markup,
     )
     return States.ASK_QUESTION
 

@@ -98,17 +98,17 @@ to_the_original_state_and_previous_step_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_TO_START_BUTTON,
-            callback_data=(f"back_to_{States.ASSISTANCE.value}"),
+            callback_data=f"back_to_{States.ASSISTANCE.value}",
         )
     ],
     [
         InlineKeyboardButton(
             text=BACK_BUTTON,
-            callback_data=(f"back_to_{States.CONTACT_US.value}"),
+            callback_data=f"back_to_{States.CONTACT_US.value}",
         )
     ],
 ]
 
-to_the_original_state_and_previous_step_markup = InlineKeyboardMarkup(
+to_the_original_state_and_previous_step_keyboard_markup = InlineKeyboardMarkup(
     to_the_original_state_and_previous_step_keyboard
 )
