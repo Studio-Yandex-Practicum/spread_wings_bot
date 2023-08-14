@@ -29,10 +29,7 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
                 )
             ],
             [
-                InlineKeyboardButton(
-                    text=DONATION_BUTTON,
-                    url=setting.value
-                )
+                InlineKeyboardButton(text=DONATION_BUTTON, url=setting.value),
             ],
         ]
     )
@@ -42,6 +39,7 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
 async def build_region_keyboard() -> InlineKeyboardMarkup:
     """
     Build telegram assistance type keyboard async.
+
     After building cache it.
     """
     keyboard = [
@@ -62,6 +60,7 @@ async def build_region_keyboard() -> InlineKeyboardMarkup:
         ]
     ]
     return InlineKeyboardMarkup(keyboard + back_button)
+
 
 contact_type_keyboard = [
     [
@@ -99,17 +98,13 @@ to_the_original_state_and_previous_step_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_TO_START_BUTTON,
-            callback_data=(
-                f"back_to_{States.ASSISTANCE.value}"
-            )
+            callback_data=(f"back_to_{States.ASSISTANCE.value}"),
         )
     ],
     [
         InlineKeyboardButton(
             text=BACK_BUTTON,
-            callback_data=(
-                f"back_to_{States.CONTACT_US.value}"
-            )
+            callback_data=(f"back_to_{States.CONTACT_US.value}"),
         )
     ],
 ]
