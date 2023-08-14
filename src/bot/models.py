@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from bot.validators import (
     format_phone_number,
@@ -10,10 +11,16 @@ from core.models import BaseModel, Region
 
 
 class Coordinator(BaseModel):
-    """Coordinator model."""
+    """Region coordinator model."""
 
-    first_name = models.CharField(max_length=200, verbose_name="Имя")
-    last_name = models.CharField(max_length=200, verbose_name="Фамилия")
+    first_name = models.CharField(
+        max_length=200,
+        verbose_name="Имя",
+    )
+    last_name = models.CharField(
+        max_length=200,
+        verbose_name="Фамилия",
+    )
     region = models.OneToOneField(
         Region,
         on_delete=models.PROTECT,
@@ -49,31 +56,41 @@ class Coordinator(BaseModel):
         ordering = ("last_name",)
 
 
+class HelpTypes(models.TextChoices):
+    """Supporting model to make choices field."""
+
+    LEGAL_ASSISTANCE = "LEGAL_ASSISTANCE", _("Юридическая помощь")
+    SOCIAL_ASSISTANCE = "SOCIAL_ASSISTANCE", _("Социальная помощь")
+    PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
+        "Психологическая помощь")
+    COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
+
+
 class Question(BaseModel):
-    """Question model."""
+    """Assistance question model."""
 
-    LAW = "law"
-    SOCIAL = "social"
-    MENTAL = "mental"
-
-    HELP_TYPES = [
-        (LAW, "Юридическая помощь"),
-        (SOCIAL, "Социальная помощь"),
-        (MENTAL, "Психологическая помощь"),
-    ]
-
-    question = models.CharField(max_length=200, verbose_name="Вопрос")
-    answer = models.CharField(max_length=3856, verbose_name="Ответ")
+    question = models.CharField(
+        max_length=200,
+        verbose_name="Вопрос",
+    )
+    answer = models.CharField(
+        max_length=3856,
+        verbose_name="Ответ",
+    )
     short_description = models.CharField(
-        max_length=20, verbose_name="Короткое описание"
+        max_length=20,
+        verbose_name="Короткое описание",
     )
     regions = models.ManyToManyField(
-        Region, related_name="questions", blank=True, verbose_name="Регионы"
+        Region,
+        related_name="questions",
+        blank=True,
+        verbose_name="Регионы",
     )
     question_type = models.CharField(
         max_length=100,
-        choices=HELP_TYPES,
-        default=LAW,
+        choices=HelpTypes.choices,
+        default=HelpTypes.LEGAL_ASSISTANCE,
         verbose_name="Тип вопроса",
     )
 
@@ -84,14 +101,22 @@ class Question(BaseModel):
 
 
 class FundProgram(BaseModel):
-    """Fund Programm model."""
+    """Fund program model."""
 
     title = models.CharField(
-        max_length=200, unique=True, verbose_name="Название"
+        max_length=200,
+        unique=True,
+        verbose_name="Название",
     )
-    description = models.CharField(max_length=500, verbose_name="Описание")
+    description = models.CharField(
+        max_length=500,
+        verbose_name="Описание",
+    )
     regions = models.ManyToManyField(
-        Region, related_name="programs", blank=True, verbose_name="Регионы"
+        Region,
+        related_name="programs",
+        blank=True,
+        verbose_name="Регионы",
     )
 
     class Meta:  # noqa

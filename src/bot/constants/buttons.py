@@ -1,5 +1,6 @@
 # Общие кнопки
 BACK_BUTTON = "Назад"
+BACK_TO_START_BUTTON = 'В начало'
 CONTACT_US_BUTTON = "Связаться с нами"
 ASK_QUESTION = "Задать свой вопрос"
 
@@ -16,7 +17,7 @@ PROGRAMS_BUTTON = "Наши программы"
 # Способы связи
 EMAIL = "Эл. почта"
 PHONE = "По телефону"
-TELEGRAM = "Тelegram"
+TELEGRAM = "Telegram"
 
 # кнопки для блока "связаться с нами"
 CONTACTS = "Контакты"
