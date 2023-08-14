@@ -1,4 +1,4 @@
-from bot.constants.states.main_states import States
+from bot.constants.states import States
 from bot.models import HelpTypes
 
 PAGE_SEP_SYMBOL = "#"

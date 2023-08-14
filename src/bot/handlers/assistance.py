@@ -9,7 +9,7 @@ from bot.constants.messages import (
     SELECT_QUESTION,
     Contacts,
 )
-from bot.constants.states.main_states import States
+from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
     build_question_keyboard,

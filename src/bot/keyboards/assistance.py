@@ -16,7 +16,7 @@ from bot.constants.buttons import (
     DONATION_BUTTON,
 )
 from bot.constants.patterns import PAGE_SEP_SYMBOL, PARSE_CALLBACK_DATA
-from bot.constants.states.main_states import States
+from bot.constants.states import States
 from bot.keyboards.utils.telegram_pagination import InlineKeyboardPaginator
 from bot.models import Question
 from bot_settings.models import BotSettings

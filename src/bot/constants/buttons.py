@@ -1,5 +1,3 @@
-import enum
-
 # Общие кнопки
 BACK_BUTTON = "Назад"
 BACK_TO_START_BUTTON = "В начало"
@@ -24,11 +22,8 @@ TELEGRAM = "Telegram"
 # кнопки для блока "связаться с нами"
 CONTACTS = "Контакты"
 
-
-# TODO вопросы будут подхватываться из БД, тут удалить
-class QuestionList(str, enum.Enum):
-    """Question list."""
-
-    FIRST_QUESTION = "[Заглушка]Первый вопрос"
-    SECOND_QUESTION = "[Заглушка]Второй вопрос"
-    THIRD_QUESTION = "[Заглушка]Третий вопрос"
+# Меню команды
+COMMANDS = [
+    ("/start", "Запустить/перезапустить бота"),
+    ("/help", "Показать, что умеет бот"),
+]

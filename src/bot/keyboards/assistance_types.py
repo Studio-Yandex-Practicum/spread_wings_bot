@@ -8,7 +8,7 @@ from bot.constants.buttons import (
     PSYCHOLOGICAL_HELP_BUTTON,
     SOCIAL_HELP_BUTTON,
 )
-from bot.constants.states.main_states import States
+from bot.constants.states import States
 from bot.models import HelpTypes
 
 assistance_types_keyboard = [

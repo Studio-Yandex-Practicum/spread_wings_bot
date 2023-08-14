@@ -17,7 +17,7 @@ from telegram.ext import (
 )
 from telegram.warnings import PTBUserWarning
 
-from bot.constants.states import (
+from bot.constants.patterns import (
     ASK_QUESTION,
     ASSISTANCE,
     BACK,
@@ -29,8 +29,8 @@ from bot.constants.states import (
     MESSAGE_PATTERN,
     PATTERN,
     SHOW_CONTACT,
-    States,
 )
+from bot.constants.states import States
 from bot.handlers.ask_question import (
     get_contact,
     get_name,

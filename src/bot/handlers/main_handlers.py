@@ -1,11 +1,11 @@
 import asyncio
 
-from states import States
 from telegram import MenuButtonCommands, Update
 from telegram.ext import CommandHandler, ContextTypes
 
+from bot.constants.buttons import COMMANDS
 from bot.constants.messages import HELP_MESSAGE, START_MESSAGE
-from bot.constants.service_const import COMMANDS
+from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import build_assistance_keyboard
 

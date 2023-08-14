@@ -1,7 +1,6 @@
 import asyncio
 
 from pydantic import ValidationError
-from states import States
 from telegram import Update
 from telegram.ext import ContextTypes
 
@@ -13,6 +12,7 @@ from bot.constants.messages import (
     THANKS_FOR_THE_QUESTION,
     WHAT_IS_YOUR_NAME_MESSAGE,
 )
+from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.ask_question import ask_question_keyboard_markup
 from bot.keyboards.assistance import build_assistance_keyboard
