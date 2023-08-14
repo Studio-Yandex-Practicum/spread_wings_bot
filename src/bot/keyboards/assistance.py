@@ -6,6 +6,7 @@ from bot.constants.buttons import (
     ASK_QUESTION,
     ASSISTANCE_BUTTON,
     BACK_BUTTON,
+    BACK_TO_START_BUTTON,
     CONTACTS,
     DONATION_BUTTON,
 )
@@ -28,7 +29,39 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
                 )
             ],
             [
-                InlineKeyboardButton(text=DONATION_BUTTON, url=setting.value),
+                InlineKeyboardButton(
+                    text=DONATION_BUTTON,
+                    url=setting.value
+                )
+            ],
+        ]
+    )
+
+
+# @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
+async def to_the_original_state_and_previous_step_keyboard(
+) -> InlineKeyboardMarkup:
+    """
+    Создание асинхронной клавиатуры для возвращения 'в начало'
+    и на предыдущий шаг.
+    """
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text=BACK_TO_START_BUTTON,
+                    callback_data=(
+                        f"back_to_{States.ASSISTANCE.value}"
+                    )
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text=BACK_BUTTON,
+                    callback_data=(
+                        f"back_to_{States.CONTACT_US.value}"
+                    )
+                )
             ],
         ]
     )
@@ -36,7 +69,10 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
 
 @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_region_keyboard() -> InlineKeyboardMarkup:
-    """Build telegram assistance type keyboard async. After building cache it."""
+    """
+    Build telegram assistance type keyboard async.
+    After building cache it.
+    """
     keyboard = [
         [
             InlineKeyboardButton(

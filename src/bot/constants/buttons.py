@@ -1,5 +1,6 @@
 # Общие кнопки
 BACK_BUTTON = "Назад"
+BACK_TO_START_BUTTON = 'В начало'
 CONTACT_US_BUTTON = "Связаться с нами"
 ASK_QUESTION = "Задать свой вопрос"
 

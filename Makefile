@@ -8,8 +8,8 @@ COLOR_YELLOW = \033[33m
 COLOR_WHITE = \033[00m
 
 .DEFAULT_GOAL := help
-.PHONY: help
 
+.PHONY: help
 help:  # Show help
 	@echo -e "$(COLOR_GREEN)Makefile help:"
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "$(COLOR_GREEN)-$$(echo $$l | cut -f 1 -d':'):$(COLOR_WHITE)$$(echo $$l | cut -f 2- -d'#')\n"; done
@@ -76,7 +76,7 @@ collectstatic: # Collect project static files
 .PHONY: migrate
 migrate: # Commit migrations to Database
 	@echo -e "$(COLOR_YELLOW)Migrating...$(COLOR_RESET)"
-	@until python src/manage.py migrate; do \
+	@until python3 src/manage.py migrate; do \
 	  echo "Waiting for migrations..."; \
 	  sleep 5; \
 	done
