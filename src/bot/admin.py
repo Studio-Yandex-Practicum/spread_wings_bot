@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from bot.forms import QuestionAdminForm
-from bot.models import Coordinator, FundProgram, Question
+from bot.models import Coordinator, FundProgram, ProxyRegion, Question
 
 
 class RegionForAdmin(admin.ModelAdmin):
@@ -64,3 +64,10 @@ class FundProgramAdmin(RegionForAdmin):
     list_display = ("title", "description", "get_regions")
     list_filter = ("regions",)
     search_fields = ("title", "description")
+
+
+@admin.register(ProxyRegion)
+class ProxyRegionAdmin(admin.ModelAdmin):
+    """Admin model for class Region."""
+
+    pass
