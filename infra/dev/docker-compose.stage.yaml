@@ -1,16 +1,26 @@
 version: '3.8'
+name: spread-wings-stage
 
 services:
 
   redis:
     image: redis:latest
+    container_name: spread-wings-redis
     ports:
       - "6379:6379"
     restart: always
-    command: bash -c " mkdir /data/log -p && mkdir /data/bases -p && touch /data/log/redis-server.log && redis-server /usr/local/etc/redis.conf "
+    command: > 
+      bash -c "
+        mkdir /data/log -p &&
+        mkdir /data/bases -p &&
+        touch /data/log/redis-server.log &&
+        redis-server /usr/local/etc/redis.conf | tee -a /data/log/redis-server.log
+      "
     volumes:
       - ./redis.conf:/usr/local/etc/redis.conf
       - data_value:/data
+    networks:
+      - spread-wings-network
 
   db:
     image: postgres:15.3-alpine
@@ -24,31 +34,77 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - spread-wings-network
 
   bot:
     image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
+    container_name: spread-wings-bot
     depends_on:
       - redis
       - db
     restart: always
     env_file:
       - ./.env
+    networks:
+      - spread-wings-network
 
-  django_commands:
-    image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
+  mysql:
+    image: mysql:8.0
+    container_name: spread-wings-mysql
+    restart: always
+    env_file: /home/spread_wings/site/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/spread_wings/site/krilya_dets1_local.sql.gz:/docker-entrypoint-initdb.d/backup.sql.gz
+      - /home/spread_wings/site/migrate_server.sql:/docker-entrypoint-initdb.d/migrate.sql
+    networks:
+      - spread-wings-network
+
+  wordpress:
+    image: wordpress:5.8.1-php7.4-apache
+    container_name: spread-wings-wordpress
+    volumes:
+      - /home/spread_wings/site/public_html:/var/www/html
+    restart: always
+    env_file: /home/spread_wings/site/.env
     depends_on:
-      - redis
-      - db
+      - mysql
+    environment:
+      WORDPRESS_DB_HOST: spread-wings-mysql:3306
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+    networks:
+      - spread-wings-network
+
+  nginx:
+    image: nginx:1.21.3-alpine
+    container_name: spread-wings-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.stage.conf:/etc/nginx/conf.d/default.conf
+      - ../../src/static:/var/html/static/
+      - ../../src/media:/var/html/media/
+    depends_on:
       - bot
-    env_file:
-      - ./.env
-    command: >
-      bash -c "
-        python manage.py migrate &&
-        python manage.py collectstatic --noinput &&
-        python manage.py createsuperuser --email example@yandex.ru --noinput
-      "
+      - wordpress
+    restart: always
+    networks:
+      - spread-wings-network
 
 volumes:
   data_value:
   db_data:
+  static:
+  media:
+
+networks:
+  spread-wings-network:
