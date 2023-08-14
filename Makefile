@@ -76,7 +76,7 @@ collectstatic: # Collect project static files
 .PHONY: migrate
 migrate: # Commit migrations to Database
 	@echo -e "$(COLOR_YELLOW)Migrating...$(COLOR_RESET)"
-	@until python3 src/manage.py migrate; do \
+	@until python src/manage.py migrate; do \
 	  echo "Waiting for migrations..."; \
 	  sleep 5; \
 	done

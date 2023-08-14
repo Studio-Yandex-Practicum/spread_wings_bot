@@ -10,7 +10,6 @@ async def back_button(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Возврат в предыдущее состояние."""
-    query = update.callback_query
     return await FUNCTIONS.get(
-        query.data.replace("back_to_", "")
+        update.callback_query.data.replace("back_to_", "")
     )(update, context)
