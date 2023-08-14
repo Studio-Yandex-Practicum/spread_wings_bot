@@ -17,7 +17,7 @@ PROGRAMS_BUTTON = "Наши программы"
 # Способы связи
 EMAIL = "Эл. почта"
 PHONE = "По телефону"
-TELEGRAM = "Тelegram"
+TELEGRAM = "Telegram"
 
 # кнопки для блока "связаться с нами"
 CONTACTS = "Контакты"

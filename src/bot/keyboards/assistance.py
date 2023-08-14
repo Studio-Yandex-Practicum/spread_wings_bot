@@ -39,7 +39,7 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
 
 
 # @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
-async def to_the_original_state_and_previous_step_keyboard(
+def to_the_original_state_and_previous_step_keyboard(
 ) -> InlineKeyboardMarkup:
     """
     Создание асинхронной клавиатуры для возвращения 'в начало'

@@ -82,7 +82,7 @@ async def ask_question(
     await query.answer()
     await query.edit_message_text(
         text=ASK_YOUR_QUESTION,
-        reply_markup=await to_the_original_state_and_previous_step_keyboard()
+        reply_markup=to_the_original_state_and_previous_step_keyboard()
     )
     return States.ASK_QUESTION
 
