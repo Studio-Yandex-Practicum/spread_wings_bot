@@ -77,10 +77,11 @@ async def select_assistance(
         context.user_data[QUESTION_TYPE],
         page_number,
     )
-    await query.edit_message_text(
-        text=SELECT_QUESTION,
-        reply_markup=keyboard.markup,
-    )
+    if query.message.reply_markup.to_json() != keyboard.markup:
+        await query.edit_message_text(
+            text=SELECT_QUESTION,
+            reply_markup=keyboard.markup,
+        )
 
 
 @debug_logger(name="fund_programs")
