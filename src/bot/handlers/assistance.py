@@ -3,7 +3,6 @@ from telegram.ext import ContextTypes
 
 from bot.constants.messages import (
     ASK_YOUR_QUESTION,
-    ASSISTANCE_MESSAGE,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
     SELECT_QUESTION,
@@ -21,6 +20,7 @@ from bot.keyboards.assistance import (
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
 from bot.models import HelpTypes
+from bot_settings.models import BotSettings
 
 DEFAULT_PAGE = 1
 QUESTION_TYPE = "question_type"
@@ -34,8 +34,9 @@ async def receive_assistance(
     """Select a region of assistance."""
     await update.callback_query.answer()
     keyboard = await build_region_keyboard()
+    setting = await BotSettings.objects.aget(key="assistance_message")
     await update.callback_query.edit_message_text(
-        text=ASSISTANCE_MESSAGE, reply_markup=keyboard
+        text=setting.value, reply_markup=keyboard
     )
     return States.REGION
 
