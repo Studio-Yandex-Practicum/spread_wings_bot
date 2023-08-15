@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from bot.validators import (
+    format_phone_number,
+    format_telegram_link,
+    phone_regex,
+    telegram_regex,
+)
 from core.models import BaseModel, Region
-from bot.validators import (phone_regex,
-                            telegram_regex,
-                            format_phone_number,
-                            format_telegram_link)
 
 
 class Coordinator(BaseModel):
@@ -43,11 +45,12 @@ class Coordinator(BaseModel):
     )
 
     def save(self, *args, **kwargs):
+        """Check and save telegram_acount and phone_number."""
         self.telegram_account = format_telegram_link(self.telegram_account)
         self.phone_number = format_phone_number(self.phone_number)
         return super(Coordinator, self).save(*args, **kwargs)
 
-    class Meta:
+    class Meta:  # noqa
         verbose_name = "Координатор"
         verbose_name_plural = "Координаторы"
         ordering = ("last_name",)
@@ -91,7 +94,7 @@ class Question(BaseModel):
         verbose_name="Тип вопроса",
     )
 
-    class Meta:
+    class Meta:  # noqa
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
         ordering = ("question",)
@@ -116,7 +119,16 @@ class FundProgram(BaseModel):
         verbose_name="Регионы",
     )
 
-    class Meta:
+    class Meta:  # noqa
         verbose_name = "Программа фонда"
         verbose_name_plural = "Программы фонда"
         ordering = ("title",)
+
+
+class ProxyRegion(Region):
+    """ProxyRegion model."""
+
+    class Meta:  # noqa
+        proxy = True
+        verbose_name_plural = "Регионы"
+        verbose_name = "Регион"
