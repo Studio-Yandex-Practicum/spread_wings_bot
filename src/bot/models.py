@@ -45,7 +45,7 @@ class Coordinator(BaseModel):
     )
 
     def save(self, *args, **kwargs):
-        """Check and save telegram_acount and phone_number."""
+        """Check and save telegram_account and phone_number."""
         self.telegram_account = format_telegram_link(self.telegram_account)
         self.phone_number = format_phone_number(self.phone_number)
         return super(Coordinator, self).save(*args, **kwargs)
@@ -62,7 +62,8 @@ class HelpTypes(models.TextChoices):
     LEGAL_ASSISTANCE = "LEGAL_ASSISTANCE", _("Юридическая помощь")
     SOCIAL_ASSISTANCE = "SOCIAL_ASSISTANCE", _("Социальная помощь")
     PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
-        "Психологическая помощь")
+        "Психологическая помощь"
+    )
     COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
 
 
@@ -108,9 +109,13 @@ class FundProgram(BaseModel):
         unique=True,
         verbose_name="Название",
     )
-    description = models.CharField(
+    fund_text = models.TextField(
         max_length=500,
-        verbose_name="Описание",
+        verbose_name="Описание программы",
+    )
+    short_description = models.CharField(
+        max_length=20,
+        verbose_name="Короткое описание",
     )
     regions = models.ManyToManyField(
         Region,
