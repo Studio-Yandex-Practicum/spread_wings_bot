@@ -27,9 +27,10 @@ from bot.constants.patterns import (
     FUND_PROGRAMS,
     HELP_TYPE,
     MESSAGE_PATTERN,
+    PATTERN,
     SHOW_CONTACT,
 )
-from bot.constants.states.main_states import PATTERN, States
+from bot.constants.states import States
 from bot.handlers.ask_question import (
     get_contact,
     get_name,

@@ -1,15 +1,15 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.contacts import Contacts
 from bot.constants.messages import (
     ASK_YOUR_QUESTION,
     ASSISTANCE_MESSAGE,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
     SELECT_QUESTION,
+    Contacts,
 )
-from bot.constants.states.main_states import States
+from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
     build_question_keyboard,

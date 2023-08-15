@@ -1,8 +1,9 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.back_functions import FUNCTIONS, States
+from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
+from bot.handlers.service_handlers import FUNCTIONS
 
 
 @debug_logger(name="back_button")

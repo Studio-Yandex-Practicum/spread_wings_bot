@@ -1,11 +1,22 @@
+from typing import Any, Awaitable, Callable
+
 from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler, filters
 
-from bot.handlers.debug_handlers import debug_logger
 from bot.constants.messages import ANSWER_TO_USER_MESSAGE
+from bot.constants.states import States
+from bot.handlers.assistance import (
+    contact_with_us,
+    receive_assistance,
+    select_assistance,
+    select_type_of_help,
+    show_contact,
+)
+from bot.handlers.debug_handlers import debug_logger
+from bot.handlers.main_handlers import start
 
 
-@debug_logger(name='answer_all_messages')
+@debug_logger(name="answer_all_messages")
 async def answer_all_messages(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
@@ -15,3 +26,13 @@ async def answer_all_messages(
 
 
 answer_all_messages_handler = MessageHandler(filters.ALL, answer_all_messages)
+
+
+FUNCTIONS: dict[str, Callable[[Any, Any], Awaitable[States]]] = {
+    States.SHOW_CONTACT: show_contact,
+    States.CONTACT_US: contact_with_us,
+    States.QUESTIONS_AND_CONTACTS: select_assistance,
+    States.ASSISTANCE_TYPE: select_type_of_help,
+    States.REGION: receive_assistance,
+    States.ASSISTANCE.value: start,
+}
