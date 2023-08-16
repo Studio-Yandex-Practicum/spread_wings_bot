@@ -13,7 +13,7 @@ from bot.constants.messages import (
 from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
-from bot.keyboards.assistance import (  # parse_fund_programs_data,
+from bot.keyboards.assistance import (
     build_fund_program_keyboard,
     build_question_keyboard,
     build_region_keyboard,

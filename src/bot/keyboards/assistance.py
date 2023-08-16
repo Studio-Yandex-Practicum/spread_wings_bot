@@ -1,5 +1,5 @@
 import re
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 
 from asgiref.sync import sync_to_async
 from async_lru import alru_cache
@@ -165,7 +165,7 @@ async def build_fund_program_keyboard(
 
 def parse_callback_data(
     callback_data: str, pattern: str
-) -> Tuple[Optional[str], Optional[int]] | int:
+) -> Union[Tuple[Optional[str], Optional[int]], int]:
     """Parse data to get page number and question type for pagination."""
     match = re.match(pattern, callback_data)
     if not match:
