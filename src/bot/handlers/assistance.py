@@ -34,9 +34,11 @@ async def receive_assistance(
     """Select a region of assistance."""
     await update.callback_query.answer()
     keyboard = await build_region_keyboard()
-    setting = await BotSettings.objects.aget(key="assistance_message")
+    assistance_message = await BotSettings.objects.aget(
+        key="assistance_message"
+    )
     await update.callback_query.edit_message_text(
-        text=setting.value, reply_markup=keyboard
+        text=assistance_message.value, reply_markup=keyboard
     )
     return States.REGION
 
