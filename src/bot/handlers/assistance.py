@@ -10,16 +10,16 @@ from bot.constants.messages import (
     SELECT_QUESTION,
     Contacts,
 )
+from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
-from bot.keyboards.assistance import (
+from bot.keyboards.assistance import (  # parse_fund_programs_data,
     build_fund_program_keyboard,
     build_question_keyboard,
     build_region_keyboard,
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
     parse_callback_data,
-    parse_fund_programs_data,
     to_the_original_state_and_previous_step_keyboard_markup,
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
@@ -66,14 +66,11 @@ async def select_assistance(
 ) -> None:
     """Select assistance type."""
     query = update.callback_query
-    question_type, page_number = parse_callback_data(query.data)
-
+    question_type, page_number = parse_callback_data(query.data, HELP_TYPE)
     if question_type:
         context.user_data[QUESTION_TYPE] = question_type
-
     page_number = page_number or DEFAULT_PAGE
     region = context.user_data.get(States.REGION)
-
     await query.answer()
     keyboard = await build_question_keyboard(
         region,
@@ -95,9 +92,11 @@ async def fund_programs(
     """Show fund programs."""
     query = update.callback_query
     region = context.user_data.get(States.REGION)
-    page = parse_fund_programs_data(query.data) or DEFAULT_PAGE
+    page_number = (
+        parse_callback_data(query.data, FUND_PROGRAMS) or DEFAULT_PAGE
+    )
     await query.answer()
-    keyboard = await build_fund_program_keyboard(region, page)
+    keyboard = await build_fund_program_keyboard(region, page_number)
     if query.message.reply_markup.to_json() != keyboard.markup:
         await query.edit_message_text(
             text=SELECT_FUND_PROGRAM,

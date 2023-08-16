@@ -15,11 +15,7 @@ from bot.constants.buttons import (
     CONTACTS,
     DONATION_BUTTON,
 )
-from bot.constants.patterns import (
-    FUND_PROGRAMS,
-    PAGE_SEP_SYMBOL,
-    PARSE_CALLBACK_DATA,
-)
+from bot.constants.patterns import PAGE_SEP_SYMBOL, POSSIBLE_TYPE_OF_ASSISTANCE
 from bot.constants.states import States
 from bot.keyboards.utils.telegram_pagination import InlineKeyboardPaginator
 from bot.models import FundProgram, Question
@@ -86,7 +82,7 @@ async def build_question_keyboard(
     region: str,
     question_type: str,
     page: int,
-) -> InlineKeyboardMarkup:
+) -> InlineKeyboardPaginator:
     """
     Build telegram assistance questions keyboard async.
 
@@ -143,7 +139,9 @@ async def build_fund_program_keyboard(
     telegram_paginator = InlineKeyboardPaginator(
         data_paginator.num_pages,
         current_page=page,
-        data_pattern="".join(["fund_programs", PAGE_SEP_SYMBOL, "{page}"]),
+        data_pattern="".join(
+            [States.FUND_PROGRAMS.value, PAGE_SEP_SYMBOL, "{page}"]
+        ),
     )
     for program in data_paginator.page(page):
         telegram_paginator.add_before(
@@ -166,27 +164,18 @@ async def build_fund_program_keyboard(
 
 
 def parse_callback_data(
-    callback_data: str,
-) -> Tuple[Optional[str], Optional[int]]:
+    callback_data: str, pattern: str
+) -> Tuple[Optional[str], Optional[int]] | int:
     """Parse data to get page number and question type for pagination."""
-    match = re.match(PARSE_CALLBACK_DATA, callback_data)
-    if match:
-        question_type, page_number = match.groups()
-        page_number = int(page_number) if page_number is not None else None
-        return question_type, page_number
-    return None, None
-
-
-def parse_fund_programs_data(
-    callback_data: str,
-) -> int | None:
-    """Parse callback data to get page number for pagination."""
-    match = re.match(FUND_PROGRAMS, callback_data)
-    if match:
-        page_number = match.group(2)
-        page_number = int(page_number) if page_number is not None else None
+    match = re.match(pattern, callback_data)
+    if not match:
+        return None, None
+    bot_state, page_number = match.groups()
+    page_number = int(page_number) if page_number is not None else None
+    if match.group(1) in POSSIBLE_TYPE_OF_ASSISTANCE:
+        return bot_state, page_number
+    if match.group(1) in States.FUND_PROGRAMS.value:
         return page_number
-    return None
 
 
 contact_type_keyboard = [

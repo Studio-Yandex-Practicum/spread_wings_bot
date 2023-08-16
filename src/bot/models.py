@@ -110,7 +110,7 @@ class FundProgram(BaseModel):
         verbose_name="Название",
     )
     fund_text = models.TextField(
-        max_length=500,
+        max_length=4096,
         verbose_name="Описание программы",
     )
     short_description = models.CharField(

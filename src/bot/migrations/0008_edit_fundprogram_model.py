@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             model_name="fundprogram",
             name="fund_text",
             field=models.TextField(
-                max_length=500, verbose_name="Описание программы"
+                max_length=4096, verbose_name="Описание программы"
             ),
             preserve_default=False,
         ),
