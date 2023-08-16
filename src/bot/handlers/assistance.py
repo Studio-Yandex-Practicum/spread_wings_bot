@@ -6,8 +6,8 @@ from bot.constants.messages import (
     ASSISTANCE_MESSAGE,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
+    COORDINATOR_CONTACTS,
     SELECT_QUESTION,
-    Contacts,
 )
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
@@ -20,7 +20,7 @@ from bot.keyboards.assistance import (
     to_the_original_state_and_previous_step_keyboard_markup,
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
-from bot.models import HelpTypes
+from bot.models import Coordinator, HelpTypes
 
 DEFAULT_PAGE = 1
 QUESTION_TYPE = "question_type"
@@ -127,14 +127,22 @@ async def contact_with_us(
 
 @debug_logger(name="show_contact")
 async def show_contact(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
+    update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Show contacts of the regional curator."""
     query = update.callback_query
+    coordinator = await Coordinator.objects.filter(
+        region__region_key=context.user_data[States.REGION]
+    ).afirst()
     await query.answer()
     await query.edit_message_text(
-        text=Contacts[context.user_data[States.REGION]].value,
+        text=COORDINATOR_CONTACTS.format(
+            first_name=coordinator.first_name,
+            last_name=coordinator.last_name,
+            phone_number=coordinator.phone_number,
+            email_address=coordinator.email_address,
+            telegram_account=coordinator.telegram_account,
+        ),
         reply_markup=contact_show_keyboard_markup,
     )
     return States.SHOW_CONTACT
