@@ -166,7 +166,7 @@ async def build_fund_program_keyboard(
 def parse_callback_data(
     callback_data: str, pattern: str
 ) -> Union[Tuple[Optional[str], Optional[int]], int]:
-    """Parse data to get page number and question type for pagination."""
+    """Parse data to get page number and bot state for pagination."""
     match = re.match(pattern, callback_data)
     if not match:
         return None, None
