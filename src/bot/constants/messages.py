@@ -43,11 +43,3 @@ NO_TELEGRAM_USERNAME = (
     "username. Выберите, пожалуйста, другой способ связи "
     "или добавьте username в настройках вашего telegram аккаунта."
 )
-
-COORDINATOR_CONTACTS = (
-    "ФИО Координатора:"
-    " {first_name} {last_name}\n"
-    "Телефон: {phone_number}\n"
-    "Email: {email_address}\n"
-    "Telegram: {telegram_account}"
-)

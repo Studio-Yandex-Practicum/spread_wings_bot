@@ -6,7 +6,6 @@ from bot.constants.messages import (
     ASSISTANCE_MESSAGE,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
-    COORDINATOR_CONTACTS,
     SELECT_QUESTION,
 )
 from bot.constants.states import States
@@ -136,13 +135,7 @@ async def show_contact(
     ).afirst()
     await query.answer()
     await query.edit_message_text(
-        text=COORDINATOR_CONTACTS.format(
-            first_name=coordinator.first_name,
-            last_name=coordinator.last_name,
-            phone_number=coordinator.phone_number,
-            email_address=coordinator.email_address,
-            telegram_account=coordinator.telegram_account,
-        ),
+        text=f"{coordinator!r}",
         reply_markup=contact_show_keyboard_markup,
     )
     return States.SHOW_CONTACT
