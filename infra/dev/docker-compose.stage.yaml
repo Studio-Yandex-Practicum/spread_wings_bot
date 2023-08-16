@@ -9,7 +9,7 @@ services:
     ports:
       - "6379:6379"
     restart: always
-    command: > 
+    command: >
       bash -c "
         mkdir /data/log -p &&
         mkdir /data/bases -p &&
@@ -90,9 +90,11 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx.stage.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.stage.conf.template:/etc/nginx/templates/default.conf.template
       - ../../src/static:/var/html/static/
       - ../../src/media:/var/html/media/
+    env_file:
+      - ./.env
     depends_on:
       - bot
       - wordpress
