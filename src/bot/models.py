@@ -62,7 +62,8 @@ class HelpTypes(models.TextChoices):
     LEGAL_ASSISTANCE = "LEGAL_ASSISTANCE", _("Юридическая помощь")
     SOCIAL_ASSISTANCE = "SOCIAL_ASSISTANCE", _("Социальная помощь")
     PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
-        "Психологическая помощь")
+        "Психологическая помощь"
+    )
     COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
 
 
