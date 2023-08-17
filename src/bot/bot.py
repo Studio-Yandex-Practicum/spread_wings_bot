@@ -27,11 +27,13 @@ from bot.constants.patterns import (
     FUND_PROGRAMS,
     HELP_TYPE,
     MESSAGE_PATTERN,
+    NAME,
     PATTERN,
     SHOW_CONTACT,
 )
 from bot.constants.states import States
 from bot.handlers.ask_question import (
+    back_to_name,
     get_contact,
     get_name,
     get_question,
@@ -139,17 +141,17 @@ async def build_app() -> Application:
             States.QUESTION: [
                 MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
             ],
-            States.NAME: [
-                CallbackQueryHandler(get_name, pattern=CONTACT_TYPE),
-            ],
             States.CONTACT_TYPE: [
                 CallbackQueryHandler(select_contact_type, pattern=CONTACT),
             ],
-            States.ENTER_YOUR_CONTACT: [
-                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)
+            States.NAME: [
+                CallbackQueryHandler(get_name, pattern=CONTACT_TYPE),
             ],
-            States.ASK_QUESTION: [
-                CallbackQueryHandler(get_question, pattern=ASK_QUESTION)
+            States.NAME: [
+                CallbackQueryHandler(back_to_name, pattern=NAME),
+            ],
+            States.ENTER_YOUR_CONTACT: [
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact),
             ],
         },
         fallbacks=[start_handler],
@@ -191,6 +193,9 @@ async def build_app() -> Application:
                 CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
             ],
             States.ASK_QUESTION: [ask_question_handler],
+            States.NAME: [ask_question_handler],
+            States.CONTACT_TYPE: [ask_question_handler],
+            States.QUESTION: [ask_question_handler],
         },
         fallbacks=[
             CallbackQueryHandler(back_button, pattern=BACK),
