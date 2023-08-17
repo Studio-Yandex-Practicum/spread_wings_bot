@@ -24,7 +24,7 @@ jobs:
       run: isort .
 
     - name: Test with flake8
-      run: flake8 .
+      run: python -m flake8
 
     - name: Test with pytest
       working-directory: ./
