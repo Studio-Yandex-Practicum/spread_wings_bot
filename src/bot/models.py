@@ -125,9 +125,13 @@ class FundProgram(BaseModel):
         unique=True,
         verbose_name="Название",
     )
-    description = models.CharField(
-        max_length=500,
-        verbose_name="Описание",
+    fund_text = models.TextField(
+        max_length=4096,
+        verbose_name="Описание программы",
+    )
+    short_description = models.CharField(
+        max_length=20,
+        verbose_name="Короткое описание",
     )
     regions = models.ManyToManyField(
         Region,
