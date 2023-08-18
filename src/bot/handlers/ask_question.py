@@ -105,6 +105,7 @@ async def select_contact_type(
                 reply_markup=assistance_keyboard_markup,
             )
         return States.END
+    context.user_data["contact_type"] = contact_type
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
     return States.ENTER_YOUR_CONTACT
 
