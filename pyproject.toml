@@ -20,6 +20,8 @@ django-asgi-lifespan = "^0.1.0"
 psycopg2-binary = "^2.9.6"
 django-environ = "^0.10.0"
 async-lru = "^2.0.3"
+pytest-django = "^4.5.2"
+pytest-asyncio = "^0.21.1"
 
 
 [tool.poetry.group.dev.dependencies]
