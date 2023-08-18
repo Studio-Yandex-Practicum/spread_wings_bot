@@ -37,6 +37,10 @@ transliterate = "^1.10.2"
 
 
 [tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+filterwarnings = [
+    "ignore::UserWarning",
+]
 addopts = "-vv -p no:cacheprovider -p no:warnings"
 testpaths = [
     "tests",
