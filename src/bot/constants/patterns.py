@@ -6,12 +6,11 @@ PATTERN = "^{state}$"
 
 MESSAGE_PATTERN = r"^[^\/].*$"
 BACK = r"back_to_"
-CONTACT = PATTERN.format(state="EMAIL|PHONE|TELEGRAM")
 POSSIBLE_TYPE_OF_ASSISTANCE = PATTERN.format(
     state="".join(f"{h_type}|" for h_type in HelpTypes.names)
 )
 HELP_TYPE = rf"({POSSIBLE_TYPE_OF_ASSISTANCE})(?:{PAGE_SEP_SYMBOL}(\d+))?"
-CONTACT_TYPE = PATTERN.format(state=States.CONTACT_TYPE.value)
+CONTACT_TYPE = PATTERN.format(state="EMAIL|PHONE|TELEGRAM")
 ASK_QUESTION = PATTERN.format(state=States.ASK_QUESTION.value)
 ASSISTANCE = PATTERN.format(state=States.ASSISTANCE.value)
 FUND_PROGRAMS = PATTERN.format(

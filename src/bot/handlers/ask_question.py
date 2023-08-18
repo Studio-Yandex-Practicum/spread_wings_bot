@@ -29,7 +29,7 @@ async def get_question(
     question = update.message.text
     context.user_data["question"] = question
     await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE)
-    return States.QUESTION
+    return States.GET_NAME
 
 
 @debug_logger(name="get_name")
@@ -107,7 +107,7 @@ async def select_contact_type(
         return States.END
     context.user_data["contact_type"] = contact_type
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
-    return States.ENTER_YOUR_CONTACT
+    return States.GET_CONTACT
 
 
 @debug_logger(name="get_contact")
@@ -123,7 +123,7 @@ async def get_contact(
             UserContacts(phone=raw_contact)
     except ValidationError:
         await update.message.reply_text(text="Неверный формат")
-        return States.ENTER_YOUR_CONTACT
+        return States.GET_CONTACT
     context.user_data["contact"] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
     coordinator_email = await get_coordinator_email(context)

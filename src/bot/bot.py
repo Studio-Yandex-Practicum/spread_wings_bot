@@ -21,7 +21,6 @@ from bot.constants.patterns import (
     ASK_QUESTION,
     ASSISTANCE,
     BACK,
-    CONTACT,
     CONTACT_TYPE,
     CONTACT_US,
     FUND_PROGRAMS,
@@ -141,16 +140,15 @@ async def build_app() -> Application:
         persistent=True,
         name="ask_question_handler",
         states={
-            States.QUESTION: [
+            States.GET_NAME: [
                 MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
             ],
             States.CONTACT_TYPE: [
-                CallbackQueryHandler(select_contact_type, pattern=CONTACT),
+                CallbackQueryHandler(
+                    select_contact_type, pattern=CONTACT_TYPE
+                ),
             ],
-            States.NAME: [
-                CallbackQueryHandler(get_name, pattern=CONTACT_TYPE),
-            ],
-            States.ENTER_YOUR_CONTACT: [
+            States.GET_CONTACT: [
                 MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)
             ],
             States.ASK_QUESTION: [
