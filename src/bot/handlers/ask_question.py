@@ -47,7 +47,7 @@ async def get_name(
 
 
 @sync_to_async
-def get_coordinator_email(context):
+def get_coordinator_email(context: ContextTypes.DEFAULT_TYPE):
     """Get coordinator email address."""
     coordinator = Coordinator.objects.get(
         region__region_key=context.user_data[States.REGION],
@@ -56,7 +56,7 @@ def get_coordinator_email(context):
 
 
 async def send_message_to_coordinator_email(
-    context, coordinator_email
+    context: ContextTypes.DEFAULT_TYPE, coordinator_email: str
 ) -> None:
     """Send email with question to coordinator email address."""
     question_form = UserQuestion(
