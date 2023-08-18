@@ -32,7 +32,6 @@ async def get_question(
     context.user_data["question"] = question
     await update.message.reply_text(
         WHAT_IS_YOUR_NAME_MESSAGE,
-        # добавить клавиатуру, кнопку возврата назад
         reply_markup=back_to_previous_step_keyboard_markup,
     )
     return States.QUESTION
@@ -45,7 +44,6 @@ async def back_to_name(
 ) -> States:
     """Ask name handler."""
     query = update.callback_query
-    # await query.answer()
     await query.edit_message_text(
         text=WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
