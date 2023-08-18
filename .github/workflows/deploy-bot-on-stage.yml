@@ -53,3 +53,7 @@ jobs:
             sudo docker-compose -f docker-compose.stage.yaml stop
             sudo docker-compose -f docker-compose.stage.yaml pull
             sudo docker-compose -f docker-compose.stage.yaml up -d
+
+      - name: remove old docker img
+        run: |
+          sudo docker image prune -a --force
