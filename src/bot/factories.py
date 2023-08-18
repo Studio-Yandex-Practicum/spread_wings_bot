@@ -6,7 +6,7 @@ from core.models import Region
 
 
 class CoordinatorFactory(DjangoModelFactory):
-    """Model for creating test data for the Coordinator model."""
+    """Coordinator Model Factory."""
 
     class Meta:
         model = Coordinator
@@ -22,7 +22,7 @@ class CoordinatorFactory(DjangoModelFactory):
 
 
 class QuestionFactory(DjangoModelFactory):
-    """Model for creating test data for the Question model."""
+    """Question Model Factory."""
 
     class Meta:
         model = Question
@@ -33,7 +33,7 @@ class QuestionFactory(DjangoModelFactory):
 
 
 class FundProgramFactory(DjangoModelFactory):
-    """Model for creating test data for the FundProgram model."""
+    """Fund Program Model Factory."""
 
     class Meta:
         model = FundProgram
