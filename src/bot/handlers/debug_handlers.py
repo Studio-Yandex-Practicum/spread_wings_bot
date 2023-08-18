@@ -8,7 +8,7 @@ logger = logging.getLogger("core")
 
 
 def debug_logger(name: str) -> Callable:
-    """Log function for handlers"""
+    """Log function for handlers."""
 
     def log(func: Callable) -> Callable:
         if not settings.DEBUG:

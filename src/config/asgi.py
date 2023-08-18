@@ -8,6 +8,7 @@ django_application = get_asgi_application()
 
 
 async def application(scope, receive, send):
+    """Web-server and application interaction settings."""
     if scope["type"] in {"http", "lifespan"}:
         await django_application(scope, receive, send)
     else:

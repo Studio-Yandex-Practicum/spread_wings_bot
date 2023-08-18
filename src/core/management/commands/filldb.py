@@ -25,9 +25,12 @@ QUESTION_TYPE_MENTAL_COUNT = int(
 
 
 class Command(BaseCommand):
+    """Generating test data and filling the database with it."""
+
     help = "Fill the database with test data"
 
     def handle(self, *args, **kwargs):
+        """Clean up and fill in the model data."""
         self.stdout.write("Deleting old data...")
         Question.objects.all().delete()
         FundProgram.objects.all().delete()

@@ -15,6 +15,7 @@ telegram_regex = RegexValidator(
 
 
 def format_phone_number(phone):
+    """Format the phone number."""
     formatted = ""
     i = 0
 
@@ -41,4 +42,5 @@ def format_phone_number(phone):
 
 
 def format_telegram_link(telegram):
+    """Format the telegram link."""
     return "https://t.me/" + telegram

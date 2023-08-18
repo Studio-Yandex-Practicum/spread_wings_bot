@@ -10,6 +10,8 @@ KEYBOARD_PAGE_OFFSET = 3
 
 
 class InlineKeyboardPaginator:
+    """A utility class for generating pagination keyboards for use in Telegram UI."""
+
     _keyboard_before = None
     _keyboard = None
     _keyboard_after = None
@@ -124,6 +126,7 @@ class InlineKeyboardPaginator:
 
     @property
     def keyboard(self):
+        """Builds a keyboard if it does not exist and returns it."""
         if self._keyboard is None:
             self._build()
 
@@ -131,7 +134,7 @@ class InlineKeyboardPaginator:
 
     @property
     def markup(self):
-        """InlineKeyboardMarkup"""
+        """Inline keyboard markup."""
         keyboards = list()
 
         keyboards.extend(self._keyboard_before)
