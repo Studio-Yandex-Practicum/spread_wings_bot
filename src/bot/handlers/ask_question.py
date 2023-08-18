@@ -20,6 +20,16 @@ from bot.models import Coordinator
 from bot.models_pydantic.users_questions import UserContacts, UserQuestion
 from core.mailing import send_email
 
+CONTACT_NAME = "name"
+CONTACT = "contact"
+CONTACT_TYPE = "contact_type"
+EMAIL = "EMAIL"
+PHONE = "PHONE"
+QUESTION = "question"
+QUESTION_TYPE = "question_type"
+TELEGRAM = "TELEGRAM"
+TELEGRAM_USERNAME_INDEX = "@"
+
 
 @debug_logger(name="get_question")
 async def get_question(
@@ -27,7 +37,7 @@ async def get_question(
 ) -> States:
     """Question field handler."""
     question = update.message.text
-    context.user_data["question"] = question
+    context.user_data[QUESTION] = question
     await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE)
     return States.GET_NAME
 
@@ -38,7 +48,7 @@ async def get_name(
 ) -> States:
     """Name field handler."""
     name = update.message.text
-    context.user_data["name"] = name
+    context.user_data[CONTACT_NAME] = name
     await update.message.reply_text(
         CONTACT_TYPE_MESSAGE.format(name=name.capitalize()),
         reply_markup=ask_question_keyboard_markup,
@@ -60,10 +70,10 @@ async def send_message_to_coordinator_email(
 ) -> None:
     """Send email with question to coordinator email address."""
     question_form = UserQuestion(
-        name=context.user_data["name"],
-        contact=context.user_data["contact"],
-        question=context.user_data["question"],
-        question_type=context.user_data["question_type"],
+        name=context.user_data[CONTACT_NAME],
+        contact=context.user_data[CONTACT],
+        question=context.user_data[QUESTION],
+        question_type=context.user_data[QUESTION_TYPE],
     )
     await send_email(
         subject=MESSAGE_FROM_TELEGRAM_BOT,
@@ -80,10 +90,10 @@ async def select_contact_type(
 ) -> States:
     """Type of contact field handler."""
     query = update.callback_query
-    contact_type = context.user_data["contact_type"] = query.data
+    contact_type = context.user_data[CONTACT_TYPE] = query.data
     assistance_keyboard_markup = await build_assistance_keyboard()
     coordinator_email = await get_coordinator_email(context)
-    if contact_type == "TELEGRAM":
+    if contact_type == TELEGRAM:
         if not query.message.chat.username:
             await context.bot.answer_callback_query(
                 callback_query_id=update.callback_query.id,
@@ -91,8 +101,8 @@ async def select_contact_type(
                 show_alert=True,
             )
             return States.CONTACT_TYPE
-        context.user_data["contact"] = "".join(
-            ["@", query.message.chat.username]
+        context.user_data[CONTACT] = "".join(
+            [TELEGRAM_USERNAME_INDEX, query.message.chat.username]
         )
         try:
             await send_message_to_coordinator_email(
@@ -119,14 +129,14 @@ async def get_contact(
     """Contact field handler."""
     raw_contact = update.message.text
     try:
-        if context.user_data["contact_type"] == "EMAIL":
+        if context.user_data[CONTACT_TYPE] == EMAIL:
             UserContacts(email=raw_contact)
-        else:
+        if context.user_data[CONTACT_TYPE] == PHONE:
             UserContacts(phone=raw_contact)
     except ValidationError:
         await update.message.reply_text(text="Неверный формат")
         return States.GET_CONTACT
-    context.user_data["contact"] = raw_contact
+    context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
     coordinator_email = await get_coordinator_email(context)
     try:
