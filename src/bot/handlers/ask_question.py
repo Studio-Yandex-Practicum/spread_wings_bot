@@ -80,7 +80,7 @@ async def select_contact_type(
 ) -> States:
     """Type of contact field handler."""
     query = update.callback_query
-    contact_type = query.data
+    contact_type = context.user_data["contact_type"] = query.data
     assistance_keyboard_markup = await build_assistance_keyboard()
     coordinator_email = await get_coordinator_email(context)
     if contact_type == "TELEGRAM":
@@ -91,6 +91,9 @@ async def select_contact_type(
                 show_alert=True,
             )
             return States.CONTACT_TYPE
+        context.user_data["contact"] = "".join(
+            ["@", query.message.chat.username]
+        )
         try:
             await send_message_to_coordinator_email(
                 context=context, coordinator_email=coordinator_email
@@ -105,7 +108,6 @@ async def select_contact_type(
                 reply_markup=assistance_keyboard_markup,
             )
         return States.END
-    context.user_data["contact_type"] = contact_type
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
     return States.GET_CONTACT
 
