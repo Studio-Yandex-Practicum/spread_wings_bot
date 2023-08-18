@@ -1,28 +1,36 @@
-from random import sample, choice, randint
+from random import choice, randint, sample
 
 from django.core.management.base import BaseCommand
 
+from bot.factories import (
+    CoordinatorFactory,
+    FundProgramFactory,
+    QuestionFactory,
+)
+from bot.models import Coordinator, FundProgram, HelpTypes, Question
 from core.factories import RegionFactory
 from core.models import Region
-from bot.factories import (CoordinatorFactory,
-                           FundProgramFactory,
-                           QuestionFactory)
-from bot.models import (Coordinator,
-                        FundProgram,
-                        Question,
-                        HelpTypes,)
 
 REGION_COUNT = int(input("Необходимое количество регионов: "))
 PROGRAM_COUNT = int(input("Необходимое количество программ: "))
-QUESTION_TYPE_LAW_COUNT = int(input("Необходимое количество вопросов юридической помощи: "))
-QUESTION_TYPE_SOCIAL_COUNT = int(input("Необходимое количество вопросов социальной помощи: "))
-QUESTION_TYPE_MENTAL_COUNT = int(input("Необходимое количество вопросов психологической помощи: "))
+QUESTION_TYPE_LAW_COUNT = int(
+    input("Необходимое количество вопросов юридической помощи: ")
+)
+QUESTION_TYPE_SOCIAL_COUNT = int(
+    input("Необходимое количество вопросов социальной помощи: ")
+)
+QUESTION_TYPE_MENTAL_COUNT = int(
+    input("Необходимое количество вопросов психологической помощи: ")
+)
 
 
 class Command(BaseCommand):
-    help = 'Fill the database with test data'
+    """Command for fill the database with test data."""
+
+    help = "Fill the database with test data"
 
     def handle(self, *args, **kwargs):
+        """Handle and fill the database with test data."""
         self.stdout.write("Deleting old data...")
         Question.objects.all().delete()
         FundProgram.objects.all().delete()

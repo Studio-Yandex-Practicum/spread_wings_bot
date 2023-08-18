@@ -72,7 +72,10 @@ class Bot:
         self._stop_event = asyncio.Event()
 
     def start(self) -> None:
-        """Start the bot. It will check for updates until the stop() method is called."""
+        """Start the bot.
+
+        It will check for updates until the stop() method is called.
+        """
         logger.info("Bot starting...")
         self._stop_event.clear()
         asyncio.ensure_future(self._run(), loop=asyncio.get_event_loop())
@@ -110,7 +113,10 @@ class Bot:
 
     @classmethod
     def get_instance(cls) -> Self:
-        """Get the bot instance or raise an exception if it is not initialized."""
+        """Get the bot instance.
+
+        Raise an exception if it is not initialized.
+        """
         if cls._instance is None:
             raise RuntimeError("Bot is not initialized")
         return cls._instance
@@ -128,7 +134,6 @@ async def build_app() -> Application:
         message=r".*CallbackQueryHandler",
         category=PTBUserWarning,
     )
-
     ask_question_handler = ConversationHandler(
         entry_points=[
             MessageHandler(filters.Regex(MESSAGE_PATTERN), get_question),
@@ -139,11 +144,11 @@ async def build_app() -> Application:
             States.QUESTION: [
                 MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
             ],
-            States.NAME: [
-                CallbackQueryHandler(get_name, pattern=CONTACT_TYPE),
-            ],
             States.CONTACT_TYPE: [
                 CallbackQueryHandler(select_contact_type, pattern=CONTACT),
+            ],
+            States.NAME: [
+                CallbackQueryHandler(get_name, pattern=CONTACT_TYPE),
             ],
             States.ENTER_YOUR_CONTACT: [
                 MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)

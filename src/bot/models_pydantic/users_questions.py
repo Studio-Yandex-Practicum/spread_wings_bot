@@ -3,7 +3,14 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Extra, Field, validator
 
-from bot.validators import PHONE
+from bot.validators import EMAIL, PHONE
+
+TYPE_QUESTION_TYPES = {
+    "LEGAL_ASSISTANCE": "Юридическая помощь",
+    "SOCIAL_ASSISTANCE": "Социальная помощь",
+    "PSYCHOLOGICAL_ASSISTANCE": "Психологическая помощь",
+    "COMMON_QUESTION": "Общий вопрос",
+}
 
 
 class UserContacts(BaseModel):
@@ -16,8 +23,15 @@ class UserContacts(BaseModel):
     def phone_validation(cls, phone):
         """Phone field validator."""
         if phone and not re.match(PHONE, phone):
-            raise ValueError()
+            raise ValueError("123")
         return phone
+
+    @validator("email")
+    def email_validator(cls, email):
+        """Email field validator."""
+        if email and not re.match(EMAIL, email):
+            raise ValueError("456")
+        return email
 
     class Config:
         """Additional params."""
@@ -28,7 +42,7 @@ class UserContacts(BaseModel):
 class UserQuestion(BaseModel):
     """Input data question model."""
 
-    question: str = Field(..., min_length=20)
+    question: str = Field(..., min_length=5)
     name: str = Field(..., min_length=1)
     contact: str
     question_type: str
@@ -36,8 +50,9 @@ class UserQuestion(BaseModel):
     def to_representation(self):
         """Representation data."""
         return (
-            f"Пользователь {self.name} (контакт: {self.contact})\n"
-            f"Тема вопроса: {self.question_type}\n"
+            f"Пользователь: {self.name}\n"
+            f"Контакт: {self.contact}\n"
+            f"Тема вопроса: {TYPE_QUESTION_TYPES[self.question_type]}\n"
             f"Вопрос: {self.question}"
         )
 
