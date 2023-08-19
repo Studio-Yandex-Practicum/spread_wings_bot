@@ -143,7 +143,7 @@ LOGGING = {
             "formatter": "default_formatter",
         },
         "file": {
-            "class": "logging.handlers.RotatingFileHandler",
+            "class": "core.custom_handler.CustomRotatingFileHandler",
             "formatter": "default_formatter",
             "filename": BASE_DIR / "logs" / "bot.log",
             "maxBytes": 10**6,
