@@ -24,6 +24,7 @@ CONTACT_NAME = "name"
 CONTACT = "contact"
 CONTACT_TYPE = "contact_type"
 EMAIL = "EMAIL"
+VALIDATION_ERROR_MESSAGE = "Допущена ошибка при вводе данных!\n\n{error}\n"
 PHONE = "PHONE"
 QUESTION = "question"
 QUESTION_TYPE = "question_type"
@@ -133,8 +134,10 @@ async def get_contact(
             UserContacts(email=raw_contact)
         if context.user_data[CONTACT_TYPE] == PHONE:
             UserContacts(phone=raw_contact)
-    except ValidationError:
-        await update.message.reply_text(text="Неверный формат")
+    except ValidationError as error:
+        await update.message.reply_text(
+            text=VALIDATION_ERROR_MESSAGE.format(error=error)
+        )
         return States.GET_CONTACT
     context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()

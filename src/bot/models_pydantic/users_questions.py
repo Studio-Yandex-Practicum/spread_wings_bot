@@ -3,10 +3,9 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Extra, Field, validator
 
-from bot.validators import EMAIL, PHONE
+from bot.validators import PHONE
 
-EMAIL_VALUE_ERROR = "Неправильно указана электронная почта: {email}"
-PHONE_NUMBER_VALUE_ERROR = "Неправильно указан номер телефона: {phone_number}"
+PHONE_NUMBER_VALUE_ERROR = "value is not a valid phone number: {phone_number}"
 TYPE_QUESTION_TYPES = {
     "LEGAL_ASSISTANCE": "Юридическая помощь",
     "SOCIAL_ASSISTANCE": "Социальная помощь",
@@ -29,13 +28,6 @@ class UserContacts(BaseModel):
                 PHONE_NUMBER_VALUE_ERROR.format(phone_number=phone)
             )
         return phone
-
-    @validator("email")
-    def email_validator(cls, email):
-        """Email field validator."""
-        if email and not re.match(EMAIL, email):
-            raise ValueError(EMAIL_VALUE_ERROR.format(email=email))
-        return email
 
     class Config:
         """Additional params."""
