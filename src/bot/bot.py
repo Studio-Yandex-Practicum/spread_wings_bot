@@ -173,6 +173,7 @@ async def build_app() -> Application:
             ],
             States.NAME: [
                 CallbackQueryHandler(ask_name, pattern=NAME),
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
             ],
             States.CONTACT_TYPE: [
                 CallbackQueryHandler(select_contact_type, pattern=CONTACT),
