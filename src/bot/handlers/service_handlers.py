@@ -5,7 +5,7 @@ from telegram.ext import ContextTypes, MessageHandler, filters
 
 from bot.constants.messages import ANSWER_TO_USER_MESSAGE
 from bot.constants.states import States
-from bot.handlers.ask_question import back_to_name
+from bot.handlers.ask_question import ask_name
 from bot.handlers.assistance import (
     ask_question,
     contact_with_us,
@@ -40,5 +40,5 @@ FUNCTIONS: dict[str, Callable[[Any, Any], Awaitable[States]]] = {
     States.REGION: receive_assistance,
     States.SHOW_CONTACT: show_contact,
     States.QUESTION: ask_question,
-    States.NAME: back_to_name,
+    States.NAME: ask_name,
 }

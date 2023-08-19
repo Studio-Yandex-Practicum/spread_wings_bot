@@ -37,13 +37,14 @@ async def get_question(
     return States.QUESTION
 
 
-@debug_logger(name="back_to_name")
-async def back_to_name(
+@debug_logger(name="ask_name")
+async def ask_name(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
     """Ask name handler."""
     query = update.callback_query
+    await query.answer()
     await query.edit_message_text(
         text=WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
