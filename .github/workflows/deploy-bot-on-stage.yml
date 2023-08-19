@@ -11,6 +11,11 @@ jobs:
       name: stage_deploy
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+
+      - name: docker remove all unused
+        run: |
+          sudo docker system prune --force
+
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
         with:
@@ -53,7 +58,3 @@ jobs:
             sudo docker-compose -f docker-compose.stage.yaml stop
             sudo docker-compose -f docker-compose.stage.yaml pull
             sudo docker-compose -f docker-compose.stage.yaml up -d
-
-      - name: remove old docker img
-        run: |
-          sudo docker image prune -a --force
