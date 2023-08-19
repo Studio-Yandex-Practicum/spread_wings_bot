@@ -7,7 +7,6 @@ ASSISTANCE_MESSAGE = (
     "(Выбор региона)"
 )
 CHOOSE_REGION_MESSAGE = "Выберите, пожалуйста, регион"
-
 ASSISTANCE_TYPE_MESSAGE = (
     "[Заглушка]Сообщение в момент выбора юр., соц., психол., помощи и т.д."
 )
