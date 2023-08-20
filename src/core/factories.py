@@ -5,7 +5,7 @@ from core.models import Region
 
 
 class RegionFactory(DjangoModelFactory):
-    """Region model factory."""
+    """Model for creating test data for the Region model."""
 
     class Meta:
         model = Region

@@ -276,9 +276,21 @@ make filldb
    ```shell
    pytest
    ```
+
+   Или
+
+   ```shell
+   make run_tests
+   ```
 Выборочно тесты запускаются с указанием выбранного файла:
    ```shell
-   pytest test_bot.py
+   pytest test_start.py
+   ```
+
+   Или
+
+   ```shell
+   make run_unit_tests
    ```
 
 #### Написание тестов
