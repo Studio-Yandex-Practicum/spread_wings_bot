@@ -1,0 +1,54 @@
+name: App tests workflow
+
+on: [ push ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    env:
+      NGINX_HOST: ${{ secrets.NGINX_HOST }}
+      NGINX_PORT: ${{ secrets.NGINX_PORT }}
+
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+
+      WEBHOOK_ENABLED: ${{ secrets.WEBHOOK_ENABLED }}
+      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+      WEBHOOK_SECRET_KEY: ${{ secrets.WEBHOOK_SECRET_KEY }}
+
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      REDIS: ${{ secrets.REDIS }}
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      DEBUG: ${{ secrets.DEBUG }}
+      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+      POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+      EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
+      DEFAULT_EMAIL_ADDRESS: ${{ secrets.DEFAULT_EMAIL_ADDRESS }}
+      EMAIL_ACCOUNT: ${{ secrets.EMAIL_ACCOUNT }}
+      EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      EMAIL_PORT: 456
+
+    defaults:
+      run:
+        working-directory: ./src
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install -r ../requirements/develop.txt
+
+      - name: Run tests
+        working-directory: ./src
+        run: pytest
