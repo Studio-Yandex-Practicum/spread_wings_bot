@@ -30,6 +30,7 @@ from bot.constants.patterns import (
     PATTERN,
     QUESTION,
     SHOW_CONTACT,
+    SHOW_PROGRAM,
 )
 from bot.constants.states import States
 from bot.handlers.ask_question import (
@@ -47,6 +48,7 @@ from bot.handlers.assistance import (
     select_assistance,
     select_type_of_help,
     show_contact,
+    show_program,
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
@@ -152,6 +154,7 @@ async def build_app() -> Application:
                 CallbackQueryHandler(fund_programs, pattern=FUND_PROGRAMS),
                 CallbackQueryHandler(contact_with_us, pattern=CONTACT_US),
                 CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
+                CallbackQueryHandler(show_program, pattern=SHOW_PROGRAM),
             ],
             States.QUESTIONS_AND_CONTACTS: [
                 CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),

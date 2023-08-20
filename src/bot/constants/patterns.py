@@ -17,9 +17,7 @@ ASSISTANCE = PATTERN.format(state=States.ASSISTANCE.value)
 FUND_PROGRAMS = PATTERN.format(
     state=rf"({States.FUND_PROGRAMS.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 )
-PARSE_FUND_PROGRAMS_CALLBACK_DATA = (
-    rf"({States.FUND_PROGRAMS.value}:{PAGE_SEP_SYMBOL}(\d+))?"
-)
+SHOW_PROGRAM = rf"({States.SHOW_PROGRAM.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 CONTACT_US = PATTERN.format(state=States.CONTACT_US.value)
 SHOW_CONTACT = PATTERN.format(state=States.SHOW_CONTACT.value)
 NAME = (PATTERN.format(state=States.NAME.value),)

@@ -1,5 +1,4 @@
-import re
-from typing import Optional, Tuple, Union
+from functools import lru_cache
 
 from asgiref.sync import sync_to_async
 from async_lru import alru_cache
@@ -15,7 +14,7 @@ from bot.constants.buttons import (
     CONTACTS,
     DONATION_BUTTON,
 )
-from bot.constants.patterns import PAGE_SEP_SYMBOL, POSSIBLE_TYPE_OF_ASSISTANCE
+from bot.constants.patterns import PAGE_SEP_SYMBOL
 from bot.constants.states import States
 from bot.keyboards.utils.telegram_pagination import InlineKeyboardPaginator
 from bot.models import FundProgram, Question
@@ -147,7 +146,13 @@ async def build_fund_program_keyboard(
         telegram_paginator.add_before(
             InlineKeyboardButton(
                 text=program.get("short_description"),
-                callback_data=program.get("id"),
+                callback_data="".join(
+                    [
+                        States.SHOW_PROGRAM.value,
+                        PAGE_SEP_SYMBOL,
+                        str(program.get("id")),
+                    ]
+                ),
             )
         )
     telegram_paginator.add_after(
@@ -155,27 +160,29 @@ async def build_fund_program_keyboard(
             text=BACK_BUTTON,
             callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
         ),
-        InlineKeyboardButton(
-            text=ASK_QUESTION,
-            callback_data=States.ASK_QUESTION.value,
-        ),
     )
     return telegram_paginator
 
 
-def parse_callback_data(
-    callback_data: str, pattern: str
-) -> Union[Tuple[Optional[str], Optional[int]], int]:
-    """Parse data to get page number and bot state for pagination."""
-    match = re.match(pattern, callback_data)
-    if not match:
-        return None, None
-    bot_state, page_number = match.groups()
-    page_number = int(page_number) if page_number is not None else None
-    if match.group(1) in POSSIBLE_TYPE_OF_ASSISTANCE:
-        return bot_state, page_number
-    if match.group(1) in States.FUND_PROGRAMS.value:
-        return page_number
+@lru_cache()
+def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
+    """
+    Build telegram show fun program keyboard async.
+
+    After building cache it.
+    """
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                text=BACK_BUTTON,
+                callback_data=f"back_to_{States.FUND_PROGRAMS.value}",
+            ),
+            InlineKeyboardButton(
+                ASK_QUESTION, callback_data=States.ASK_QUESTION.value
+            ),
+        ]
+    ]
+    return InlineKeyboardMarkup(keyboard)
 
 
 contact_type_keyboard = [
