@@ -37,3 +37,9 @@ def mocked_message(mocked_message_text):
     message = Mock()
     message.value = mocked_message_text
     return message
+
+
+@pytest.fixture
+def async_mocked_reply_markup():
+    """Message object mock."""
+    return AsyncMock(return_value=[])
