@@ -31,7 +31,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         """Clean up and fill in the model data."""
-
         self.stdout.write("Deleting old data...")
         Question.objects.all().delete()
         FundProgram.objects.all().delete()
