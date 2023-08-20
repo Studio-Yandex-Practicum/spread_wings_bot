@@ -17,3 +17,4 @@ class States(str, enum.Enum):
     CONTACT_TYPE = "contact_type"
     ENTER_YOUR_CONTACT = "enter_your_contact"
     END = "end"
+    SHOW_PROGRAM = "show_program"

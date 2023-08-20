@@ -3,27 +3,29 @@ from telegram.ext import ContextTypes
 
 from bot.constants.messages import (
     ASK_YOUR_QUESTION,
-    ASSISTANCE_MESSAGE,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
+    SELECT_FUND_PROGRAM,
     SELECT_QUESTION,
-    Contacts,
 )
+from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE, SHOW_PROGRAM
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
+    build_fund_program_keyboard,
     build_question_keyboard,
     build_region_keyboard,
+    build_show_fund_program_keyboard,
     contact_show_keyboard_markup,
     contact_type_keyboard_markup,
-    parse_callback_data,
     to_the_original_state_and_previous_step_keyboard_markup,
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
-from bot.models import HelpTypes
+from bot.keyboards.utils.callback_data_parse import parse_callback_data
+from bot.models import Coordinator, FundProgram, HelpTypes
+from bot_settings.models import BotSettings
 
 DEFAULT_PAGE = 1
-QUESTION_TYPE = "question_type"
 
 
 @debug_logger(name="receive_assistance")
@@ -34,8 +36,11 @@ async def receive_assistance(
     """Select a region of assistance."""
     await update.callback_query.answer()
     keyboard = await build_region_keyboard()
+    assistance_message = await BotSettings.objects.aget(
+        key="assistance_message"
+    )
     await update.callback_query.edit_message_text(
-        text=ASSISTANCE_MESSAGE, reply_markup=keyboard
+        text=assistance_message.value, reply_markup=keyboard
     )
     return States.REGION
 
@@ -63,19 +68,15 @@ async def select_assistance(
 ) -> None:
     """Select assistance type."""
     query = update.callback_query
-    question_type, page_number = parse_callback_data(query.data)
-
-    if question_type:
-        context.user_data[QUESTION_TYPE] = question_type
-
+    question_type, page_number = parse_callback_data(query.data, HELP_TYPE)
     page_number = page_number or DEFAULT_PAGE
+    if question_type:
+        context.user_data[States.QUESTION] = question_type
     region = context.user_data.get(States.REGION)
-
     await query.answer()
-
     keyboard = await build_question_keyboard(
         region,
-        context.user_data[QUESTION_TYPE],
+        context.user_data[States.QUESTION],
         page_number,
     )
     if query.message.reply_markup.to_json() != keyboard.markup:
@@ -91,7 +92,17 @@ async def fund_programs(
     context: ContextTypes.DEFAULT_TYPE,
 ) -> None:
     """Show fund programs."""
-    pass
+    query = update.callback_query
+    region = context.user_data.get(States.REGION)
+    _, page_number = parse_callback_data(query.data, FUND_PROGRAMS)
+    page_number = page_number or DEFAULT_PAGE
+    await query.answer()
+    keyboard = await build_fund_program_keyboard(region, page_number)
+    if query.message.reply_markup.to_json() != keyboard.markup:
+        await query.edit_message_text(
+            text=SELECT_FUND_PROGRAM,
+            reply_markup=keyboard.markup,
+        )
 
 
 @debug_logger(name="ask_question")
@@ -116,7 +127,7 @@ async def contact_with_us(
 ) -> States:
     """Ask question and show contacts."""
     query = update.callback_query
-    context.user_data[QUESTION_TYPE] = HelpTypes.COMMON_QUESTION.value
+    context.user_data[States.QUESTION] = HelpTypes.COMMON_QUESTION.value
     await query.answer()
     await query.edit_message_text(
         text=CONTACT_SHOW_MESSAGE,
@@ -127,14 +138,38 @@ async def contact_with_us(
 
 @debug_logger(name="show_contact")
 async def show_contact(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
+    update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Show contacts of the regional curator."""
     query = update.callback_query
+    coordinator = await Coordinator.objects.filter(
+        region__region_key=context.user_data[States.REGION]
+    ).afirst()
     await query.answer()
     await query.edit_message_text(
-        text=Contacts[context.user_data[States.REGION]].value,
+        text=f"{coordinator!r}",
         reply_markup=contact_show_keyboard_markup,
     )
     return States.SHOW_CONTACT
+
+
+@debug_logger(name="show_program")
+async def show_program(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    """Show selected program data info."""
+    query = update.callback_query
+    _, program_id = parse_callback_data(query.data, SHOW_PROGRAM)
+    reply_text = "Program does not exists!"
+    if program_id:
+        try:
+            program = await FundProgram.objects.aget(id=program_id)
+            reply_text = program.fund_text
+        except FundProgram.DoesNotExist:
+            pass
+    keyboard = build_show_fund_program_keyboard()
+    await query.answer()
+    await query.edit_message_text(
+        text=reply_text,
+        reply_markup=keyboard,
+    )

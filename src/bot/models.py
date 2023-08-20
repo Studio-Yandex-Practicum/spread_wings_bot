@@ -34,6 +34,7 @@ class Coordinator(BaseModel):
         unique=True,
         validators=[phone_regex],
         blank=True,
+        null=True,
         verbose_name="Номер телефона",
     )
     telegram_account = models.CharField(
@@ -41,14 +42,29 @@ class Coordinator(BaseModel):
         unique=True,
         validators=[telegram_regex],
         blank=True,
+        null=True,
         verbose_name="Telegram",
     )
 
     def save(self, *args, **kwargs):
-        """Check and save telegram_acount and phone_number."""
-        self.telegram_account = format_telegram_link(self.telegram_account)
-        self.phone_number = format_phone_number(self.phone_number)
+        """Check and save telegram_account and phone_number."""
+        if self.telegram_account is not None:
+            self.telegram_account = format_telegram_link(self.telegram_account)
+        if self.phone_number is not None:
+            self.phone_number = format_phone_number(self.phone_number)
         return super(Coordinator, self).save(*args, **kwargs)
+
+    def __repr__(self):
+        representation = (
+            f"ФИО Координатора:"
+            f" {self.first_name} {self.last_name}\n"
+            f"Email: {self.email_address}\n"
+        )
+        if self.phone_number is not None:
+            representation += f"Телефон: {self.phone_number}\n"
+        if self.telegram_account is not None:
+            representation += f"Telegram: {self.telegram_account}"
+        return representation
 
     class Meta:  # noqa
         verbose_name = "Координатор"
@@ -62,7 +78,8 @@ class HelpTypes(models.TextChoices):
     LEGAL_ASSISTANCE = "LEGAL_ASSISTANCE", _("Юридическая помощь")
     SOCIAL_ASSISTANCE = "SOCIAL_ASSISTANCE", _("Социальная помощь")
     PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
-        "Психологическая помощь")
+        "Психологическая помощь"
+    )
     COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
 
 
@@ -108,9 +125,13 @@ class FundProgram(BaseModel):
         unique=True,
         verbose_name="Название",
     )
-    description = models.CharField(
-        max_length=500,
-        verbose_name="Описание",
+    fund_text = models.TextField(
+        max_length=4096,
+        verbose_name="Описание программы",
+    )
+    short_description = models.CharField(
+        max_length=20,
+        verbose_name="Короткое описание",
     )
     regions = models.ManyToManyField(
         Region,

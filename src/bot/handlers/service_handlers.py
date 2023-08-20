@@ -5,8 +5,11 @@ from telegram.ext import ContextTypes, MessageHandler, filters
 
 from bot.constants.messages import ANSWER_TO_USER_MESSAGE
 from bot.constants.states import States
+from bot.handlers.ask_question import ask_name
 from bot.handlers.assistance import (
+    ask_question,
     contact_with_us,
+    fund_programs,
     receive_assistance,
     select_assistance,
     select_type_of_help,
@@ -29,10 +32,13 @@ answer_all_messages_handler = MessageHandler(filters.ALL, answer_all_messages)
 
 
 FUNCTIONS: dict[str, Callable[[Any, Any], Awaitable[States]]] = {
-    States.SHOW_CONTACT: show_contact,
-    States.CONTACT_US: contact_with_us,
-    States.QUESTIONS_AND_CONTACTS: select_assistance,
-    States.ASSISTANCE_TYPE: select_type_of_help,
-    States.REGION: receive_assistance,
     States.ASSISTANCE.value: start,
+    States.ASSISTANCE_TYPE: select_type_of_help,
+    States.CONTACT_US: contact_with_us,
+    States.FUND_PROGRAMS: fund_programs,
+    States.QUESTIONS_AND_CONTACTS: select_assistance,
+    States.REGION: receive_assistance,
+    States.SHOW_CONTACT: show_contact,
+    States.QUESTION: ask_question,
+    States.NAME: ask_name,
 }

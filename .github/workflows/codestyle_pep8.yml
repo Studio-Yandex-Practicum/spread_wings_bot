@@ -1,4 +1,4 @@
-name: App test workflow
+name: App code style workflow
 
 on: [push]
 
@@ -25,10 +25,3 @@ jobs:
 
     - name: Test with flake8
       run: flake8
-
-    - name: Test with pytest
-      working-directory: ./src
-      run: pytest
-
-    - name: Test with black
-      run: black .

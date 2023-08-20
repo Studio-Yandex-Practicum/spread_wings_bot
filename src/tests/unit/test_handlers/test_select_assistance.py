@@ -17,9 +17,15 @@ common_settings = {
 @pytest.mark.asyncio
 async def test_select_assistance_response(update, context):
     """Select assistance handler returns correct response unittest."""
-    with patch(
-        "bot.handlers.assistance.build_question_keyboard",
-        new=AsyncMock(return_value=[]),
+    with (
+        patch(
+            "bot.handlers.assistance.build_question_keyboard",
+            new=AsyncMock(return_value=common_settings["keyboard"]),
+        ),
+        patch(
+            "bot.handlers.assistance.parse_callback_data",
+            Mock(return_value=("question_type", 1)),
+        ),
     ):
         response = await select_assistance(update, context)
 
@@ -44,12 +50,15 @@ async def test_select_assistance_save_question_type(
     context = common_settings["context"]
     context.user_data = {States.QUESTION: old_question_type}
 
-    with patch(
-        "bot.handlers.assistance.build_question_keyboard",
-        new=AsyncMock(return_value=common_settings["keyboard"]),
-    ), patch(
-        "bot.handlers.assistance.parse_callback_data",
-        new=Mock(return_value=(new_question_type, 1)),
+    with (
+        patch(
+            "bot.handlers.assistance.build_question_keyboard",
+            new=AsyncMock(return_value=common_settings["keyboard"]),
+        ),
+        patch(
+            "bot.handlers.assistance.parse_callback_data",
+            new=Mock(return_value=(new_question_type, 1)),
+        ),
     ):
         await select_assistance(update, context)
 
@@ -79,13 +88,15 @@ async def test_select_assistance_change_reply_markup_if_updated(
     context.user_data = common_settings["user_data"]
     keyboard = common_settings["keyboard"]
     keyboard.markup = keyboard_markup
-
-    with patch(
-        "bot.handlers.assistance.build_question_keyboard",
-        new=AsyncMock(return_value=keyboard),
-    ), patch(
-        "bot.handlers.assistance.parse_callback_data",
-        new=Mock(return_value=(None, None)),
+    with (
+        patch(
+            "bot.handlers.assistance.build_question_keyboard",
+            new=AsyncMock(return_value=keyboard),
+        ),
+        patch(
+            "bot.handlers.assistance.parse_callback_data",
+            new=Mock(return_value=(None, None)),
+        ),
     ):
         await select_assistance(update, context)
 
