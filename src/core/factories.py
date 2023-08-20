@@ -7,7 +7,7 @@ from core.models import Region
 class RegionFactory(DjangoModelFactory):
     """Region model factory."""
 
-    class Meta:  # noqa
+    class Meta:
         model = Region
         django_get_or_create = ("region_name",)
 

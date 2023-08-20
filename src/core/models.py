@@ -10,7 +10,7 @@ class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:  # noqa
+    class Meta:
         abstract = True
 
 
@@ -38,7 +38,7 @@ class Region(BaseModel):
     def __str__(self):
         return self.region_name
 
-    class Meta:  # noqa
+    class Meta:
         verbose_name = "Регион"
         verbose_name_plural = "Регионы"
         ordering = ("region_name",)
