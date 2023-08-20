@@ -32,7 +32,7 @@ jobs:
       EMAIL_ACCOUNT: ${{ secrets.EMAIL_ACCOUNT }}
       EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
       EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-      EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+      EMAIL_PORT: 456
 
     defaults:
       run:
