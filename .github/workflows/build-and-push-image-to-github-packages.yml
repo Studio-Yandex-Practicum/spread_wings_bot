@@ -28,7 +28,7 @@ jobs:
 
       - name: Docker remove all unused
         run: |
-          sudo docker system prune --force
+          docker system prune --force
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
