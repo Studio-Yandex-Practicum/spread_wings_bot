@@ -9,10 +9,12 @@ COLOR_WHITE = \033[00m
 
 .DEFAULT_GOAL := help
 
+
 .PHONY: help
 help:  # Show help
 	@echo -e "$(COLOR_GREEN)Makefile help:"
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "$(COLOR_GREEN)-$$(echo $$l | cut -f 1 -d':'):$(COLOR_WHITE)$$(echo $$l | cut -f 2- -d'#')\n"; done
+
 
 .PHONY: runbot-init
 runbot-init: deletedb rundb migrate filldb runbot-db
@@ -30,11 +32,13 @@ rundb: # Build and run Database Docker-image
 	@sleep 3 ;
 	@echo -e "$(COLOR_GREEN)Database started$(COLOR_RESET)"
 
+
 .PHONY: stopdb
 stopdb: # Stop mySQL Database Docker-image
 	@echo -e "$(COLOR_YELLOW)Stopping database...$(COLOR_RESET)"
 	@docker compose -f $(LOCAL_COMPOSE_FILE) down
 	@echo -e "$(COLOR_GREEN)Database stopped$(COLOR_RESET)"
+
 
 .PHONY: deletedb
 deletedb: # Stop and delete mySQL database Docker-image and volumes
@@ -45,6 +49,7 @@ deletedb: # Stop and delete mySQL database Docker-image and volumes
 	done
 	@sleep 3 ;
 	@echo -e "$(COLOR_GREEN)Database deleted$(COLOR_RESET)"
+
 
 .PHONY: runbot-db
 runbot-db: # Run Telegram bot on Uvicorn
