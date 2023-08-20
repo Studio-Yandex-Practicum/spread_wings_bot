@@ -13,7 +13,7 @@ def update():
 def context():
     """Context object fixture for telegram handlers."""
     context = AsyncMock()
-    context.bot = Mock()
+    context.bot = AsyncMock()
     context.bot.set_my_commands = AsyncMock(return_value=[])
     context.bot.set_chat_menu_button = AsyncMock(return_value=[])
     return context
@@ -22,7 +22,7 @@ def context():
 @pytest.fixture
 def mocked_reply_markup():
     """Reply markup mock."""
-    return []
+    return AsyncMock(return_value=[])
 
 
 @pytest.fixture

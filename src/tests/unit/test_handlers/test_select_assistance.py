@@ -23,7 +23,7 @@ async def test_select_assistance_response(update, context):
         ),
         patch(
             "bot.handlers.assistance.parse_callback_data",
-            new=Mock(return_value=("question_type", 1)),
+            Mock(return_value=("question_type", 1)),
         ),
     ):
         response = await select_assistance(update, context)
@@ -88,12 +88,15 @@ async def test_select_assistance_change_reply_markup_if_updated(
     keyboard = common_settings["keyboard"]
     keyboard.markup = keyboard_markup
 
-    with patch(
-        "bot.handlers.assistance.build_question_keyboard",
-        new=AsyncMock(return_value=keyboard),
-    ), patch(
-        "bot.handlers.assistance.parse_callback_data",
-        new=Mock(return_value=(None, None)),
+    with (
+        patch(
+            "bot.handlers.assistance.build_question_keyboard",
+            new=AsyncMock(return_value=keyboard),
+        ),
+        patch(
+            "bot.handlers.assistance.parse_callback_data",
+            new=Mock(return_value=(None, None)),
+        ),
     ):
         await select_assistance(update, context)
 

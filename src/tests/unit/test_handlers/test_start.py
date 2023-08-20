@@ -1,4 +1,4 @@
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from telegram import MenuButtonCommands
@@ -44,7 +44,7 @@ async def test_start_handler_answer_to_user_message(
     update_message,
 ):
     """Start handler return correct answer to user message unittest."""
-    update.message = Mock() if update_message else None
+    update.message = AsyncMock() if update_message else None
     context.bot.get_my_commands = AsyncMock(return_value=mocked_reply_markup)
     with (
         patch(
@@ -53,7 +53,7 @@ async def test_start_handler_answer_to_user_message(
         ),
         patch(
             "bot.handlers.main_handlers.BotSettings.objects.aget",
-            AsyncMock(return_value=mocked_message),
+            new=AsyncMock(return_value=mocked_message),
         ),
     ):
         await main_handlers.start(update, context)
