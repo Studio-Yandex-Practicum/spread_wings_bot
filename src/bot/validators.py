@@ -5,7 +5,6 @@ PHONE = r"^((\+7|7|8)+([0-9]){10})$"
 PHONE_FORMAT = "+7 777 777 77 77"
 TELEGRAM_FORMAT = "username"
 TELEGRAM_USERNAME = r"^[\w\_]{5,32}$"
-
 phone_regex = RegexValidator(
     regex=PHONE, message=f"Введите номер телефона в формате: {PHONE_FORMAT}"
 )
@@ -16,9 +15,11 @@ telegram_regex = RegexValidator(
 
 
 def format_phone_number(phone):
-    """Format phone number."""
+    """Format the phone number."""
+
     formatted = ""
     i = 0
+
     phone = "".join(x for x in phone if x.isdigit())
     if phone[0] == "+":
         phone = phone[2:]
@@ -38,5 +39,6 @@ def format_phone_number(phone):
 
 
 def format_telegram_link(telegram):
-    """Format telegram username."""
+    """Format the telegram link."""
+
     return "https://t.me/" + telegram

@@ -19,6 +19,7 @@ runbot-init: deletedb rundb migrate filldb runbot-db
 	@echo -e "$(COLOR_YELLOW)Starting initialization...$(COLOR_RESET)"
 	@source $$(poetry env info -p)/bin/activate
 
+
 .PHONY: rundb
 rundb: # Build and run Database Docker-image
 	@echo -e "$(COLOR_YELLOW)Starting database...$(COLOR_RESET)"
@@ -51,6 +52,7 @@ runbot-db: # Run Telegram bot on Uvicorn
 	@cd src && poetry run uvicorn config.asgi:application --reload && cd .. && \
 	echo -e "$(COLOR_GREEN)Bot stopped$(COLOR_RESET)"
 
+
 .PHONY: filldb
 filldb: # Fill Docker-image Database with test data
 	@echo -e "$(COLOR_YELLOW)Filing database...$(COLOR_RESET)"
@@ -60,6 +62,7 @@ filldb: # Fill Docker-image Database with test data
 	done
 	@sleep 3 ;
 	@echo -e "$(COLOR_GREEN)Database filled$(COLOR_RESET)"
+
 
 .PHONY: collectstatic
 collectstatic: # Collect project static files
@@ -71,6 +74,7 @@ collectstatic: # Collect project static files
 	@sleep 3;
 	@echo -e "$(COLOR_GREEN)Static collected$(COLOR_RESET)"
 
+
 .PHONY: migrate
 migrate: # Commit migrations to Database
 	@echo -e "$(COLOR_YELLOW)Migrating...$(COLOR_RESET)"
@@ -80,3 +84,17 @@ migrate: # Commit migrations to Database
 	done
 	@sleep 3;
 	@echo -e "$(COLOR_GREEN)Migrated$(COLOR_RESET)"
+
+
+.PHONY: run_tests
+run_tests: run_unit_tests # Run all tests
+	@echo -e "$(COLOR_GREEN)All tests passed$(COLOR_RESET)"
+
+
+.PHONY: run_unit_tests
+run_unit_tests: # Run unit tests
+	@echo -e "$(COLOR_YELLOW)Start unit tests...$(COLOR_RESET)"
+	@cd src
+	@poetry run pytest -c pytest.ini src/tests/unit
+	@cd ..
+	@echo -e "$(COLOR_GREEN)Unit tests passed$(COLOR_RESET)"
