@@ -19,8 +19,8 @@ async def test_start_handler_response(update, context):
         new=AsyncMock(return_value=[]),
     ):
         response = await main_handlers.start(update, context)
-    assert response == States.ASSISTANCE, (
-        f"Invalid state value, should be {States.ASSISTANCE}",
+    assert response == States.GET_ASSISTANCE, (
+        f"Invalid state value, should be {States.GET_ASSISTANCE}",
     )
 
 

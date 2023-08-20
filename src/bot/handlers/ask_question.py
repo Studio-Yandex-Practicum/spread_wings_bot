@@ -14,7 +14,10 @@ from bot.constants.messages import (
 )
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
-from bot.keyboards.ask_question import ask_question_keyboard_markup
+from bot.keyboards.ask_question import (
+    back_to_previous_step_keyboard_markup,
+    get_contact_type_keyboard_markup,
+)
 from bot.keyboards.assistance import build_assistance_keyboard
 from bot.models import Coordinator
 from bot.models_pydantic.users_questions import UserContacts, UserQuestion
@@ -32,19 +35,37 @@ TELEGRAM = "TELEGRAM"
 TELEGRAM_USERNAME_INDEX = "@"
 
 
-@debug_logger(name="get_question")
-async def get_question(
+@debug_logger(name="get_username")
+async def get_username(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Question field handler."""
     question = update.message.text
     context.user_data[QUESTION] = question
-    await update.message.reply_text(WHAT_IS_YOUR_NAME_MESSAGE)
-    return States.GET_NAME
+    await update.message.reply_text(
+        WHAT_IS_YOUR_NAME_MESSAGE,
+        reply_markup=back_to_previous_step_keyboard_markup,
+    )
+    return States.GET_CONTACT_TYPE
 
 
-@debug_logger(name="get_name")
-async def get_name(
+@debug_logger(name="get_username_after_returning_back")
+async def get_username_after_returning_back(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> States:
+    """Ask name handler."""
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(
+        text=WHAT_IS_YOUR_NAME_MESSAGE,
+        reply_markup=back_to_previous_step_keyboard_markup,
+    )
+    return States.GET_CONTACT_TYPE
+
+
+@debug_logger(name="get_contact_type")
+async def get_contact_type(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Name field handler."""
@@ -52,9 +73,9 @@ async def get_name(
     context.user_data[CONTACT_NAME] = name
     await update.message.reply_text(
         CONTACT_TYPE_MESSAGE.format(name=name.capitalize()),
-        reply_markup=ask_question_keyboard_markup,
+        reply_markup=get_contact_type_keyboard_markup,
     )
-    return States.CONTACT_TYPE
+    return States.SEND_EMAIL
 
 
 @sync_to_async
@@ -85,8 +106,8 @@ async def send_message_to_coordinator_email(
     )
 
 
-@debug_logger(name="select_contact_type")
-async def select_contact_type(
+@debug_logger(name="send_email_to_region_coordinator")
+async def send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Type of contact field handler."""
@@ -118,13 +139,12 @@ async def select_contact_type(
                 QUESTION_FAIL.format(error),
                 reply_markup=assistance_keyboard_markup,
             )
-        return States.END
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
     return States.GET_CONTACT
 
 
-@debug_logger(name="get_contact")
-async def get_contact(
+@debug_logger(name="get_contact_and_send_email_to_region_coordinator")
+async def get_contact_and_send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Contact field handler."""
@@ -155,4 +175,3 @@ async def get_contact(
             QUESTION_FAIL.format(error),
             reply_markup=assistance_keyboard_markup,
         )
-    return States.END

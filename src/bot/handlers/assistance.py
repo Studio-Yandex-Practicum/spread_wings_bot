@@ -28,8 +28,8 @@ DEFAULT_PAGE = 1
 QUESTION_TYPE = "question_type"
 
 
-@debug_logger(name="receive_assistance")
-async def receive_assistance(
+@debug_logger(name="get_assistance")
+async def get_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -45,8 +45,8 @@ async def receive_assistance(
     return States.REGION
 
 
-@debug_logger(name="select_type_of_help")
-async def select_type_of_help(
+@debug_logger(name="select_type_of_assistance")
+async def select_type_of_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -106,8 +106,8 @@ async def fund_programs(
         )
 
 
-@debug_logger(name="ask_question")
-async def ask_question(
+@debug_logger(name="get_user_question")
+async def get_user_question(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -118,11 +118,11 @@ async def ask_question(
         text=ASK_YOUR_QUESTION,
         reply_markup=to_the_original_state_and_previous_step_keyboard_markup,
     )
-    return States.ASK_QUESTION
+    return States.GET_USERNAME
 
 
-@debug_logger(name="contact_with_us")
-async def contact_with_us(
+@debug_logger(name="contact_us")
+async def contact_us(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
