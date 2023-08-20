@@ -1,4 +1,4 @@
-name: App test workflow
+name: App code style workflow
 
 on: [push]
 
