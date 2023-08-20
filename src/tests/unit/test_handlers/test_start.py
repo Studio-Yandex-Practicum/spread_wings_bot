@@ -5,7 +5,6 @@ import pytest
 from telegram import MenuButtonCommands
 
 from bot.constants.buttons import COMMANDS
-from bot.constants.messages import START_MESSAGE
 from bot.constants.states import States
 from bot.handlers import main_handlers
 
