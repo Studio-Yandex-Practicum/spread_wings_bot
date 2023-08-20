@@ -27,7 +27,6 @@ jobs:
           pip install -r requirements/develop.txt
 
       - name: Run migrations check
-
         run: |
           cd src/
           python manage.py makemigrations --check --dry-run
