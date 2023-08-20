@@ -1,0 +1,29 @@
+name: Django migrations Check
+
+on: [push]
+
+jobs:
+  migration-check:
+    name: Check Migrations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.4
+
+      - name: Install master branch dependencies
+        if: github.ref == 'refs/heads/master'
+        run: |
+          pip install -r ../requirements/production.txt
+
+      - name: Install dependencies
+        if: github.ref != 'refs/heads/master'
+        run: |
+          pip install -r ../requirements/develop.txt
+
+      - name: Run migrations check
+        run: python manage.py makemigrations --check --dry-run
