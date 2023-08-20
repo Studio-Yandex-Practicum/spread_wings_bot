@@ -1,19 +1,14 @@
-name: Python safety check
+name: Django migrations Check
 
-on:
-  pull_request:
-    branches:
-      - develop
-      - master
+on: [push]
 
 env:
   DEVELOP: requirements/develop.txt
   PRODUCTION: requirements/production.txt
-  # https://github.com/aufdenpunkt/python-safety-check#env-variables
-  DEP_PATH: None
 
 jobs:
-  build:
+  migration-check:
+    name: Check Migrations
     runs-on: ubuntu-latest
     steps:
       - name: Check out master
