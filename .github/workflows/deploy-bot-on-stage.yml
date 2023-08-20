@@ -1,3 +1,5 @@
+name: Deploy bot on stage
+
 on:
   workflow_run:
     workflows: [Create and publish a Docker image]
