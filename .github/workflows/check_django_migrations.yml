@@ -2,6 +2,10 @@ name: Django migrations Check
 
 on: [push]
 
+env:
+    DEVELOP: requirements/develop.txt
+    PRODUCTION: requirements/production.txt
+
 jobs:
   migration-check:
     name: Check Migrations
@@ -16,7 +20,15 @@ jobs:
         with:
           python-version: 3.11.4
 
-      - name: Install master branch dependencies
+      - name: Requiremets path to production branch
+        if: github.ref == 'refs/heads/master'
+        run: echo "DEP_PATH=$PRODUCTION" >> $GITHUB_ENV
+
+      - name: Requiremets path to other branch
+        if: github.ref != 'refs/heads/master'
+        run: echo "DEP_PATH=$DEVELOP" >> $GITHUB_ENV
+
+      - name: Install production branch dependencies
         if: github.ref == 'refs/heads/master'
         run: |
           pip install -r requirements/production.txt
