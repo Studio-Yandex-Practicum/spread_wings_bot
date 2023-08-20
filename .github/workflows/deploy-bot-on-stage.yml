@@ -12,10 +12,6 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
 
-      - name: docker remove all unused
-        run: |
-          sudo docker system prune --force
-
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
         with:
