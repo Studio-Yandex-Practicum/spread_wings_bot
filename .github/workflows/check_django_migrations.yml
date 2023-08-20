@@ -19,14 +19,15 @@ jobs:
       - name: Install master branch dependencies
         if: github.ref == 'refs/heads/master'
         run: |
-          cd src/
           pip install -r requirements/production.txt
 
       - name: Install dependencies
         if: github.ref != 'refs/heads/master'
         run: |
-          cd src/
           pip install -r requirements/develop.txt
 
       - name: Run migrations check
-        run: python manage.py makemigrations --check --dry-run
+
+        run: |
+          cd src/
+          python manage.py makemigrations --check --dry-run
