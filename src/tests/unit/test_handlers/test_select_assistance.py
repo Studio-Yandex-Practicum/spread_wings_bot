@@ -4,11 +4,12 @@ from unittest.mock import AsyncMock, Mock, patch
 import pytest
 
 from bot.constants.messages import SELECT_QUESTION
-from bot.handlers.assistance import QUESTION_TYPE, select_assistance
+from bot.constants.states import States
+from bot.handlers.assistance import select_assistance
 
 common_settings = {
     "keyboard": Mock(),
-    "user_data": {QUESTION_TYPE: "Test_question_type"},
+    "user_data": {States.QUESTION: "Test_question_type"},
     "context": Mock(),
 }
 
@@ -41,7 +42,7 @@ async def test_select_assistance_save_question_type(
         return_value=json.dumps(dict())
     )
     context = common_settings["context"]
-    context.user_data = {QUESTION_TYPE: old_question_type}
+    context.user_data = {States.QUESTION: old_question_type}
 
     with patch(
         "bot.handlers.assistance.build_question_keyboard",
@@ -52,7 +53,7 @@ async def test_select_assistance_save_question_type(
     ):
         await select_assistance(update, context)
 
-    assert context.user_data[QUESTION_TYPE] == expected_type_saved, (
+    assert context.user_data[States.QUESTION] == expected_type_saved, (
         f"Handler must {(not new_question_type and 'not ')}"
         f"save question type in context.user_data if it "
         f"is{(not new_question_type and ' not')} valid"
