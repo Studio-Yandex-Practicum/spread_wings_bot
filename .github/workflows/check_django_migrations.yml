@@ -31,6 +31,11 @@ jobs:
           cd src/
           cd config/
           touch .env
-          source .env || true
+
+          for secret_name in $(env | grep '^SECRET_'); do
+            secret_value=${!secret_name}
+            echo "$secret_name=$secret_value" >> .env
+          done
+
           cd ..
           python manage.py makemigrations --check --dry-run
