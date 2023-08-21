@@ -15,7 +15,7 @@ async def show_question(
     """Show information about the selected question."""
     query = update.callback_query
     _, question_id = parse_callback_data(query.data, SHOW_QUESTION)
-    reply_text = "Question does not exists."
+    reply_text = "Question does not exists!"
     if question_id:
         try:
             question = await Question.objects.aget(id=question_id)
