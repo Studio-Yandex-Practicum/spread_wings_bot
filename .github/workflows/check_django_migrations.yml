@@ -2,25 +2,29 @@ name: Django migrations Check
 
 on: [push]
 
-env:
-  DEVELOP: requirements/develop.txt
-  PRODUCTION: requirements/production.txt
-
 jobs:
   migration-check:
     name: Check Migrations
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out master
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Requiremets path to production branch
-        if: ${{ github.base_ref == 'master' }}
-        run: echo "DEP_PATH=$PRODUCTION" >> $GITHUB_ENV
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.4
 
-      - name: Requiremets path to develop branch
-        if: ${{ github.base_ref == 'develop' }}
-        run: echo "DEP_PATH=$DEVELOP" >> $GITHUB_ENV
+      - name: Install production branch dependencies
+        if: github.ref == 'refs/heads/master'
+        run: |
+          pip install -r requirements/production.txt
+
+      - name: Install dependencies
+        if: github.ref != 'refs/heads/master'
+        run: |
+          pip install -r requirements/develop.txt
 
       - name: Run migrations check
         run: |
