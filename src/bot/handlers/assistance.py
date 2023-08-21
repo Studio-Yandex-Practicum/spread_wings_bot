@@ -71,7 +71,8 @@ async def select_assistance(
     question_type, page_number = parse_callback_data(query.data, HELP_TYPE)
     page_number = page_number or DEFAULT_PAGE
     if question_type:
-        context.user_data[States.QUESTION_TYPE] = question_type
+        context.user_data[States.QUESTION] = question_type
+    context.user_data[States.QUESTION_TYPE] = question_type
     region = context.user_data.get(States.REGION)
     await query.answer()
     keyboard = await build_question_keyboard(
