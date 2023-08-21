@@ -139,6 +139,7 @@ async def send_email_to_region_coordinator(
                 QUESTION_FAIL.format(error),
                 reply_markup=assistance_keyboard_markup,
             )
+        return States.GET_ASSISTANCE
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
     return States.GET_CONTACT
 
@@ -175,3 +176,4 @@ async def get_contact_and_send_email_to_region_coordinator(
             QUESTION_FAIL.format(error),
             reply_markup=assistance_keyboard_markup,
         )
+    return States.GET_ASSISTANCE
