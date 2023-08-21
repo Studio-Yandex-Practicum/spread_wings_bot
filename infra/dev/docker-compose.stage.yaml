@@ -1,5 +1,4 @@
 version: '3.8'
-name: spread-wings-stage
 
 services:
 
@@ -49,46 +48,11 @@ services:
     networks:
       - spread-wings-network
 
-  mysql:
-    image: mysql:8.0
-    container_name: spread-wings-mysql
-    restart: always
-    env_file: /home/spread_wings/site/.env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - /home/spread_wings/site/krilya_dets1_local.sql.gz:/docker-entrypoint-initdb.d/backup.sql.gz
-      - /home/spread_wings/site/migrate_server.sql:/docker-entrypoint-initdb.d/migrate.sql
-    networks:
-      - spread-wings-network
-
-  wordpress:
-    image: wordpress:5.8.1-php7.4-apache
-    container_name: spread-wings-wordpress
-    volumes:
-      - /home/spread_wings/site/public_html:/var/www/html
-    restart: always
-    env_file: /home/spread_wings/site/.env
-    depends_on:
-      - mysql
-    environment:
-      WORDPRESS_DB_HOST: spread-wings-mysql:3306
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-    networks:
-      - spread-wings-network
-
   nginx:
     image: nginx:1.21.3-alpine
     container_name: spread-wings-nginx
     ports:
-      - "80:80"
+      - "80:${NGINX_PORT}"
     volumes:
       - ./nginx.stage.conf.template:/etc/nginx/templates/default.conf.template
       - ../../src/static:/var/html/static/
@@ -97,7 +61,6 @@ services:
       - ./.env
     depends_on:
       - bot
-      - wordpress
     restart: always
     networks:
       - spread-wings-network
