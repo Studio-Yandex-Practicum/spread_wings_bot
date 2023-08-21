@@ -56,8 +56,15 @@ jobs:
             echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
             echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
 
+            # Cleaning unused containers, images, networks
             docker system prune --force
 
-            sudo docker-compose -f docker-compose.stage.yaml stop
-            sudo docker-compose -f docker-compose.stage.yaml pull
-            sudo docker-compose -f docker-compose.stage.yaml up -d
+            # Installing the app
+            docker-compose -f docker-compose.stage.yaml stop
+            docker-compose -f docker-compose.stage.yaml pull
+            docker-compose -f docker-compose.stage.yaml up -d
+
+            # Applying initialization commands
+            docker exec -it spread-wings-bot python manage.py migrate
+            docker exec -it spread-wings-bot python manage.py collectstatic --noinput
+            docker exec -it spread-wings-bot python manage.py createsuperuser --email example@yandex.ru --noinput
