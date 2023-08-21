@@ -22,3 +22,4 @@ CONTACT_US = PATTERN.format(state=States.CONTACT_US.value)
 SHOW_CONTACT = PATTERN.format(state=States.SHOW_CONTACT.value)
 NAME = (PATTERN.format(state=States.NAME.value),)
 QUESTION = PATTERN.format(state=States.QUESTION.value)
+SHOW_QUESTION = rf"({States.SHOW_QUESTION.value})(?:{PAGE_SEP_SYMBOL}(\d+))"

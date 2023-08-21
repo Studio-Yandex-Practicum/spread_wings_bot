@@ -103,7 +103,13 @@ async def build_question_keyboard(
         telegram_paginator.add_before(
             InlineKeyboardButton(
                 text=question.get("short_description"),
-                callback_data=question.get("id"),
+                callback_data="".join(
+                    [
+                        States.SHOW_QUESTION.value,
+                        PAGE_SEP_SYMBOL,
+                        str(question.get("id")),
+                    ]
+                ),
             )
         )
     telegram_paginator.add_after(
@@ -235,3 +241,14 @@ to_the_original_state_and_previous_step_keyboard = [
 to_the_original_state_and_previous_step_keyboard_markup = InlineKeyboardMarkup(
     to_the_original_state_and_previous_step_keyboard
 )
+
+question_show_keyboard = [
+    [
+        InlineKeyboardButton(
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
+        )
+    ]
+]
+
+question_show_keyboard_markup = InlineKeyboardMarkup(question_show_keyboard)
