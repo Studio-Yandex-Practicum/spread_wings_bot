@@ -29,4 +29,5 @@ jobs:
       - name: Run migrations check
         run: |
           cd src/
+          source .env || true
           python manage.py makemigrations --check --dry-run
