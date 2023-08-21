@@ -13,6 +13,7 @@ class States(str, enum.Enum):
     QUESTIONS_AND_CONTACTS = "selected_type"
     SHOW_CONTACT = "show_contact"
     QUESTION = "question"
+    QUESTION_TYPE = "question_type"
     NAME = "name"
     CONTACT_TYPE = "contact_type"
     ENTER_YOUR_CONTACT = "enter_your_contact"
