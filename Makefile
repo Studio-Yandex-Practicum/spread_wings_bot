@@ -15,7 +15,7 @@ help:  # Show help
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "$(COLOR_GREEN)-$$(echo $$l | cut -f 1 -d':'):$(COLOR_WHITE)$$(echo $$l | cut -f 2- -d'#')\n"; done
 
 .PHONY: runbot-init
-runbot-init: deletedb rundb migrate filldb runbot-db
+runbot-init: deletedb rundb migrate filldb runbot-db # Build and run Database Docker-image
 	@echo -e "$(COLOR_YELLOW)Starting initialization...$(COLOR_RESET)"
 	@source $$(poetry env info -p)/bin/activate
 
@@ -89,6 +89,6 @@ run_tests: run_unit_tests # Run all tests
 run_unit_tests: # Run unit tests
 	@echo -e "$(COLOR_YELLOW)Start unit tests...$(COLOR_RESET)"
 	@cd src
-	@poetry run pytest -c pytest.ini src/tests/unit
+	@poetry run pytest src/tests/unit
 	@cd ..
 	@echo -e "$(COLOR_GREEN)Unit tests passed$(COLOR_RESET)"

@@ -70,4 +70,4 @@ class FundProgramAdmin(RegionForAdmin):
 class ProxyRegionAdmin(admin.ModelAdmin):
     """Admin model for class Region."""
 
-    pass
+    exclude = ["region_key"]
