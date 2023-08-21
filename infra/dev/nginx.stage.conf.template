@@ -1,7 +1,7 @@
 server {
-    listen 80;
+    listen ${NGINX_PORT};
 
-    server_name 51.250.73.184;
+    server_name ${NGINX_HOST};
 
     location /static/ {
         root /var/html/;
