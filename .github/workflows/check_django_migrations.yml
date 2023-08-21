@@ -32,7 +32,6 @@ jobs:
           cd src/
 
           git pull
-          rm .env
           touch .env
 
           echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
