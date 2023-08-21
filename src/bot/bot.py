@@ -21,7 +21,6 @@ from bot.constants.patterns import (
     BACK,
     CONTACT_TYPE,
     CONTACT_US,
-    FUND_PROGRAMS,
     GET_ASSISTANCE,
     GET_USER_QUESTION,
     GET_USERNAME,
@@ -29,6 +28,7 @@ from bot.constants.patterns import (
     MESSAGE_PATTERN,
     PATTERN,
     SHOW_CONTACT,
+    SHOW_PROGRAMS,
 )
 from bot.constants.states import States
 from bot.handlers.ask_question import (
@@ -152,7 +152,7 @@ async def build_app() -> Application:
             ],
             States.ASSISTANCE_TYPE: [
                 CallbackQueryHandler(select_assistance, pattern=HELP_TYPE),
-                CallbackQueryHandler(fund_programs, pattern=FUND_PROGRAMS),
+                CallbackQueryHandler(fund_programs, pattern=SHOW_PROGRAMS),
                 CallbackQueryHandler(contact_us, pattern=CONTACT_US),
                 CallbackQueryHandler(
                     get_user_question, pattern=GET_USER_QUESTION

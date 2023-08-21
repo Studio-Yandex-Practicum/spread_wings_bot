@@ -8,7 +8,7 @@ from bot.constants.messages import (
     SELECT_FUND_PROGRAM,
     SELECT_QUESTION,
 )
-from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE, SHOW_PROGRAM
+from bot.constants.patterns import HELP_TYPE, SHOW_PROGRAMS
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
@@ -71,12 +71,12 @@ async def select_assistance(
     question_type, page_number = parse_callback_data(query.data, HELP_TYPE)
     page_number = page_number or DEFAULT_PAGE
     if question_type:
-        context.user_data[States.QUESTION] = question_type
+        context.user_data[States.GET_USER_QUESTION] = question_type
     region = context.user_data.get(States.REGION)
     await query.answer()
     keyboard = await build_question_keyboard(
         region,
-        context.user_data[States.QUESTION],
+        context.user_data[States.GET_USER_QUESTION],
         page_number,
     )
     if query.message.reply_markup.to_json() != keyboard.markup:
@@ -94,7 +94,7 @@ async def fund_programs(
     """Show fund programs."""
     query = update.callback_query
     region = context.user_data.get(States.REGION)
-    _, page_number = parse_callback_data(query.data, FUND_PROGRAMS)
+    _, page_number = parse_callback_data(query.data, SHOW_PROGRAMS)
     page_number = page_number or DEFAULT_PAGE
     await query.answer()
     keyboard = await build_fund_program_keyboard(region, page_number)
@@ -127,7 +127,9 @@ async def contact_us(
 ) -> States:
     """Ask question and show contacts."""
     query = update.callback_query
-    context.user_data[States.QUESTION] = HelpTypes.COMMON_QUESTION.value
+    context.user_data[
+        States.GET_USER_QUESTION
+    ] = HelpTypes.COMMON_QUESTION.value
     await query.answer()
     await query.edit_message_text(
         text=CONTACT_SHOW_MESSAGE,
@@ -159,7 +161,7 @@ async def show_program(
 ) -> None:
     """Show selected program data info."""
     query = update.callback_query
-    _, program_id = parse_callback_data(query.data, SHOW_PROGRAM)
+    _, program_id = parse_callback_data(query.data, SHOW_PROGRAMS)
     reply_text = "Program does not exists!"
     if program_id:
         try:

@@ -1,4 +1,5 @@
 import re
+from functools import lru_cache
 from typing import Optional, Tuple, Union
 
 from asgiref.sync import sync_to_async
@@ -161,6 +162,27 @@ async def build_fund_program_keyboard(
         ),
     )
     return telegram_paginator
+
+
+@lru_cache()
+def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
+    """
+    Build telegram show fun program keyboard async.
+
+    After building cache it.
+    """
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                text=BACK_BUTTON,
+                callback_data=f"back_to_{States.FUND_PROGRAMS.value}",
+            ),
+            InlineKeyboardButton(
+                ASK_QUESTION, callback_data=States.ASK_QUESTION.value
+            ),
+        ]
+    ]
+    return InlineKeyboardMarkup(keyboard)
 
 
 def parse_callback_data(
