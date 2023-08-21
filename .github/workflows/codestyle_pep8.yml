@@ -25,6 +25,3 @@ jobs:
 
     - name: Test with flake8
       run: flake8
-
-    - name: Test with black
-      run: black .

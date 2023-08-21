@@ -13,6 +13,7 @@ jobs:
       name: stage_deploy
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
         with:
@@ -54,6 +55,8 @@ jobs:
             echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
             echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
             echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+
+            docker system prune --force
 
             sudo docker-compose -f docker-compose.stage.yaml stop
             sudo docker-compose -f docker-compose.stage.yaml pull
