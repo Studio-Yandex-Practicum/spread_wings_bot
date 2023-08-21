@@ -5,6 +5,14 @@ from pydantic import BaseModel, EmailStr, Extra, Field, validator
 
 from bot.validators import PHONE
 
+PHONE_NUMBER_VALUE_ERROR = "value is not a valid phone number: {phone_number}"
+TYPE_QUESTION_TYPES = {
+    "LEGAL_ASSISTANCE": "Юридическая помощь",
+    "SOCIAL_ASSISTANCE": "Социальная помощь",
+    "PSYCHOLOGICAL_ASSISTANCE": "Психологическая помощь",
+    "COMMON_QUESTION": "Общий вопрос",
+}
+
 
 class UserContacts(BaseModel):
     """Contact model for validation."""
@@ -28,7 +36,7 @@ class UserContacts(BaseModel):
 class UserQuestion(BaseModel):
     """Input data question model."""
 
-    question: str = Field(..., min_length=20)
+    question: str = Field(..., min_length=5)
     name: str = Field(..., min_length=1)
     contact: str
     question_type: str
@@ -36,8 +44,9 @@ class UserQuestion(BaseModel):
     def to_representation(self):
         """Representation data."""
         return (
-            f"Пользователь {self.name} (контакт: {self.contact})\n"
-            f"Тема вопроса: {self.question_type}\n"
+            f"Пользователь: {self.name}\n"
+            f"Контакт: {self.contact}\n"
+            f"Тема вопроса: {TYPE_QUESTION_TYPES[self.question_type]}\n"
             f"Вопрос: {self.question}"
         )
 

@@ -43,3 +43,4 @@ NO_TELEGRAM_USERNAME = (
     "username. Выберите, пожалуйста, другой способ связи "
     "или добавьте username в настройках вашего telegram аккаунта."
 )
+MESSAGE_FROM_TELEGRAM_BOT = "Вопрос из telegram бота"

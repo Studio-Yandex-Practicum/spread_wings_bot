@@ -160,6 +160,10 @@ async def build_fund_program_keyboard(
             text=BACK_BUTTON,
             callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
         ),
+        InlineKeyboardButton(
+            text=ASK_QUESTION,
+            callback_data=States.ASK_QUESTION.value,
+        ),
     )
     return telegram_paginator
 

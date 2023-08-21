@@ -71,7 +71,7 @@ async def select_assistance(
     question_type, page_number = parse_callback_data(query.data, HELP_TYPE)
     page_number = page_number or DEFAULT_PAGE
     if question_type:
-        context.user_data[States.QUESTION] = question_type
+        context.user_data[States.QUESTION_TYPE] = question_type
     region = context.user_data.get(States.REGION)
     await query.answer()
     keyboard = await build_question_keyboard(
@@ -127,7 +127,7 @@ async def contact_with_us(
 ) -> States:
     """Ask question and show contacts."""
     query = update.callback_query
-    context.user_data[States.QUESTION] = HelpTypes.COMMON_QUESTION.value
+    context.user_data[States.QUESTION_TYPE] = HelpTypes.COMMON_QUESTION.value
     await query.answer()
     await query.edit_message_text(
         text=CONTACT_SHOW_MESSAGE,

@@ -9,6 +9,7 @@ COLOR_WHITE = \033[00m
 
 .DEFAULT_GOAL := help
 
+
 .PHONY: help
 help:  # Show help
 	@echo -e "$(COLOR_GREEN)Makefile help:"
@@ -18,7 +19,8 @@ help:  # Show help
 .PHONY: runbot-init
 runbot-init: deletedb rundb migrate filldb runbot-db # Build and run Database Docker-image
 	@echo -e "$(COLOR_YELLOW)Starting initialization...$(COLOR_RESET)"
-	@source $$(poetry env info -p)/bin/activate \
+	@source $$(poetry env info -p)/bin/activate
+
 
 
 .PHONY: rundb

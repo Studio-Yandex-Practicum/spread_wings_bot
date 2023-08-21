@@ -18,14 +18,11 @@ def format_phone_number(phone):
     """Format the phone number."""
     formatted = ""
     i = 0
-
     phone = "".join(x for x in phone if x.isdigit())
-
     if phone[0] == "+":
         phone = phone[2:]
     else:
         phone = phone[1:]
-
     pattern = "+ 7 (XXX) XXX-XX-XX"
     phone = phone[::-1]
     pattern = pattern[::-1]
@@ -36,7 +33,6 @@ def format_phone_number(phone):
             continue
         formatted += phone[i]
         i += 1
-
     formatted = formatted[::-1]
     return formatted
 
