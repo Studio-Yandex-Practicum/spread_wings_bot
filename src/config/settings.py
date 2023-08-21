@@ -113,7 +113,7 @@ EMAIL_BACKEND = env.str(
 )
 EMAIL_TEMPLATE_NAME = "email.html"
 EMAIL_HOST = env.str("EMAIL_HOST")
-EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
 EMAIL_HOST_USER = env.str("EMAIL_ACCOUNT")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_PASSWORD")
 EMAIL_TIMEOUT = 5  # seconds
