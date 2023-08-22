@@ -54,5 +54,5 @@ class FundProgramFactory(DjangoModelFactory):
     def ensure_unique_title(obj, *args, **kwargs):
         """Ensure title is unique in database."""
         while FundProgram.objects.filter(title=obj.title).exists():
-            obj.title = Faker("word", locale="ru_RU")
+            obj.title = Faker("text", max_nb_chars=2, locale="ru_RU")
         obj.save()
