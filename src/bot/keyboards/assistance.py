@@ -246,7 +246,7 @@ question_show_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_BUTTON,
-            callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
+            callback_data=f"back_to_{States.SHOW_QUESTION.value}",
         )
     ]
 ]

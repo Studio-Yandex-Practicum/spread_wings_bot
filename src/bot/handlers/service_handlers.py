@@ -41,5 +41,5 @@ FUNCTIONS: dict[str, Callable[[Any, Any], Awaitable[States]]] = {
     States.SHOW_CONTACT: show_contact,
     States.QUESTION: ask_question,
     States.NAME: ask_name,
-    States.ASSISTANCE_TYPE: select_assistance,
+    States.SHOW_QUESTION: select_assistance,
 }
