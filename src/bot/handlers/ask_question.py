@@ -37,7 +37,7 @@ TELEGRAM = "TELEGRAM"
 TELEGRAM_USERNAME_INDEX = "@"
 
 
-@debug_logger(run_function_name="get_question")
+@debug_logger(state=States.QUESTION, run_function_name="get_question")
 async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -51,7 +51,7 @@ async def get_question(
     return States.QUESTION
 
 
-@debug_logger(run_function_name="ask_name")
+@debug_logger(state=States.NAME, run_function_name="ask_name")
 async def ask_name(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -66,7 +66,7 @@ async def ask_name(
     return States.NAME
 
 
-@debug_logger(run_function_name="get_name")
+@debug_logger(state=States.CONTACT_TYPE, run_function_name="get_name")
 async def get_name(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -108,7 +108,9 @@ async def send_message_to_coordinator_email(
     )
 
 
-@debug_logger(run_function_name="select_contact_type")
+@debug_logger(
+    state=States.ENTER_YOUR_CONTACT, run_function_name="select_contact_type"
+)
 async def select_contact_type(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -146,7 +148,7 @@ async def select_contact_type(
     return States.ENTER_YOUR_CONTACT
 
 
-@debug_logger(run_function_name="get_contact")
+@debug_logger(state=States.ASSISTANCE, run_function_name="get_contact")
 async def get_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:

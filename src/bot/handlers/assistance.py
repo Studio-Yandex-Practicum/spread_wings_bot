@@ -28,7 +28,7 @@ from bot_settings.models import BotSettings
 DEFAULT_PAGE = 1
 
 
-@debug_logger(run_function_name="receive_assistance")
+@debug_logger(state=States.REGION, run_function_name="receive_assistance")
 async def receive_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -45,7 +45,9 @@ async def receive_assistance(
     return States.REGION
 
 
-@debug_logger(run_function_name="select_type_of_help")
+@debug_logger(
+    state=States.ASSISTANCE_TYPE, run_function_name="select_type_of_help"
+)
 async def select_type_of_help(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -61,7 +63,9 @@ async def select_type_of_help(
     return States.ASSISTANCE_TYPE
 
 
-@debug_logger(run_function_name="selected_type_assistance")
+@debug_logger(
+    state=States.ASSISTANCE_TYPE, run_function_name="selected_type_assistance"
+)
 async def select_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -87,7 +91,7 @@ async def select_assistance(
         )
 
 
-@debug_logger(run_function_name="fund_programs")
+@debug_logger(state=States.FUND_PROGRAMS, run_function_name="fund_programs")
 async def fund_programs(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -106,7 +110,7 @@ async def fund_programs(
         )
 
 
-@debug_logger(run_function_name="ask_question")
+@debug_logger(state=States.ASK_QUESTION, run_function_name="ask_question")
 async def ask_question(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -121,7 +125,7 @@ async def ask_question(
     return States.ASK_QUESTION
 
 
-@debug_logger(run_function_name="contact_with_us")
+@debug_logger(state=States.CONTACT_US, run_function_name="contact_with_us")
 async def contact_with_us(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -137,7 +141,7 @@ async def contact_with_us(
     return States.CONTACT_US
 
 
-@debug_logger(run_function_name="show_contact")
+@debug_logger(state=States.SHOW_CONTACT, run_function_name="show_contact")
 async def show_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -154,7 +158,7 @@ async def show_contact(
     return States.SHOW_CONTACT
 
 
-@debug_logger(run_function_name="show_program")
+@debug_logger(state=States.SHOW_PROGRAM, run_function_name="show_program")
 async def show_program(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:

@@ -19,7 +19,9 @@ from bot.handlers.debug_handlers import debug_logger
 from bot.handlers.main_handlers import start
 
 
-@debug_logger(run_function_name="answer_all_messages")
+@debug_logger(
+    state="ANSWER_TO_USER_MESSAGE", run_function_name="answer_all_messages"
+)
 async def answer_all_messages(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:

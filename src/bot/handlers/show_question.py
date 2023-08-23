@@ -2,13 +2,14 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.constants.patterns import SHOW_QUESTION
+from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import question_show_keyboard_markup
 from bot.keyboards.utils.callback_data_parse import parse_callback_data
 from bot.models import Question
 
 
-@debug_logger(name="show_question")
+@debug_logger(state=States.SHOW_QUESTION, run_function_name="show_question")
 async def show_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
