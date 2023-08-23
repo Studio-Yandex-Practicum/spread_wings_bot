@@ -2,7 +2,7 @@
 BACK_BUTTON = "Назад"
 BACK_TO_START_BUTTON = "В начало"
 CONTACT_US_BUTTON = "Связаться с нами"
-ASK_QUESTION = "Задать свой вопрос"
+GET_USER_QUESTION = "Задать свой вопрос"
 
 # Кнопки для блока "Помочь или получить помощь"
 ASSISTANCE_BUTTON = "Получить помощь"

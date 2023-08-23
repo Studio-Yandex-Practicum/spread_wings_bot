@@ -31,7 +31,7 @@ VALIDATION_ERROR_MESSAGE = (
     "Допущена ошибка при вводе данных!\n\n{error}\n\nПопробуйте ещё раз!"
 )
 PHONE = "PHONE"
-QUESTION = "question"
+GET_USERNAME = "get_username"
 QUESTION_TYPE = "question_type"
 TELEGRAM = "TELEGRAM"
 TELEGRAM_USERNAME_INDEX = "@"
@@ -43,16 +43,16 @@ async def get_question(
 ) -> States:
     """Question field handler."""
     question = update.message.text
-    context.user_data[QUESTION] = question
+    context.user_data[GET_USERNAME] = question
     await update.message.reply_text(
         WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
     )
-    return States.QUESTION
+    return States.GET_USERNAME
 
 
-@debug_logger(name="ask_name")
-async def ask_name(
+@debug_logger(name="get_username_after_returning_back")
+async def get_username_after_returning_back(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -63,11 +63,11 @@ async def ask_name(
         text=WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
     )
-    return States.NAME
+    return States.GET_USERNAME
 
 
-@debug_logger(name="get_name")
-async def get_name(
+@debug_logger(name="get_username")
+async def get_username(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Name field handler."""
@@ -96,7 +96,7 @@ async def send_message_to_coordinator_email(
     question_form = UserQuestion(
         name=context.user_data[CONTACT_NAME],
         contact=context.user_data[CONTACT],
-        question=context.user_data[QUESTION],
+        question=context.user_data[GET_USERNAME],
         question_type=context.user_data[QUESTION_TYPE],
     )
     await send_email(
@@ -141,7 +141,7 @@ async def select_contact_type(
                 QUESTION_FAIL.format(error),
                 reply_markup=assistance_keyboard_markup,
             )
-        return States.ASSISTANCE
+        return States.GET_ASSISTANCE
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
     return States.ENTER_YOUR_CONTACT
 
@@ -178,4 +178,4 @@ async def get_contact(
             QUESTION_FAIL.format(error),
             reply_markup=assistance_keyboard_markup,
         )
-    return States.ASSISTANCE
+    return States.GET_ASSISTANCE

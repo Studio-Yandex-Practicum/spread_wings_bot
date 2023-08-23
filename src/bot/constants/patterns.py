@@ -12,13 +12,15 @@ POSSIBLE_TYPE_OF_ASSISTANCE = PATTERN.format(
 )
 HELP_TYPE = rf"({POSSIBLE_TYPE_OF_ASSISTANCE})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 CONTACT_TYPE = PATTERN.format(state=States.CONTACT_TYPE.value)
-ASK_QUESTION = PATTERN.format(state=States.ASK_QUESTION.value)
-ASSISTANCE = PATTERN.format(state=States.ASSISTANCE.value)
+GET_USER_QUESTION = PATTERN.format(state=States.GET_USER_QUESTION.value)
+GET_ASSISTANCE = PATTERN.format(state=States.GET_ASSISTANCE.value)
 FUND_PROGRAMS = PATTERN.format(
     state=rf"({States.FUND_PROGRAMS.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 )
 SHOW_PROGRAM = rf"({States.SHOW_PROGRAM.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 CONTACT_US = PATTERN.format(state=States.CONTACT_US.value)
 SHOW_CONTACT = PATTERN.format(state=States.SHOW_CONTACT.value)
-NAME = (PATTERN.format(state=States.NAME.value),)
-QUESTION = PATTERN.format(state=States.QUESTION.value)
+USERNAME_AFTER_RETURNING = (
+    PATTERN.format(state=States.USERNAME_AFTER_RETURNING.value),
+)
+GET_USERNAME = PATTERN.format(state=States.GET_USERNAME.value)

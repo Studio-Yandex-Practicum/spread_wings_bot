@@ -9,7 +9,8 @@ ask_question_keyboard = [
         InlineKeyboardButton(text=PHONE, callback_data="PHONE"),
         InlineKeyboardButton(text=TELEGRAM, callback_data="TELEGRAM"),
         InlineKeyboardButton(
-            text=BACK_BUTTON, callback_data=f"back_to_{States.NAME.value}"
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.USERNAME_AFTER_RETURNING.value}",
         ),
     ]
 ]
@@ -20,7 +21,7 @@ back_to_previous_step_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_BUTTON,
-            callback_data=f"back_to_{States.QUESTION.value}",
+            callback_data=f"back_to_{States.GET_USERNAME.value}",
         )
     ],
 ]
