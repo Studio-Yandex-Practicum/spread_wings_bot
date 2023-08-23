@@ -1,6 +1,9 @@
 name: Django migrations Check
 
 on:
+  push:
+    branches:
+    - '**'
   pull_request:
     branches:
     - master
@@ -35,7 +38,6 @@ jobs:
         run: |
           cd src/
 
-          git pull
           touch .env
 
           echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
