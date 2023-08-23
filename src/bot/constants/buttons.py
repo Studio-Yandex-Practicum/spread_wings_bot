@@ -8,6 +8,7 @@ GET_USER_QUESTION = "Задать свой вопрос"
 ASSISTANCE_BUTTON = "Получить помощь"
 DONATION_BUTTON = "Сделать пожертвование"
 
+
 # Кнопки для блока "Чем мы можем помочь"
 LEGAL_HELP_BUTTON = "Юридическая помощь"
 SOCIAL_HELP_BUTTON = "Социальная помощь"

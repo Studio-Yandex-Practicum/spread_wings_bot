@@ -24,3 +24,4 @@ USERNAME_AFTER_RETURNING = (
     PATTERN.format(state=States.USERNAME_AFTER_RETURNING.value),
 )
 GET_USERNAME = PATTERN.format(state=States.GET_USERNAME.value)
+SHOW_QUESTION = rf"({States.SHOW_QUESTION.value})(?:{PAGE_SEP_SYMBOL}(\d+))"
