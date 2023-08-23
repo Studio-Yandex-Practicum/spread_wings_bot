@@ -3,11 +3,11 @@ name: Django migrations Check
 on:
   push:
     branches:
-      - '*'
+    - '**'
   pull_request:
     branches:
-      - develop
-      - master
+    - master
+    - develop
 
 jobs:
   migration-check:
