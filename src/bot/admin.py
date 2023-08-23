@@ -23,7 +23,7 @@ class QuestionAdmin(RegionForAdmin):
         "question",
         "short_description",
         "question_type",
-        "answer",
+        "get_answer",
         "get_regions",
     )
     list_filter = ("regions", "question_type")
@@ -33,6 +33,11 @@ class QuestionAdmin(RegionForAdmin):
         "short_description",
         "question_type",
     )
+
+    @admin.display(description="Ответ")
+    def get_answer(self, obj):
+        """Display responses in admin panel."""
+        return obj.answer[:100]
 
 
 @admin.register(Coordinator)
