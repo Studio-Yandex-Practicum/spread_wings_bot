@@ -31,6 +31,7 @@ from bot.constants.patterns import (
     QUESTION,
     SHOW_CONTACT,
     SHOW_PROGRAM,
+    SHOW_QUESTION,
 )
 from bot.constants.states import States
 from bot.handlers.ask_question import (
@@ -53,6 +54,7 @@ from bot.handlers.assistance import (
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 from bot.handlers.service_handlers import answer_all_messages_handler
+from bot.handlers.show_question import show_question
 from bot.persistence import RedisPersistence
 from core.models import Region
 
@@ -161,6 +163,7 @@ async def build_app() -> Application:
                 CallbackQueryHandler(contact_with_us, pattern=CONTACT_US),
                 CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
                 CallbackQueryHandler(show_program, pattern=SHOW_PROGRAM),
+                CallbackQueryHandler(show_question, pattern=SHOW_QUESTION),
             ],
             States.CONTACT_US: [
                 CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
