@@ -7,7 +7,7 @@ from django.conf import settings
 logger = logging.getLogger("core")
 
 
-def debug_logger(name: str) -> Callable:
+def debug_logger(run_function_name: str) -> Callable:
     """Log function for handlers."""
 
     def log(func: Callable) -> Callable:
@@ -20,6 +20,7 @@ def debug_logger(name: str) -> Callable:
                 raise ValueError(f"Expected 2 arguments, but got {len(args)}")
 
             update, context = args
+            print(update)
             user_id = "NONAME"
             message = "None"
             if update.message is not None:
@@ -30,18 +31,19 @@ def debug_logger(name: str) -> Callable:
             if update.callback_query is not None:
                 query_data = update.callback_query.data
                 user_id = update.callback_query.from_user.id
-
             try:
                 logger.debug(
                     "User %s run %s, update data: %s, message: %s",
                     user_id,
-                    name,
+                    run_function_name,
                     query_data,
                     message,
                 )
                 return await func(*args, **kwargs)
             except Exception as e:
-                logger.exception("Error %s after command: %s", e, name)
+                logger.exception(
+                    "Error %s after command: %s", e, run_function_name
+                )
 
         return wrapper
 

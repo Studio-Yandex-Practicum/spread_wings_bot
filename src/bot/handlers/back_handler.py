@@ -6,7 +6,7 @@ from bot.handlers.debug_handlers import debug_logger
 from bot.handlers.service_handlers import FUNCTIONS
 
 
-@debug_logger(name="back_button")
+@debug_logger(run_function_name="back_button")
 async def back_button(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
