@@ -61,13 +61,13 @@ class CoordinatorAdmin(admin.ModelAdmin):
 class FundProgramAdmin(RegionForAdmin):
     """Admin model for class FundProgram."""
 
-    list_display = ("title", "description", "get_regions")
+    list_display = ("title", "short_description", "fund_text", "get_regions")
     list_filter = ("regions",)
-    search_fields = ("title", "description")
+    search_fields = ("title", "short_description")
 
 
 @admin.register(ProxyRegion)
 class ProxyRegionAdmin(admin.ModelAdmin):
     """Admin model for class Region."""
 
-    pass
+    exclude = ["region_key"]

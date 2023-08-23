@@ -22,16 +22,20 @@ from bot.constants.patterns import (
     ASSISTANCE,
     BACK,
     CONTACT,
-    CONTACT_TYPE,
     CONTACT_US,
     FUND_PROGRAMS,
     HELP_TYPE,
     MESSAGE_PATTERN,
+    NAME,
     PATTERN,
+    QUESTION,
     SHOW_CONTACT,
+    SHOW_PROGRAM,
+    SHOW_QUESTION,
 )
 from bot.constants.states import States
 from bot.handlers.ask_question import (
+    ask_name,
     get_contact,
     get_name,
     get_question,
@@ -45,10 +49,12 @@ from bot.handlers.assistance import (
     select_assistance,
     select_type_of_help,
     show_contact,
+    show_program,
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 from bot.handlers.service_handlers import answer_all_messages_handler
+from bot.handlers.show_question import show_question
 from bot.persistence import RedisPersistence
 from core.models import Region
 
@@ -72,7 +78,11 @@ class Bot:
         self._stop_event = asyncio.Event()
 
     def start(self) -> None:
-        """Start the bot. It will check for updates until the stop() method is called."""
+        """
+        Start the bot.
+
+        It will check for updates until the stop() method is called.
+        """
         logger.info("Bot starting...")
         self._stop_event.clear()
         asyncio.ensure_future(self._run(), loop=asyncio.get_event_loop())
@@ -110,7 +120,11 @@ class Bot:
 
     @classmethod
     def get_instance(cls) -> Self:
-        """Get the bot instance or raise an exception if it is not initialized."""
+        """
+        Get the bot instance.
+
+        Raise an exception if it is not initialized.
+        """
         if cls._instance is None:
             raise RuntimeError("Bot is not initialized")
         return cls._instance
@@ -128,37 +142,6 @@ async def build_app() -> Application:
         message=r".*CallbackQueryHandler",
         category=PTBUserWarning,
     )
-
-    ask_question_handler = ConversationHandler(
-        entry_points=[
-            MessageHandler(filters.Regex(MESSAGE_PATTERN), get_question),
-        ],
-        persistent=True,
-        name="ask_question_handler",
-        states={
-            States.QUESTION: [
-                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
-            ],
-            States.NAME: [
-                CallbackQueryHandler(get_name, pattern=CONTACT_TYPE),
-            ],
-            States.CONTACT_TYPE: [
-                CallbackQueryHandler(select_contact_type, pattern=CONTACT),
-            ],
-            States.ENTER_YOUR_CONTACT: [
-                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)
-            ],
-            States.ASK_QUESTION: [
-                CallbackQueryHandler(get_question, pattern=ASK_QUESTION)
-            ],
-        },
-        fallbacks=[start_handler],
-        map_to_parent={
-            States.END: States.ASSISTANCE,
-            States.ASSISTANCE: States.ASSISTANCE,
-        },
-    )
-    logger.info("ask_question_handler deploy")
     main_handler = ConversationHandler(
         entry_points=[start_handler],
         persistent=True,
@@ -179,10 +162,9 @@ async def build_app() -> Application:
                 CallbackQueryHandler(fund_programs, pattern=FUND_PROGRAMS),
                 CallbackQueryHandler(contact_with_us, pattern=CONTACT_US),
                 CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
+                CallbackQueryHandler(show_program, pattern=SHOW_PROGRAM),
+                CallbackQueryHandler(show_question, pattern=SHOW_QUESTION),
             ],
-            States.QUESTIONS_AND_CONTACTS: [
-                CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
-            ],  # This stage appears to be extra, can be removed
             States.CONTACT_US: [
                 CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
                 CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
@@ -190,7 +172,23 @@ async def build_app() -> Application:
             States.SHOW_CONTACT: [
                 CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
             ],
-            States.ASK_QUESTION: [ask_question_handler],
+            States.ASK_QUESTION: [
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_question)
+            ],
+            States.QUESTION: [
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
+                CallbackQueryHandler(ask_name, pattern=QUESTION),
+            ],
+            States.NAME: [
+                CallbackQueryHandler(ask_name, pattern=NAME),
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
+            ],
+            States.CONTACT_TYPE: [
+                CallbackQueryHandler(select_contact_type, pattern=CONTACT)
+            ],
+            States.ENTER_YOUR_CONTACT: [
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)
+            ],
         },
         fallbacks=[
             CallbackQueryHandler(back_button, pattern=BACK),
@@ -198,7 +196,6 @@ async def build_app() -> Application:
         ],
     )
     logger.info("main_handler deploy")
-
     if settings.USE_REDIS_PERSISTENCE:
         redis_instance = Redis(
             host=settings.REDIS["host"],

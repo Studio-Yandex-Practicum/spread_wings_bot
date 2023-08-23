@@ -1,12 +1,16 @@
-from factory import Faker, LazyAttribute, Iterator
+from factory import Faker, Iterator, LazyAttribute, post_generation
 from factory.django import DjangoModelFactory
 
-from bot.models import Coordinator, Question, FundProgram
+from bot.models import Coordinator, FundProgram, Question
 from core.models import Region
 
 
 class CoordinatorFactory(DjangoModelFactory):
+    """Coordinator Model Factory."""
+
     class Meta:
+        """Metaclass for CoordinatorFactory."""
+
         model = Coordinator
 
     first_name = Faker("first_name", locale="ru_RU")
@@ -14,11 +18,19 @@ class CoordinatorFactory(DjangoModelFactory):
     region = Iterator(Region.objects.all())
     email_address = Faker("email", locale="ru_RU")
     phone_number = Faker("phone_number", locale="ru_RU")
-    telegram_account = LazyAttribute(lambda obj: obj.email_address.split("@")[0])
+    telegram_account = LazyAttribute(
+        lambda obj: obj.email_address.split("@")[0][
+            : Coordinator._meta.get_field("telegram_account").max_length
+        ]
+    )
 
 
 class QuestionFactory(DjangoModelFactory):
+    """Question Model Factory."""
+
     class Meta:
+        """Metaclass for QuestionFactory."""
+
         model = Question
 
     question = Faker("text", max_nb_chars=200, locale="ru_RU")
@@ -27,8 +39,20 @@ class QuestionFactory(DjangoModelFactory):
 
 
 class FundProgramFactory(DjangoModelFactory):
+    """Fund Program Model Factory."""
+
     class Meta:
+        """Metaclass for FundProgramFactory."""
+
         model = FundProgram
 
     title = Faker("word", locale="ru_RU")
-    description = Faker("text", max_nb_chars=500, locale="ru_RU")
+    fund_text = Faker("text", max_nb_chars=500, locale="ru_RU")
+    short_description = Faker("text", max_nb_chars=20, locale="ru_RU")
+
+    @post_generation
+    def ensure_unique_title(obj, *args, **kwargs):
+        """Ensure title is unique in database."""
+        while FundProgram.objects.filter(title=obj.title).exists():
+            obj.title = Faker("text", max_nb_chars=2, locale="ru_RU")
+        obj.save()

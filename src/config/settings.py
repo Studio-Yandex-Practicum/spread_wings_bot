@@ -99,13 +99,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-if not DEBUG:
-    STATICFILES_DIRS = [BASE_DIR / "static"]
-    [dir_.mkdir(exist_ok=True) for dir_ in STATICFILES_DIRS]
-else:
-    STATIC_ROOT = BASE_DIR / "static"
-    STATIC_ROOT.mkdir(exist_ok=True)
-
+STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT.mkdir(exist_ok=True)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -149,7 +144,7 @@ LOGGING = {
             "formatter": "default_formatter",
         },
         "file": {
-            "class": "logging.handlers.RotatingFileHandler",
+            "class": "core.custom_handler.CustomRotatingFileHandler",
             "formatter": "default_formatter",
             "filename": BASE_DIR / "logs" / "bot.log",
             "maxBytes": 10**6,
