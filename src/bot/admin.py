@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.db.models import TextField
+from mdeditor.widgets import MDEditorWidget
 
 from bot.forms import QuestionAdminForm
 from bot.models import Coordinator, FundProgram, ProxyRegion, Question
@@ -62,6 +64,7 @@ class FundProgramAdmin(RegionForAdmin):
     """Admin model for class FundProgram."""
 
     list_display = ("title", "short_description", "fund_text", "get_regions")
+    formfield_overrides = {TextField: {"widget": MDEditorWidget}}
     list_filter = ("regions",)
     search_fields = ("title", "short_description")
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from mdeditor.fields import MDTextField
 
 from bot.validators import (
     format_phone_number,
@@ -125,7 +126,7 @@ class FundProgram(BaseModel):
         unique=True,
         verbose_name="Название",
     )
-    fund_text = models.TextField(
+    fund_text = MDTextField(
         max_length=4096,
         verbose_name="Описание программы",
     )

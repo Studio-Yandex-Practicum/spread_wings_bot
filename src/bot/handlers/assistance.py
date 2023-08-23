@@ -172,5 +172,6 @@ async def show_program(
     await query.answer()
     await query.edit_message_text(
         text=reply_text,
+        parse_mode="Markdown",
         reply_markup=keyboard,
     )

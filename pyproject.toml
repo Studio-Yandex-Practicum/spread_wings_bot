@@ -24,6 +24,7 @@ transliterate = "^1.10.2"
 pytest-django = "^4.5.2"
 pytest-asyncio = "^0.21.1"
 flake8-docstrings = "^1.7.0"
+django-mdeditor = "^0.1.20"
 
 
 [tool.poetry.group.dev.dependencies]

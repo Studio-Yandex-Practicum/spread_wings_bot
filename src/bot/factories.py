@@ -47,7 +47,7 @@ class FundProgramFactory(DjangoModelFactory):
         model = FundProgram
 
     title = Faker("word", locale="ru_RU")
-    fund_text = Faker("text", max_nb_chars=500, locale="ru_RU")
+    # fund_text = Faker("text", max_nb_chars=500, locale="ru_RU")
     short_description = Faker("text", max_nb_chars=20, locale="ru_RU")
 
     @post_generation
