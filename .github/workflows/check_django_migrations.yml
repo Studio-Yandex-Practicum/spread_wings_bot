@@ -61,4 +61,4 @@ jobs:
           echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
           echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
 
-          python manage.py makemigrations --settings=config.settings --check --dry-run
+          python manage.py makemigrations --settings=config.test_settings --check --dry-run
