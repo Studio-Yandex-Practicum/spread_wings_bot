@@ -36,7 +36,6 @@ FUNCTIONS: dict[str, Callable[[Any, Any], Awaitable[States]]] = {
     States.ASSISTANCE_TYPE: select_type_of_assistance,
     States.CONTACT_US: contact_with_us,
     States.FUND_PROGRAMS: fund_programs,
-    States.QUESTIONS_AND_CONTACTS: select_assistance,
     States.REGION: get_assistance,
     States.SHOW_CONTACT: show_contact,
     States.GET_USERNAME: get_user_question,

@@ -34,11 +34,11 @@ from bot.constants.patterns import (
 )
 from bot.constants.states import States
 from bot.handlers.ask_question import (
-    get_contact,
+    get_contact_and_send_email_to_region_coordinator,
     get_question,
     get_username,
     get_username_after_returning_back,
-    select_contact_type,
+    send_email_to_region_coordinator,
 )
 from bot.handlers.assistance import (
     contact_with_us,
@@ -184,11 +184,16 @@ async def build_app() -> Application:
                     get_username_after_returning_back, pattern=GET_USERNAME
                 ),
             ],
-            States.CONTACT_TYPE: [
-                CallbackQueryHandler(select_contact_type, pattern=CONTACT),
+            States.SEND_EMAIL: [
+                CallbackQueryHandler(
+                    send_email_to_region_coordinator, pattern=CONTACT
+                ),
             ],
-            States.ENTER_YOUR_CONTACT: [
-                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)
+            States.GET_CONTACT: [
+                MessageHandler(
+                    filters.Regex(MESSAGE_PATTERN),
+                    get_contact_and_send_email_to_region_coordinator,
+                )
             ],
         },
         fallbacks=[

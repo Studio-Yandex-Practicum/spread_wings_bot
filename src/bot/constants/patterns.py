@@ -11,7 +11,7 @@ POSSIBLE_TYPE_OF_ASSISTANCE = PATTERN.format(
     state="".join(f"{h_type}|" for h_type in HelpTypes.names)
 )
 HELP_TYPE = rf"({POSSIBLE_TYPE_OF_ASSISTANCE})(?:{PAGE_SEP_SYMBOL}(\d+))?"
-CONTACT_TYPE = PATTERN.format(state=States.CONTACT_TYPE.value)
+SEND_EMAIL = PATTERN.format(state=States.SEND_EMAIL.value)
 GET_USER_QUESTION = PATTERN.format(state=States.GET_USER_QUESTION.value)
 GET_ASSISTANCE = PATTERN.format(state=States.GET_ASSISTANCE.value)
 FUND_PROGRAMS = PATTERN.format(

@@ -31,7 +31,7 @@ VALIDATION_ERROR_MESSAGE = (
     "Допущена ошибка при вводе данных!\n\n{error}\n\nПопробуйте ещё раз!"
 )
 PHONE = "PHONE"
-GET_USERNAME = "get_username"
+QUESTION = "question"
 QUESTION_TYPE = "question_type"
 TELEGRAM = "TELEGRAM"
 TELEGRAM_USERNAME_INDEX = "@"
@@ -43,7 +43,7 @@ async def get_question(
 ) -> States:
     """Question field handler."""
     question = update.message.text
-    context.user_data[GET_USERNAME] = question
+    context.user_data[QUESTION] = question
     await update.message.reply_text(
         WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
@@ -77,7 +77,7 @@ async def get_username(
         CONTACT_TYPE_MESSAGE.format(name=name.capitalize()),
         reply_markup=ask_question_keyboard_markup,
     )
-    return States.CONTACT_TYPE
+    return States.SEND_EMAIL
 
 
 @sync_to_async
@@ -96,7 +96,7 @@ async def send_message_to_coordinator_email(
     question_form = UserQuestion(
         name=context.user_data[CONTACT_NAME],
         contact=context.user_data[CONTACT],
-        question=context.user_data[GET_USERNAME],
+        question=context.user_data[QUESTION],
         question_type=context.user_data[QUESTION_TYPE],
     )
     await send_email(
@@ -108,8 +108,8 @@ async def send_message_to_coordinator_email(
     )
 
 
-@debug_logger(name="select_contact_type")
-async def select_contact_type(
+@debug_logger(name="send_email_to_region_coordinator")
+async def send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Type of contact field handler."""
@@ -124,7 +124,7 @@ async def select_contact_type(
                 text=NO_TELEGRAM_USERNAME,
                 show_alert=True,
             )
-            return States.CONTACT_TYPE
+            return States.SEND_EMAIL
         context.user_data[CONTACT] = "".join(
             [TELEGRAM_USERNAME_INDEX, query.message.chat.username]
         )
@@ -143,11 +143,11 @@ async def select_contact_type(
             )
         return States.GET_ASSISTANCE
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
-    return States.ENTER_YOUR_CONTACT
+    return States.GET_CONTACT
 
 
-@debug_logger(name="get_contact")
-async def get_contact(
+@debug_logger(name="get_contact_and_send_email_to_region_coordinator")
+async def get_contact_and_send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Contact field handler."""
@@ -161,7 +161,7 @@ async def get_contact(
         await update.message.reply_text(
             text=VALIDATION_ERROR_MESSAGE.format(error=error)
         )
-        return States.ENTER_YOUR_CONTACT
+        return States.GET_CONTACT
     context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
     coordinator_email = await get_coordinator_email(context)
