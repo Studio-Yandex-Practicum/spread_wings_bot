@@ -20,7 +20,8 @@ from bot.handlers.main_handlers import start
 
 
 @debug_logger(
-    state="ANSWER_TO_USER_MESSAGE", run_function_name="answer_all_messages"
+    state=States.ANSWER_TO_USER_MESSAGE,
+    run_functions_debag_loger="answer_all_messages",
 )
 async def answer_all_messages(
     update: Update, context: ContextTypes.DEFAULT_TYPE

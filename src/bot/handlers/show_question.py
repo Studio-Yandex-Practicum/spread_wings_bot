@@ -9,7 +9,9 @@ from bot.keyboards.utils.callback_data_parse import parse_callback_data
 from bot.models import Question
 
 
-@debug_logger(state=States.SHOW_QUESTION, run_function_name="show_question")
+@debug_logger(
+    state=States.SHOW_QUESTION, run_functions_debag_loger="show_question"
+)
 async def show_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:

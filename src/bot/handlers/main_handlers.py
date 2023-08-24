@@ -10,7 +10,7 @@ from bot.keyboards.assistance import build_assistance_keyboard
 from bot_settings.models import BotSettings
 
 
-@debug_logger(state="Start", run_function_name="start")
+@debug_logger(state=States.START, run_functions_debag_loger="start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
     """Точка старта бота. Приветствие. Две кнопки."""
     bot_commands, assistance_keyboard_markup = await asyncio.gather(
@@ -35,7 +35,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
     return States.ASSISTANCE
 
 
-@debug_logger(state="Help", run_function_name="help_command")
+@debug_logger(state=States.HELP, run_functions_debag_loger="help_command")
 async def help_command(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:

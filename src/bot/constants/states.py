@@ -20,3 +20,7 @@ class States(str, enum.Enum):
     END = "end"
     SHOW_PROGRAM = "show_program"
     SHOW_QUESTION = "show_question"
+    BACK_TO_PREVIOUS_STATE = "Back to previous state"
+    START = "start"
+    HELP = "help"
+    ANSWER_TO_USER_MESSAGE = "answer to user message"
