@@ -23,7 +23,7 @@ from bot.handlers.main_handlers import start
 async def answer_all_messages(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    """Обрабатывает и отвечает на любое введенное пользователем сообщение."""
+    """Process any message entered by the user."""
     await update.message.delete()
     await update.message.reply_text(ANSWER_TO_USER_MESSAGE)
 

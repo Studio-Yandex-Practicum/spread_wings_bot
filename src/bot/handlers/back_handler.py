@@ -10,7 +10,7 @@ from bot.handlers.service_handlers import FUNCTIONS
 async def back_button(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
-    """Возврат в предыдущее состояние."""
+    """Return to the previous state."""
     query = update.callback_query
     command = query.data.replace("back_to_", "")
     return await FUNCTIONS.get(command)(update, context)
