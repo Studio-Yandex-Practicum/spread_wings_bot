@@ -4,14 +4,13 @@ from django.core.validators import RegexValidator
 
 from bot.constants.validation import (
     PHONE,
-    PHONE_FORMAT,
     PHONE_PATTERN,
     TELEGRAM_FORMAT,
     TELEGRAM_USERNAME,
 )
 
 phone_regex = RegexValidator(
-    regex=PHONE, message=f"Введите номер телефона в формате: {PHONE_FORMAT}"
+    regex=PHONE, message="Введите номер телефона в формате: +7 (777) 777-77-77"
 )
 telegram_regex = RegexValidator(
     regex=TELEGRAM_USERNAME,
