@@ -1,8 +1,4 @@
-from functools import lru_cache
-
 from asgiref.sync import sync_to_async
-from async_lru import alru_cache
-from django.conf import settings
 from django.core.paginator import Paginator
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -25,8 +21,6 @@ PROGRAMS_PER_PAGE = 6
 QUESTIONS_PER_PAGE = 6
 
 
-# uncomment the line if we actually need to cache this keyboard
-# @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     """
     Build telegram assistance keyboard async.
@@ -49,7 +43,6 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     )
 
 
-@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_region_keyboard() -> InlineKeyboardMarkup:
     """
     Build telegram assistance type keyboard async.
@@ -76,7 +69,6 @@ async def build_region_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(keyboard + back_button)
 
 
-@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_question_keyboard(
     region: str,
     question_type: str,
@@ -125,7 +117,6 @@ async def build_question_keyboard(
     return telegram_paginator
 
 
-@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_fund_program_keyboard(
     region: str,
     page: int,
@@ -174,7 +165,6 @@ async def build_fund_program_keyboard(
     return telegram_paginator
 
 
-@lru_cache()
 def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
     """
     Build telegram show fun program keyboard async.
