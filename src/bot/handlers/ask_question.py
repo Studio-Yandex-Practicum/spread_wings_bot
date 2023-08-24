@@ -1,3 +1,5 @@
+import logging
+
 from asgiref.sync import sync_to_async
 from pydantic import ValidationError
 from telegram import Update
@@ -21,20 +23,20 @@ from bot.keyboards.ask_question import (
 from bot.keyboards.assistance import build_assistance_keyboard
 from bot.models import Coordinator
 from bot.models_pydantic.users_questions import UserContacts, UserQuestion
+from config.settings import DEFAULT_RECEIVER
 from core.mailing import send_email
 
 CONTACT_NAME = "name"
 CONTACT = "contact"
 CONTACT_TYPE = "contact_type"
 EMAIL = "EMAIL"
-VALIDATION_ERROR_MESSAGE = (
-    "Допущена ошибка при вводе данных!\n\n{error}\n\nПопробуйте ещё раз!"
-)
+VALIDATION_ERROR_MESSAGE = "Допущена ошибка при вводе данных:\n\nУкажите, пожалуйста, контактные данные в корректном формате\n\nПопробуйте ещё раз!"
 PHONE = "PHONE"
 QUESTION = "question"
 QUESTION_TYPE = "question_type"
 TELEGRAM = "TELEGRAM"
 TELEGRAM_USERNAME_INDEX = "@"
+SUBJECT_OF_RHE_ERROR_MESSAGE = "При обращении пользователя возникла ошибка!"
 
 
 @debug_logger(name="get_question")
@@ -137,8 +139,16 @@ async def select_contact_type(
                 reply_markup=assistance_keyboard_markup,
             ),
         except Exception as error:
+            logging.error(error, exc_info=True)
+            await send_email(
+                subject=SUBJECT_OF_RHE_ERROR_MESSAGE,
+                message=f"У нас проблема: {error}",
+                recipients=[
+                    DEFAULT_RECEIVER,
+                ],
+            )
             await query.edit_message_text(
-                QUESTION_FAIL.format(error),
+                QUESTION_FAIL,
                 reply_markup=assistance_keyboard_markup,
             )
         return States.ASSISTANCE
@@ -157,10 +167,8 @@ async def get_contact(
             UserContacts(email=raw_contact)
         if context.user_data[CONTACT_TYPE] == PHONE:
             UserContacts(phone=raw_contact)
-    except ValidationError as error:
-        await update.message.reply_text(
-            text=VALIDATION_ERROR_MESSAGE.format(error=error)
-        )
+    except ValidationError:
+        await update.message.reply_text(text=VALIDATION_ERROR_MESSAGE)
         return States.ENTER_YOUR_CONTACT
     context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
@@ -174,8 +182,16 @@ async def get_contact(
             reply_markup=assistance_keyboard_markup,
         )
     except Exception as error:
+        logging.error(error, exc_info=True)
+        await send_email(
+            subject=SUBJECT_OF_RHE_ERROR_MESSAGE,
+            message=f"У нас проблема: {error}",
+            recipients=[
+                DEFAULT_RECEIVER,
+            ],
+        )
         await update.message.reply_text(
-            QUESTION_FAIL.format(error),
+            QUESTION_FAIL,
             reply_markup=assistance_keyboard_markup,
         )
     return States.ASSISTANCE
