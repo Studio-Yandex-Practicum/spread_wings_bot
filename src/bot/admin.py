@@ -20,9 +20,9 @@ class QuestionAdmin(RegionForAdmin):
 
     form = QuestionAdminForm
     list_display = (
-        "question",
-        "short_description",
-        "question_type",
+        "get_question",
+        "get_short_description",
+        "get_question_type",
         "get_answer",
         "get_regions",
     )
@@ -34,9 +34,24 @@ class QuestionAdmin(RegionForAdmin):
         "question_type",
     )
 
+    @admin.display(description="Вопрос")
+    def get_question(self, obj):
+        """Display questions in admin panel."""
+        return obj.question[:100]
+
+    @admin.display(description="Короткое описание")
+    def get_short_description(self, obj):
+        """Display short_descriptions in admin panel."""
+        return obj.short_description[:100]
+
+    @admin.display(description="Тип вопроса")
+    def get_question_type(self, obj):
+        """Display question_type in admin panel."""
+        return obj.question_type[:100]
+
     @admin.display(description="Ответ")
     def get_answer(self, obj):
-        """Display responses in admin panel."""
+        """Display answer in admin panel."""
         return obj.answer[:100]
 
 
@@ -66,9 +81,29 @@ class CoordinatorAdmin(admin.ModelAdmin):
 class FundProgramAdmin(RegionForAdmin):
     """Admin model for class FundProgram."""
 
-    list_display = ("title", "short_description", "fund_text", "get_regions")
+    list_display = (
+        "get_title",
+        "get_short_description",
+        "get_fund_text",
+        "get_regions",
+    )
     list_filter = ("regions",)
     search_fields = ("title", "short_description")
+
+    @admin.display(description="Название")
+    def get_title(self, obj):
+        """Display title in admin panel."""
+        return obj.title[:100]
+
+    @admin.display(description="Короткое описание")
+    def get_short_description(self, obj):
+        """Display short_description in admin panel."""
+        return obj.short_description[:100]
+
+    @admin.display(description="Описание программы")
+    def get_fund_text(self, obj):
+        """Display fund_text in admin panel."""
+        return obj.fund_text[:100]
 
 
 @admin.register(ProxyRegion)
