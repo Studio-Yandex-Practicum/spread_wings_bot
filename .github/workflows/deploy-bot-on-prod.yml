@@ -1,3 +1,5 @@
+name: Deploy bot on prod
+
 on:
   workflow_run:
     workflows: [Create and publish a Docker image]
@@ -53,6 +55,17 @@ jobs:
             echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
             echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
 
-            sudo docker-compose -f docker-compose.yaml stop
-            sudo docker-compose -f docker-compose.yaml pull
-            sudo docker-compose -f docker-compose.yaml up -d
+            echo DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }} >> .env
+            echo DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} >> .env
+
+            # Cleaning unused containers, images, networks
+            docker system prune --force
+
+            # Installing the app
+            docker-compose -f docker-compose.stage.yaml stop
+            docker-compose -f docker-compose.stage.yaml pull
+            docker-compose -f docker-compose.stage.yaml up -d
+
+            # Applying initialization commands
+            docker exec spread-wings-bot python manage.py migrate
+            docker exec spread-wings-bot python manage.py collectstatic --noinput
