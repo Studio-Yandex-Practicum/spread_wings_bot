@@ -35,7 +35,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
         await query.edit_message_text(
             start_message.value, reply_markup=assistance_keyboard_markup
         )
-    return States.ASSISTANCE
+    return States.GET_ASSISTANCE
 
 
 @debug_logger(name="help_command")
