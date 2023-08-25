@@ -4,7 +4,7 @@ name: spread-wings-stage
 services:
 
   redis:
-    image: redis:latest
+    image: redis:7.2.0
     container_name: spread-wings-redis
     ports:
       - "6379:6379"
@@ -19,6 +19,7 @@ services:
     volumes:
       - ./redis.conf:/usr/local/etc/redis.conf
       - data_value:/data
+      - ./logs/redis/:/var/log/
     networks:
       - spread-wings-network
 
@@ -33,6 +34,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./logs/db/:/var/log/postgres
     restart: always
     networks:
       - spread-wings-network
@@ -43,6 +45,10 @@ services:
     depends_on:
       - redis
       - db
+    volumes:
+      - ../../static:/app/src/static
+      - ../../media:/app/src/media
+      - ./logs/bot/:/app/src/logs
     restart: always
     env_file:
       - ./.env
@@ -53,11 +59,12 @@ services:
     image: nginx:1.21.3-alpine
     container_name: spread-wings-nginx
     ports:
-      - "80:80"
+      - "80:${NGINX_PORT}"
     volumes:
-      - ./nginx.prod.conf.template:/etc/nginx/templates/default.conf.template
-      - ../../src/static:/var/html/static/
-      - ../../src/media:/var/html/media/
+      - ./nginx.stage.conf.template:/etc/nginx/templates/default.conf.template
+      - ../../static:/var/html/static/
+      - ../../media:/var/html/media/
+      - ./logs/nginx/:/var/log/nginx/
     env_file:
       - ./.env
     depends_on:
