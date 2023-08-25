@@ -2,9 +2,9 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.constants.messages import (
-    ASK_YOUR_QUESTION,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
+    GET_USER_QUESTION,
     SELECT_FUND_PROGRAM,
     SELECT_QUESTION,
 )
@@ -28,10 +28,8 @@ from bot_settings.models import BotSettings
 DEFAULT_PAGE = 1
 
 
-@debug_logger(
-    state=States.REGION, run_functions_debag_loger="receive_assistance"
-)
-async def receive_assistance(
+@debug_logger(state=States.REGION, run_functions_debag_loger="get_assistance")
+async def get_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -49,9 +47,9 @@ async def receive_assistance(
 
 @debug_logger(
     state=States.ASSISTANCE_TYPE,
-    run_functions_debag_loger="select_type_of_help",
+    run_functions_debag_loger="select_type_of_assistance",
 )
-async def select_type_of_help(
+async def select_type_of_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -68,7 +66,7 @@ async def select_type_of_help(
 
 @debug_logger(
     state=States.ASSISTANCE_TYPE,
-    run_functions_debag_loger="selected_type_assistance",
+    run_functions_debag_loger="select_assistance",
 )
 async def select_assistance(
     update: Update,
@@ -79,13 +77,13 @@ async def select_assistance(
     question_type, page_number = parse_callback_data(query.data, HELP_TYPE)
     page_number = page_number or DEFAULT_PAGE
     if question_type:
-        context.user_data[States.QUESTION] = question_type
+        context.user_data[States.GET_USERNAME] = question_type
     context.user_data[States.QUESTION_TYPE] = question_type
     region = context.user_data.get(States.REGION)
     await query.answer()
     keyboard = await build_question_keyboard(
         region,
-        context.user_data[States.QUESTION],
+        context.user_data[States.GET_USERNAME],
         page_number,
     )
     if query.message.reply_markup.to_json() != keyboard.markup:
@@ -117,9 +115,10 @@ async def fund_programs(
 
 
 @debug_logger(
-    state=States.ASK_QUESTION, run_functions_debag_loger="ask_question"
+    state=States.GET_USER_QUESTION,
+    run_functions_debag_loger="get_user_question",
 )
-async def ask_question(
+async def get_user_question(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -127,10 +126,10 @@ async def ask_question(
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        text=ASK_YOUR_QUESTION,
+        text=GET_USER_QUESTION,
         reply_markup=to_the_original_state_and_previous_step_keyboard_markup,
     )
-    return States.ASK_QUESTION
+    return States.GET_USER_QUESTION
 
 
 @debug_logger(

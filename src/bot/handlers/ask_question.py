@@ -37,7 +37,9 @@ TELEGRAM = "TELEGRAM"
 TELEGRAM_USERNAME_INDEX = "@"
 
 
-@debug_logger(state=States.QUESTION, run_functions_debag_loger="get_question")
+@debug_logger(
+    state=States.GET_USER_QUESTION, run_functions_debag_loger="get_question"
+)
 async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -48,11 +50,14 @@ async def get_question(
         WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
     )
-    return States.QUESTION
+    return States.GET_USERNAME
 
 
-@debug_logger(state=States.NAME, run_functions_debag_loger="ask_name")
-async def ask_name(
+@debug_logger(
+    state=States.GET_USERNAME,
+    run_functions_debag_loger="get_username_after_returning_back",
+)
+async def get_username_after_returning_back(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -63,11 +68,13 @@ async def ask_name(
         text=WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
     )
-    return States.NAME
+    return States.GET_USERNAME
 
 
-@debug_logger(state=States.CONTACT_TYPE, run_functions_debag_loger="get_name")
-async def get_name(
+@debug_logger(
+    state=States.SEND_EMAIL, run_functions_debag_loger="get_username"
+)
+async def get_username(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Name field handler."""
@@ -77,7 +84,7 @@ async def get_name(
         CONTACT_TYPE_MESSAGE.format(name=name.capitalize()),
         reply_markup=ask_question_keyboard_markup,
     )
-    return States.CONTACT_TYPE
+    return States.SEND_EMAIL
 
 
 @sync_to_async
@@ -109,10 +116,10 @@ async def send_message_to_coordinator_email(
 
 
 @debug_logger(
-    state=States.ENTER_YOUR_CONTACT,
-    run_functions_debag_loger="select_contact_type",
+    state=States.GET_CONTACT,
+    run_functions_debag_loger="send_email_to_region_coordinator",
 )
-async def select_contact_type(
+async def send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Type of contact field handler."""
@@ -127,7 +134,7 @@ async def select_contact_type(
                 text=NO_TELEGRAM_USERNAME,
                 show_alert=True,
             )
-            return States.CONTACT_TYPE
+            return States.SEND_EMAIL
         context.user_data[CONTACT] = "".join(
             [TELEGRAM_USERNAME_INDEX, query.message.chat.username]
         )
@@ -144,13 +151,16 @@ async def select_contact_type(
                 QUESTION_FAIL.format(error),
                 reply_markup=assistance_keyboard_markup,
             )
-        return States.ASSISTANCE
+        return States.GET_ASSISTANCE
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
-    return States.ENTER_YOUR_CONTACT
+    return States.GET_CONTACT
 
 
-@debug_logger(state=States.ASSISTANCE, run_functions_debag_loger="get_contact")
-async def get_contact(
+@debug_logger(
+    state=States.GET_ASSISTANCE,
+    run_functions_debag_loger="get_contact_and_send_email_to_region_coordinator",
+)
+async def get_contact_and_send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Contact field handler."""
@@ -164,7 +174,7 @@ async def get_contact(
         await update.message.reply_text(
             text=VALIDATION_ERROR_MESSAGE.format(error=error)
         )
-        return States.ENTER_YOUR_CONTACT
+        return States.GET_CONTACT
     context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
     coordinator_email = await get_coordinator_email(context)
@@ -181,4 +191,4 @@ async def get_contact(
             QUESTION_FAIL.format(error),
             reply_markup=assistance_keyboard_markup,
         )
-    return States.ASSISTANCE
+    return States.GET_ASSISTANCE

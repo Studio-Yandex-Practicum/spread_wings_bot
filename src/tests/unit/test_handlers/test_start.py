@@ -1,6 +1,5 @@
 from unittest.mock import AsyncMock, patch
 
-
 import pytest
 from telegram import MenuButtonCommands
 
@@ -29,8 +28,8 @@ async def test_start_handler_response(
         ),
     ):
         response = await main_handlers.start(update, context)
-    assert response == States.ASSISTANCE, (
-        f"Invalid state value, should be {States.ASSISTANCE}",
+    assert response == States.GET_ASSISTANCE, (
+        f"Invalid state value, should be {States.GET_ASSISTANCE}",
     )
 
 
@@ -61,7 +60,8 @@ async def test_start_handler_answer_to_user_message(
 
     if update_message:
         update.message.reply_text.assert_called_once_with(
-            mocked_message_text, reply_markup=mocked_reply_markup,
+            mocked_message_text,
+            reply_markup=mocked_reply_markup,
         )
     else:
         query = update.callback_query

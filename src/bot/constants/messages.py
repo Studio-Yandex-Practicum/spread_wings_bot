@@ -16,7 +16,7 @@ CONTACT_US_MESSAGE = "[Заглушка] Задать вопрос."
 
 SELECT_FUND_PROGRAM = "Выбор программы из списка"
 SELECT_QUESTION = "Выбор вопроса из списка"
-ASK_YOUR_QUESTION = "Задайте Ваш вопрос"
+GET_USER_QUESTION = "Задайте Ваш вопрос"
 HOW_TO_CONTACT = "Как Вам удобно связаться с нами?"
 WHAT_IS_YOUR_NAME_MESSAGE = "Как к Вам обращаться?"
 CONTACT_TYPE_MESSAGE = "{name}, как с Вами связаться?"
