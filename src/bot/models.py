@@ -1,6 +1,6 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from mdeditor.fields import MDTextField
 
 from bot.validators import (
     format_phone_number,
@@ -126,7 +126,7 @@ class FundProgram(BaseModel):
         unique=True,
         verbose_name="Название",
     )
-    fund_text = MDTextField(
+    fund_text = RichTextField(
         max_length=4096,
         verbose_name="Описание программы",
     )

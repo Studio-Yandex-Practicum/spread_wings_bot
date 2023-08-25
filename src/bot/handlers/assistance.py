@@ -24,6 +24,7 @@ from bot.keyboards.assistance_types import assistance_types_keyboard_markup
 from bot.keyboards.utils.callback_data_parse import parse_callback_data
 from bot.models import Coordinator, FundProgram, HelpTypes
 from bot_settings.models import BotSettings
+from core.utils import convert_br_tags_to_telegram_message
 
 DEFAULT_PAGE = 1
 
@@ -165,13 +166,13 @@ async def show_program(
     if program_id:
         try:
             program = await FundProgram.objects.aget(id=program_id)
-            reply_text = program.fund_text
+            reply_text = convert_br_tags_to_telegram_message(program.fund_text)
         except FundProgram.DoesNotExist:
             pass
     keyboard = build_show_fund_program_keyboard()
     await query.answer()
     await query.edit_message_text(
         text=reply_text,
-        parse_mode="Markdown",
+        parse_mode="HTML",
         reply_markup=keyboard,
     )

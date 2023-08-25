@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     "bot.apps.BotConfig",
     "users.apps.UsersConfig",
     "core.apps.CoreConfig",
-    "mdeditor",
+    "ckeditor",
 ]
 
 MIDDLEWARE = [
@@ -169,48 +169,24 @@ LOGGING = {
     },
 }
 
-X_FRAME_OPTIONS = "SAMEORIGIN"
-MDEDITOR_CONFIGS = {
+CKEDITOR_CONFIGS = {
     "default": {
-        "width": "90% ",  # Custom edit box width
-        "height": 500,  # Custom edit box height
-        "toolbar": [
-            "undo",
-            "redo",
-            "|",
-            "bold",
-            "del",
-            "italic",
-            "quote",
-            "|",
-            "list-ul",
-            "list-ol",
-            "|",
-            "link",
-            "reference-link",
-            "image",
-            "preformatted-text",
-            "||",
-            "preview",
-            "watch",
-            "fullscreen",
+        "width": 640,
+        "height": 480,
+        "language": "ru",
+        "resize_enabled": False,
+        "toolbarCanCollapse": False,
+        "autoParagraph": False,
+        "enterMode": 2,
+        "uiColor": "79aec8",
+        "forcePasteAsPlainText": True,
+        "ignoreEmptyParagraph": True,
+        "toolbar": "Custom",
+        "toolbar_Custom": [
+            ["Undo", "Redo"],
+            ["Bold", "Italic", "Underline", "Strike"],
+            ["Link", "Unlink"],
         ],
-        # custom edit box toolbar
-        "upload_image_formats": ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-        # image upload format type
-        "image_folder": "editor",  # image save the folder name
-        "theme": "default",  # edit box theme, dark / default
-        "preview_theme": "default",  # Preview area theme, dark / default
-        "editor_theme": "default",  # edit area theme, pastel-on-dark / default
-        "toolbar_autofixed": True,  # Whether the toolbar capitals
-        "search_replace": True,  # Whether to open the search for replacement
-        "emoji": True,  # whether to open the expression function
-        "tex": True,  # whether to open the tex chart function
-        "flow_chart": True,  # whether to open the flow chart function
-        "sequence": True,  # Whether to open the sequence diagram function
-        "watch": True,  # Live preview
-        "lineWrapping": False,  # lineWrapping
-        "lineNumbers": False,  # lineNumbers
-        "language": "en",  # zh / en / es
-    }
+        "extraPlugins": ["preview"],
+    },
 }
