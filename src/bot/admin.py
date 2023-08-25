@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bot.forms import QuestionAdminForm
+from bot.forms import FundProgramForm, QuestionAdminForm
 from bot.models import Coordinator, FundProgram, ProxyRegion, Question
 
 
@@ -61,6 +61,7 @@ class CoordinatorAdmin(admin.ModelAdmin):
 class FundProgramAdmin(RegionForAdmin):
     """Admin model for class FundProgram."""
 
+    form = FundProgramForm
     list_display = ("title", "short_description", "fund_text", "get_regions")
     list_filter = ("regions",)
     search_fields = ("title", "short_description")
