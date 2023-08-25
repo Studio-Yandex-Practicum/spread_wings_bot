@@ -15,7 +15,7 @@ from bot_settings.models import BotSettings
 
 @debug_logger(name="start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
-    """Точка старта бота. Приветствие. Две кнопки."""
+    """Bot start."""
     bot_commands, assistance_keyboard_markup = await asyncio.gather(
         context.bot.get_my_commands(), build_assistance_keyboard()
     )
@@ -42,7 +42,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
 async def help_command(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    """Функция показывает информацию о том, как использовать этот бот."""
+    """Show information on how to use this bot."""
     help_message = await BotSettings.objects.aget(key="help_message")
 
     help_back = InlineKeyboardMarkup(
