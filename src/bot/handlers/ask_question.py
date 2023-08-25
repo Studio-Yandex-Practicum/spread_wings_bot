@@ -50,11 +50,11 @@ async def get_question(
         WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
     )
-    return States.QUESTION
+    return States.GET_USERNAME
 
 
-@debug_logger(name="ask_name")
-async def ask_name(
+@debug_logger(name="get_username_after_returning_back")
+async def get_username_after_returning_back(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -65,11 +65,11 @@ async def ask_name(
         text=WHAT_IS_YOUR_NAME_MESSAGE,
         reply_markup=back_to_previous_step_keyboard_markup,
     )
-    return States.NAME
+    return States.GET_USERNAME
 
 
-@debug_logger(name="get_name")
-async def get_name(
+@debug_logger(name="get_username")
+async def get_username(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Name field handler."""
@@ -79,7 +79,7 @@ async def get_name(
         CONTACT_TYPE_MESSAGE.format(name=name.capitalize()),
         reply_markup=ask_question_keyboard_markup,
     )
-    return States.CONTACT_TYPE
+    return States.SEND_EMAIL
 
 
 @sync_to_async
@@ -110,8 +110,8 @@ async def send_message_to_coordinator_email(
     )
 
 
-@debug_logger(name="select_contact_type")
-async def select_contact_type(
+@debug_logger(name="send_email_to_region_coordinator")
+async def send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Type of contact field handler."""
@@ -126,7 +126,7 @@ async def select_contact_type(
                 text=NO_TELEGRAM_USERNAME,
                 show_alert=True,
             )
-            return States.CONTACT_TYPE
+            return States.SEND_EMAIL
         context.user_data[CONTACT] = "".join(
             [TELEGRAM_USERNAME_INDEX, query.message.chat.username]
         )
@@ -151,13 +151,13 @@ async def select_contact_type(
                 QUESTION_FAIL,
                 reply_markup=assistance_keyboard_markup,
             )
-        return States.ASSISTANCE
+        return States.GET_ASSISTANCE
     await query.edit_message_text(text=ENTER_YOUR_CONTACT[contact_type])
-    return States.ENTER_YOUR_CONTACT
+    return States.GET_CONTACT
 
 
-@debug_logger(name="get_contact")
-async def get_contact(
+@debug_logger(name="get_contact_and_send_email_to_region_coordinator")
+async def get_contact_and_send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
     """Contact field handler."""
@@ -169,7 +169,7 @@ async def get_contact(
             UserContacts(phone=raw_contact)
     except ValidationError:
         await update.message.reply_text(text=VALIDATION_ERROR_MESSAGE)
-        return States.ENTER_YOUR_CONTACT
+        return States.GET_CONTACT
     context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
     coordinator_email = await get_coordinator_email(context)
@@ -194,4 +194,4 @@ async def get_contact(
             QUESTION_FAIL,
             reply_markup=assistance_keyboard_markup,
         )
-    return States.ASSISTANCE
+    return States.GET_ASSISTANCE

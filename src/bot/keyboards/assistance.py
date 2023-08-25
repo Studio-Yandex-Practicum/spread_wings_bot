@@ -7,12 +7,12 @@ from django.core.paginator import Paginator
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.constants.buttons import (
-    ASK_QUESTION,
     ASSISTANCE_BUTTON,
     BACK_BUTTON,
     BACK_TO_START_BUTTON,
     CONTACTS,
     DONATION_BUTTON,
+    GET_USER_QUESTION,
 )
 from bot.constants.patterns import PAGE_SEP_SYMBOL
 from bot.constants.states import States
@@ -39,7 +39,7 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text=ASSISTANCE_BUTTON,
-                    callback_data=States.ASSISTANCE.value,
+                    callback_data=States.GET_ASSISTANCE.value,
                 )
             ],
             [
@@ -69,7 +69,7 @@ async def build_region_keyboard() -> InlineKeyboardMarkup:
         [
             InlineKeyboardButton(
                 text=BACK_BUTTON,
-                callback_data=f"back_to_{States.ASSISTANCE.value}",
+                callback_data=f"back_to_{States.GET_ASSISTANCE.value}",
             )
         ]
     ]
@@ -118,8 +118,8 @@ async def build_question_keyboard(
             callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
         ),
         InlineKeyboardButton(
-            text=ASK_QUESTION,
-            callback_data=States.ASK_QUESTION.value,
+            text=GET_USER_QUESTION,
+            callback_data=States.GET_USER_QUESTION.value,
         ),
     )
     return telegram_paginator
@@ -167,8 +167,8 @@ async def build_fund_program_keyboard(
             callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
         ),
         InlineKeyboardButton(
-            text=ASK_QUESTION,
-            callback_data=States.ASK_QUESTION.value,
+            text=GET_USER_QUESTION,
+            callback_data=States.GET_USER_QUESTION.value,
         ),
     )
     return telegram_paginator
@@ -188,7 +188,7 @@ def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
                 callback_data=f"back_to_{States.FUND_PROGRAMS.value}",
             ),
             InlineKeyboardButton(
-                ASK_QUESTION, callback_data=States.ASK_QUESTION.value
+                GET_USER_QUESTION, callback_data=States.GET_USER_QUESTION.value
             ),
         ]
     ]
@@ -198,7 +198,7 @@ def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
 contact_type_keyboard = [
     [
         InlineKeyboardButton(
-            ASK_QUESTION, callback_data=States.ASK_QUESTION.value
+            GET_USER_QUESTION, callback_data=States.GET_USER_QUESTION.value
         ),
     ],
     [
@@ -231,7 +231,7 @@ to_the_original_state_and_previous_step_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_TO_START_BUTTON,
-            callback_data=f"back_to_{States.ASSISTANCE.value}",
+            callback_data=f"back_to_{States.GET_ASSISTANCE.value}",
         )
     ],
     [
