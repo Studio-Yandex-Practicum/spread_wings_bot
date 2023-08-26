@@ -1,10 +1,10 @@
 class InvalidRecipientEmailAddress(Exception):
-    """Кастомный эксепшн для поднятия при невалидном адресате."""
+    """Custom extraction for lifting with an invalid addressee."""
 
     pass
 
 
 class PostNotFound(Exception):
-    """Кастомный эксепшн для поднятия при отсутствии мокового поста."""
+    """Custom exeption for lifting in the absence of a moking post."""
 
     pass

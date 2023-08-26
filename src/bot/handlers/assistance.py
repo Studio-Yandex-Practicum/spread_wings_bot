@@ -2,9 +2,9 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.constants.messages import (
-    ASK_YOUR_QUESTION,
     ASSISTANCE_TYPE_MESSAGE,
     CONTACT_SHOW_MESSAGE,
+    GET_USER_QUESTION,
     SELECT_FUND_PROGRAM,
     SELECT_QUESTION,
 )
@@ -28,8 +28,8 @@ from bot_settings.models import BotSettings
 DEFAULT_PAGE = 1
 
 
-@debug_logger(name="receive_assistance")
-async def receive_assistance(
+@debug_logger(state=States.REGION, run_functions_debag_loger="get_assistance")
+async def get_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -45,8 +45,11 @@ async def receive_assistance(
     return States.REGION
 
 
-@debug_logger(name="select_type_of_help")
-async def select_type_of_help(
+@debug_logger(
+    state=States.ASSISTANCE_TYPE,
+    run_functions_debag_loger="select_type_of_assistance",
+)
+async def select_type_of_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -61,7 +64,10 @@ async def select_type_of_help(
     return States.ASSISTANCE_TYPE
 
 
-@debug_logger(name="selected_type_assistance")
+@debug_logger(
+    state=States.ASSISTANCE_TYPE,
+    run_functions_debag_loger="select_assistance",
+)
 async def select_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -71,13 +77,13 @@ async def select_assistance(
     question_type, page_number = parse_callback_data(query.data, HELP_TYPE)
     page_number = page_number or DEFAULT_PAGE
     if question_type:
-        context.user_data[States.QUESTION] = question_type
+        context.user_data[States.GET_USERNAME] = question_type
     context.user_data[States.QUESTION_TYPE] = question_type
     region = context.user_data.get(States.REGION)
     await query.answer()
     keyboard = await build_question_keyboard(
         region,
-        context.user_data[States.QUESTION],
+        context.user_data[States.GET_USERNAME],
         page_number,
     )
     if query.message.reply_markup.to_json() != keyboard.markup:
@@ -87,7 +93,9 @@ async def select_assistance(
         )
 
 
-@debug_logger(name="fund_programs")
+@debug_logger(
+    state=States.FUND_PROGRAMS, run_functions_debag_loger="fund_programs"
+)
 async def fund_programs(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -106,8 +114,11 @@ async def fund_programs(
         )
 
 
-@debug_logger(name="ask_question")
-async def ask_question(
+@debug_logger(
+    state=States.GET_USER_QUESTION,
+    run_functions_debag_loger="get_user_question",
+)
+async def get_user_question(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
@@ -115,13 +126,15 @@ async def ask_question(
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(
-        text=ASK_YOUR_QUESTION,
+        text=GET_USER_QUESTION,
         reply_markup=to_the_original_state_and_previous_step_keyboard_markup,
     )
-    return States.ASK_QUESTION
+    return States.GET_USER_QUESTION
 
 
-@debug_logger(name="contact_with_us")
+@debug_logger(
+    state=States.CONTACT_US, run_functions_debag_loger="contact_with_us"
+)
 async def contact_with_us(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -137,7 +150,9 @@ async def contact_with_us(
     return States.CONTACT_US
 
 
-@debug_logger(name="show_contact")
+@debug_logger(
+    state=States.SHOW_CONTACT, run_functions_debag_loger="show_contact"
+)
 async def show_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -154,7 +169,9 @@ async def show_contact(
     return States.SHOW_CONTACT
 
 
-@debug_logger(name="show_program")
+@debug_logger(
+    state=States.SHOW_PROGRAM, run_functions_debag_loger="show_program"
+)
 async def show_program(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:

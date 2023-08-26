@@ -13,7 +13,6 @@ jobs:
       name: stage_deploy
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
         with:

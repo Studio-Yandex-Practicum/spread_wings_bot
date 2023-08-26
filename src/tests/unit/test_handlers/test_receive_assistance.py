@@ -3,11 +3,11 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from bot.constants.states import States
-from bot.handlers.assistance import receive_assistance
+from bot.handlers.assistance import get_assistance
 
 
 @pytest.mark.asyncio
-async def test_receive_assistance(
+async def test_get_assistance(
     update,
     context,
     mocked_reply_markup,
@@ -25,7 +25,7 @@ async def test_receive_assistance(
             AsyncMock(return_value=mocked_message),
         ),
     ):
-        response = await receive_assistance(update, context)
+        response = await get_assistance(update, context)
 
     update.callback_query.answer.assert_called_once()
     update.callback_query.edit_message_text.assert_called_once_with(

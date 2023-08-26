@@ -7,7 +7,7 @@ from django.conf import settings
 logger = logging.getLogger("core")
 
 
-def debug_logger(name: str) -> Callable:
+def debug_logger(state: Callable, run_functions_debag_loger: str) -> Callable:
     """Log function for handlers."""
 
     def log(func: Callable) -> Callable:
@@ -30,18 +30,20 @@ def debug_logger(name: str) -> Callable:
             if update.callback_query is not None:
                 query_data = update.callback_query.data
                 user_id = update.callback_query.from_user.id
-
             try:
                 logger.debug(
-                    "User %s run %s, update data: %s, message: %s",
+                    "User %s run %s, update data: %s, message: %s, state: %s",
                     user_id,
-                    name,
+                    run_functions_debag_loger,
                     query_data,
                     message,
+                    state,
                 )
                 return await func(*args, **kwargs)
             except Exception as e:
-                logger.exception("Error %s after command: %s", e, name)
+                logger.exception(
+                    "Error %s after command: %s", e, run_functions_debag_loger
+                )
 
         return wrapper
 

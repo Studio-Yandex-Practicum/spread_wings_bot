@@ -6,11 +6,14 @@ from bot.handlers.debug_handlers import debug_logger
 from bot.handlers.service_handlers import FUNCTIONS
 
 
-@debug_logger(name="back_button")
+@debug_logger(
+    state=States.BACK_TO_PREVIOUS_STATE,
+    run_functions_debag_loger="back_button",
+)
 async def back_button(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
-    """Возврат в предыдущее состояние."""
+    """Return to the previous state."""
     query = update.callback_query
     command = query.data.replace("back_to_", "")
     return await FUNCTIONS.get(command)(update, context)

@@ -1,18 +1,14 @@
-from functools import lru_cache
-
 from asgiref.sync import sync_to_async
-from async_lru import alru_cache
-from django.conf import settings
 from django.core.paginator import Paginator
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.constants.buttons import (
-    ASK_QUESTION,
     ASSISTANCE_BUTTON,
     BACK_BUTTON,
     BACK_TO_START_BUTTON,
     CONTACTS,
     DONATION_BUTTON,
+    GET_USER_QUESTION,
 )
 from bot.constants.patterns import PAGE_SEP_SYMBOL
 from bot.constants.states import States
@@ -25,8 +21,6 @@ PROGRAMS_PER_PAGE = 6
 QUESTIONS_PER_PAGE = 6
 
 
-# uncomment the line if we actually need to cache this keyboard
-# @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     """
     Build telegram assistance keyboard async.
@@ -39,7 +33,7 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text=ASSISTANCE_BUTTON,
-                    callback_data=States.ASSISTANCE.value,
+                    callback_data=States.GET_ASSISTANCE.value,
                 )
             ],
             [
@@ -49,7 +43,6 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     )
 
 
-@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_region_keyboard() -> InlineKeyboardMarkup:
     """
     Build telegram assistance type keyboard async.
@@ -69,14 +62,13 @@ async def build_region_keyboard() -> InlineKeyboardMarkup:
         [
             InlineKeyboardButton(
                 text=BACK_BUTTON,
-                callback_data=f"back_to_{States.ASSISTANCE.value}",
+                callback_data=f"back_to_{States.GET_ASSISTANCE.value}",
             )
         ]
     ]
     return InlineKeyboardMarkup(keyboard + back_button)
 
 
-@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_question_keyboard(
     region: str,
     question_type: str,
@@ -118,14 +110,13 @@ async def build_question_keyboard(
             callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
         ),
         InlineKeyboardButton(
-            text=ASK_QUESTION,
-            callback_data=States.ASK_QUESTION.value,
+            text=GET_USER_QUESTION,
+            callback_data=States.GET_USER_QUESTION.value,
         ),
     )
     return telegram_paginator
 
 
-@alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_fund_program_keyboard(
     region: str,
     page: int,
@@ -167,14 +158,13 @@ async def build_fund_program_keyboard(
             callback_data=f"back_to_{States.ASSISTANCE_TYPE.value}",
         ),
         InlineKeyboardButton(
-            text=ASK_QUESTION,
-            callback_data=States.ASK_QUESTION.value,
+            text=GET_USER_QUESTION,
+            callback_data=States.GET_USER_QUESTION.value,
         ),
     )
     return telegram_paginator
 
 
-@lru_cache()
 def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
     """
     Build telegram show fun program keyboard async.
@@ -188,7 +178,7 @@ def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
                 callback_data=f"back_to_{States.FUND_PROGRAMS.value}",
             ),
             InlineKeyboardButton(
-                ASK_QUESTION, callback_data=States.ASK_QUESTION.value
+                GET_USER_QUESTION, callback_data=States.GET_USER_QUESTION.value
             ),
         ]
     ]
@@ -198,7 +188,7 @@ def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
 contact_type_keyboard = [
     [
         InlineKeyboardButton(
-            ASK_QUESTION, callback_data=States.ASK_QUESTION.value
+            GET_USER_QUESTION, callback_data=States.GET_USER_QUESTION.value
         ),
     ],
     [
@@ -231,7 +221,7 @@ to_the_original_state_and_previous_step_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_TO_START_BUTTON,
-            callback_data=f"back_to_{States.ASSISTANCE.value}",
+            callback_data=f"back_to_{States.GET_ASSISTANCE.value}",
         )
     ],
     [
