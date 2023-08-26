@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import environ
@@ -100,11 +99,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
-MEDIA_URL = "/media/"
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_ROOT.mkdir(exist_ok=True)
+STATICFILES_DIRS = [("ckeditor/ckeditor/plugins", "ckeditor_plugins/")]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -171,22 +169,36 @@ LOGGING = {
 
 CKEDITOR_CONFIGS = {
     "default": {
-        "width": 640,
+        "width": "full",
         "height": 480,
+        "autoParagraph": False,
+        "basicEntities": False,
+        "enterMode": 2,
+        "forcePasteAsPlainText": True,
+        "ignoreEmptyParagraph": True,
         "language": "ru",
         "resize_enabled": False,
         "toolbarCanCollapse": False,
-        "autoParagraph": False,
-        "enterMode": 2,
         "uiColor": "79aec8",
-        "forcePasteAsPlainText": True,
-        "ignoreEmptyParagraph": True,
+        "removePlugins": "stylesheetparser",
+        "allowedContent": {
+            "strong em u s a": {
+                "attributes": True,
+                "styles": False,
+                "classes": False,
+            }
+        },
         "toolbar": "Custom",
         "toolbar_Custom": [
             ["Undo", "Redo"],
-            ["Bold", "Italic", "Underline", "Strike"],
+            ["Copy", "Paste", "Cut"],
+            ["Find", "Replace"],
+            ["SelectAll"],
+            ["Bold", "Italic", "Underline", "Strike", "RemoveFormat"],
+            ["EmojiPanel", "SpecialChar"],
             ["Link", "Unlink"],
+            ["Preview", "Maximize", "Source"],
         ],
-        "extraPlugins": ["preview"],
+        "extraPlugins": ["autocomplete", "emoji", "textmatch", "textwatcher"],
     },
 }
