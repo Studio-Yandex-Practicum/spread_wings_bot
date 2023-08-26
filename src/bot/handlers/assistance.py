@@ -29,7 +29,7 @@ from core.utils import convert_br_tags_to_telegram_message
 DEFAULT_PAGE = 1
 
 
-@debug_logger(name="get_assistance")
+@debug_logger(state=States.REGION, run_functions_debag_loger="get_assistance")
 async def get_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -46,7 +46,10 @@ async def get_assistance(
     return States.REGION
 
 
-@debug_logger(name="select_type_of_assistance")
+@debug_logger(
+    state=States.ASSISTANCE_TYPE,
+    run_functions_debag_loger="select_type_of_assistance",
+)
 async def select_type_of_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -62,7 +65,10 @@ async def select_type_of_assistance(
     return States.ASSISTANCE_TYPE
 
 
-@debug_logger(name="select_assistance")
+@debug_logger(
+    state=States.ASSISTANCE_TYPE,
+    run_functions_debag_loger="select_assistance",
+)
 async def select_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -88,7 +94,9 @@ async def select_assistance(
         )
 
 
-@debug_logger(name="fund_programs")
+@debug_logger(
+    state=States.FUND_PROGRAMS, run_functions_debag_loger="fund_programs"
+)
 async def fund_programs(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -107,7 +115,10 @@ async def fund_programs(
         )
 
 
-@debug_logger(name="get_user_question")
+@debug_logger(
+    state=States.GET_USER_QUESTION,
+    run_functions_debag_loger="get_user_question",
+)
 async def get_user_question(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -122,7 +133,9 @@ async def get_user_question(
     return States.GET_USER_QUESTION
 
 
-@debug_logger(name="contact_with_us")
+@debug_logger(
+    state=States.CONTACT_US, run_functions_debag_loger="contact_with_us"
+)
 async def contact_with_us(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -138,7 +151,9 @@ async def contact_with_us(
     return States.CONTACT_US
 
 
-@debug_logger(name="show_contact")
+@debug_logger(
+    state=States.SHOW_CONTACT, run_functions_debag_loger="show_contact"
+)
 async def show_contact(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -155,7 +170,9 @@ async def show_contact(
     return States.SHOW_CONTACT
 
 
-@debug_logger(name="show_program")
+@debug_logger(
+    state=States.SHOW_PROGRAM, run_functions_debag_loger="show_program"
+)
 async def show_program(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
