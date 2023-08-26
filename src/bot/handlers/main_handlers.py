@@ -1,12 +1,15 @@
 import asyncio
 
-from telegram import MenuButtonCommands, Update
+from telegram import InlineKeyboardMarkup, MenuButtonCommands, Update
 from telegram.ext import CommandHandler, ContextTypes
 
 from bot.constants.buttons import COMMANDS
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
-from bot.keyboards.assistance import build_assistance_keyboard
+from bot.keyboards.assistance import (
+    build_assistance_keyboard,
+    to_the_original_state_and_previous_step_keyboard,
+)
 from bot_settings.models import BotSettings
 
 
@@ -41,7 +44,12 @@ async def help_command(
 ) -> None:
     """Show information on how to use this bot."""
     help_message = await BotSettings.objects.aget(key="help_message")
-    await update.message.reply_text(help_message.value)
+
+    help_back = InlineKeyboardMarkup(
+        [to_the_original_state_and_previous_step_keyboard[0]]
+    )
+
+    await update.message.reply_text(help_message.value, reply_markup=help_back)
 
 
 start_handler = CommandHandler("start", start)
