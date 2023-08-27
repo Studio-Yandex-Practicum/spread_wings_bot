@@ -102,7 +102,10 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_ROOT.mkdir(exist_ok=True)
-STATICFILES_DIRS = [("ckeditor/ckeditor/plugins", "ckeditor_plugins/")]
+STATICFILES_DIRS = [
+    ("ckeditor/ckeditor/plugins", "ckeditor_add_on/plugins/"),
+    ("ckeditor/ckeditor/skins", "ckeditor_add_on/skins/"),
+]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -169,18 +172,6 @@ LOGGING = {
 
 CKEDITOR_CONFIGS = {
     "default": {
-        "width": "full",
-        "height": 480,
-        "autoParagraph": False,
-        "basicEntities": False,
-        "enterMode": 2,
-        "forcePasteAsPlainText": True,
-        "ignoreEmptyParagraph": True,
-        "language": "ru",
-        "resize_enabled": False,
-        "toolbarCanCollapse": False,
-        "uiColor": "79aec8",
-        "removePlugins": "stylesheetparser",
         "allowedContent": {
             "strong em u s a": {
                 "attributes": True,
@@ -188,17 +179,59 @@ CKEDITOR_CONFIGS = {
                 "classes": False,
             }
         },
-        "toolbar": "Custom",
-        "toolbar_Custom": [
-            ["Undo", "Redo"],
-            ["Copy", "Paste", "Cut"],
-            ["Find", "Replace"],
-            ["SelectAll"],
-            ["Bold", "Italic", "Underline", "Strike", "RemoveFormat"],
-            ["EmojiPanel", "SpecialChar"],
-            ["Link", "Unlink"],
-            ["Preview", "Maximize", "Source"],
-        ],
+        "autoParagraph": False,
+        "basicEntities": False,
+        "enterMode": 2,
         "extraPlugins": ["autocomplete", "emoji", "textmatch", "textwatcher"],
+        "forcePasteAsPlainText": True,
+        "height": 300,
+        "ignoreEmptyParagraph": True,
+        "language": "ru",
+        "removePlugins": "stylesheetparser",
+        "resize_enabled": False,
+        "skin": "n1theme",
+        "toolbar": "Custom",
+        "toolbarCanCollapse": False,
+        "toolbar_Custom": [
+            {
+                "name": "upper_buttons",
+                "items": [
+                    "Maximize",
+                    "-",
+                    "NewPage",
+                    "Preview",
+                    "Undo",
+                    "Redo",
+                    "-",
+                    "Copy",
+                    "Paste",
+                    "Cut",
+                    "Find",
+                    "Replace",
+                    "-",
+                    "SelectAll",
+                    "-",
+                    "About",
+                ],
+            },
+            "/",
+            {
+                "name": "lower_buttons",
+                "items": [
+                    "Bold",
+                    "Italic",
+                    "Underline",
+                    "Strike",
+                    "RemoveFormat",
+                    "-",
+                    "EmojiPanel",
+                    "SpecialChar",
+                    "-",
+                    "Link",
+                    "Unlink",
+                ],
+            },
+        ],
+        "width": "full",
     },
 }
