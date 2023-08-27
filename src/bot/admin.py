@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bot.forms import QuestionAdminForm
+from bot.forms import FundProgramForm, QuestionAdminForm
 from bot.models import Coordinator, FundProgram, ProxyRegion, Question
 
 
@@ -20,10 +20,10 @@ class QuestionAdmin(RegionForAdmin):
 
     form = QuestionAdminForm
     list_display = (
-        "question",
-        "short_description",
-        "question_type",
-        "answer",
+        "get_question",
+        "get_short_description",
+        "get_question_type",
+        "get_answer",
         "get_regions",
     )
     list_filter = ("regions", "question_type")
@@ -33,6 +33,26 @@ class QuestionAdmin(RegionForAdmin):
         "short_description",
         "question_type",
     )
+
+    @admin.display(description="Вопрос")
+    def get_question(self, obj):
+        """Display questions in admin panel."""
+        return obj.question[:100]
+
+    @admin.display(description="Короткое описание")
+    def get_short_description(self, obj):
+        """Display short_descriptions in admin panel."""
+        return obj.short_description[:100]
+
+    @admin.display(description="Тип вопроса")
+    def get_question_type(self, obj):
+        """Display question_type in admin panel."""
+        return obj.question_type[:100]
+
+    @admin.display(description="Ответ")
+    def get_answer(self, obj):
+        """Display answer in admin panel."""
+        return obj.answer[:100]
 
 
 @admin.register(Coordinator)
@@ -61,9 +81,25 @@ class CoordinatorAdmin(admin.ModelAdmin):
 class FundProgramAdmin(RegionForAdmin):
     """Admin model for class FundProgram."""
 
+    form = FundProgramForm
     list_display = ("title", "short_description", "fund_text", "get_regions")
     list_filter = ("regions",)
     search_fields = ("title", "short_description")
+
+    @admin.display(description="Название")
+    def get_title(self, obj):
+        """Display title in admin panel."""
+        return obj.title[:100]
+
+    @admin.display(description="Короткое описание")
+    def get_short_description(self, obj):
+        """Display short_description in admin panel."""
+        return obj.short_description[:100]
+
+    @admin.display(description="Описание программы")
+    def get_fund_text(self, obj):
+        """Display fund_text in admin panel."""
+        return obj.fund_text[:100]
 
 
 @admin.register(ProxyRegion)

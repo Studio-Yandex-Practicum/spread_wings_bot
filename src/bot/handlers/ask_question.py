@@ -39,7 +39,9 @@ TELEGRAM_USERNAME_INDEX = "@"
 SUBJECT_OF_RHE_ERROR_MESSAGE = "При обращении пользователя возникла ошибка!"
 
 
-@debug_logger(name="get_question")
+@debug_logger(
+    state=States.GET_USER_QUESTION, run_functions_debag_loger="get_question"
+)
 async def get_question(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -53,7 +55,10 @@ async def get_question(
     return States.GET_USERNAME
 
 
-@debug_logger(name="get_username_after_returning_back")
+@debug_logger(
+    state=States.GET_USERNAME,
+    run_functions_debag_loger="get_username_after_returning_back",
+)
 async def get_username_after_returning_back(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -68,7 +73,9 @@ async def get_username_after_returning_back(
     return States.GET_USERNAME
 
 
-@debug_logger(name="get_username")
+@debug_logger(
+    state=States.SEND_EMAIL, run_functions_debag_loger="get_username"
+)
 async def get_username(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -110,7 +117,10 @@ async def send_message_to_coordinator_email(
     )
 
 
-@debug_logger(name="send_email_to_region_coordinator")
+@debug_logger(
+    state=States.GET_CONTACT,
+    run_functions_debag_loger="send_email_to_region_coordinator",
+)
 async def send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
@@ -156,7 +166,10 @@ async def send_email_to_region_coordinator(
     return States.GET_CONTACT
 
 
-@debug_logger(name="get_contact_and_send_email_to_region_coordinator")
+@debug_logger(
+    state=States.GET_ASSISTANCE,
+    run_functions_debag_loger="get_contact_and_send_email_to_region_coordinator",
+)
 async def get_contact_and_send_email_to_region_coordinator(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> States:
