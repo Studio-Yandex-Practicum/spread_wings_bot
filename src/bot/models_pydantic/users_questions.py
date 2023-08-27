@@ -36,7 +36,7 @@ class UserContacts(BaseModel):
 class UserQuestion(BaseModel):
     """Input data question model."""
 
-    question: str = Field(..., min_length=5)
+    question: str = Field(..., min_length=1)
     name: str = Field(..., min_length=1)
     contact: str
     question_type: str

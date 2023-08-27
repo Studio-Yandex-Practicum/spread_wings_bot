@@ -30,7 +30,8 @@ CONTACT_NAME = "name"
 CONTACT = "contact"
 CONTACT_TYPE = "contact_type"
 EMAIL = "EMAIL"
-VALIDATION_ERROR_MESSAGE = "Допущена ошибка при вводе данных:\n\nУкажите, пожалуйста, контактные данные в корректном формате\n\nПопробуйте ещё раз!"
+VALIDATION_EMAIL_ERROR_MESSAGE = "Допущена ошибка при вводе данных:\n\nАдрес электронной почты введен в некорректном формате.\n\nНеобходимый фомат: test@test.ru\n\nСкорректируйте email адрес и попробуйте ещё раз!"
+VALIDATION_PHONE_ERROR_MESSAGE = "Допущена ошибка при вводе данных:\n\nНомер телефона введен в некорректном формате.\n\nНеобходимый фомат: +7ххххххххх \n\nСкорректируйте номер телефона и попробуйте ещё раз!"
 PHONE = "PHONE"
 QUESTION = "question"
 QUESTION_TYPE = "question_type"
@@ -178,10 +179,15 @@ async def get_contact_and_send_email_to_region_coordinator(
     try:
         if context.user_data[CONTACT_TYPE] == EMAIL:
             UserContacts(email=raw_contact)
+    except ValidationError as error:
+        logging.error(error)
+        await update.message.reply_text(text=VALIDATION_EMAIL_ERROR_MESSAGE)
+    try:
         if context.user_data[CONTACT_TYPE] == PHONE:
             UserContacts(phone=raw_contact)
-    except ValidationError:
-        await update.message.reply_text(text=VALIDATION_ERROR_MESSAGE)
+    except ValidationError as error:
+        logging.error(error)
+        await update.message.reply_text(text=VALIDATION_PHONE_ERROR_MESSAGE)
         return States.GET_CONTACT
     context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
