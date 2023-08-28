@@ -29,7 +29,7 @@ class Region(BaseModel):
     ):
         """Save method."""
         self.region_key = to_snake_case(
-            translit(self.region_name, reversed=True)
+            translit(str(self.region_name), reversed=True)
         )
         return super(Region, self).save(
             force_insert, force_update, using, update_fields

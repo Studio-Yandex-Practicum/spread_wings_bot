@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.core.validators import URLValidator
 from django.db import models
 
@@ -18,8 +19,16 @@ class BotSettings(BaseModel):
         verbose_name="Ключ настройки",
         primary_key=True,
     )
-    title = models.CharField(max_length=255, verbose_name="Название настройки")
-    value = models.CharField(max_length=255, verbose_name="Значение настройки")
+    title = models.CharField(
+        max_length=255,
+        verbose_name="Название настройки",
+        help_text="Введите название настройки для бота",
+    )
+    value = RichTextField(
+        max_length=255,
+        verbose_name="Значение настройки",
+        help_text="Введите значение настройки для бота",
+    )
     type = models.CharField(
         max_length=100,
         verbose_name="Тип значения",
