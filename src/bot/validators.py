@@ -1,7 +1,9 @@
 import re
 
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
+import bot.models as models
 from bot.constants.validation import (
     PHONE,
     PHONE_PATTERN,
@@ -34,3 +36,9 @@ def format_phone_number(phone):
 def format_telegram_link(telegram):
     """Format the telegram link."""
     return "https://t.me/" + telegram
+
+
+def validate_is_chief(value):
+    """Validate that the Chief coordinator may be only one."""
+    if value and models.Coordinator.objects.filter(is_chief=True).exists():
+        raise ValidationError("Может быть только один Главный координатор!")

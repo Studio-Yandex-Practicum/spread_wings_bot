@@ -62,6 +62,7 @@ class CoordinatorAdmin(admin.ModelAdmin):
     list_display = (
         "first_name",
         "last_name",
+        "is_chief",
         "region",
         "email_address",
         "phone_number",
