@@ -3,9 +3,10 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 
+from utils.emailing.reset_password import send_password_reset_email
+
 from .forms import UserChangeForm, UserCreationForm
 from .models import User
-from .utils import send_password_reset_email
 
 
 class UserAdmin(BaseUserAdmin):
