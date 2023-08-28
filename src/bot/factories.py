@@ -1,4 +1,4 @@
-from factory import Faker, Iterator, LazyAttribute, post_generation
+from factory import Faker, Iterator, LazyAttribute, Sequence
 from factory.django import DjangoModelFactory
 
 from bot.models import Coordinator, FundProgram, Question
@@ -46,13 +46,6 @@ class FundProgramFactory(DjangoModelFactory):
 
         model = FundProgram
 
-    title = Faker("word", locale="ru_RU")
-    # fund_text = Faker("text", max_nb_chars=500, locale="ru_RU")
+    title = Sequence(lambda number: f"Программа фонда {number + 1}")
+    fund_text = Faker("text", max_nb_chars=500, locale="ru_RU")
     short_description = Faker("text", max_nb_chars=20, locale="ru_RU")
-
-    @post_generation
-    def ensure_unique_title(obj, *args, **kwargs):
-        """Ensure title is unique in database."""
-        while FundProgram.objects.filter(title=obj.title).exists():
-            obj.title = Faker("text", max_nb_chars=2, locale="ru_RU")
-        obj.save()
