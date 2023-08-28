@@ -108,14 +108,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = env.str(
     "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )
-EMAIL_TEMPLATE_NAME = "email.html"
 EMAIL_HOST = env.str("EMAIL_HOST")
-
-try:
-    EMAIL_PORT = env.int("EMAIL_PORT")
-except ValueError:
-    EMAIL_PORT = 465
-
+EMAIL_PORT = env.int("EMAIL_PORT", default=465)
 EMAIL_HOST_USER = env.str("EMAIL_ACCOUNT")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_PASSWORD")
 EMAIL_TIMEOUT = 5  # seconds
