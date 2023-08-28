@@ -90,14 +90,17 @@ class Question(BaseModel):
     question = models.CharField(
         max_length=200,
         verbose_name="Вопрос",
+        help_text="Введите вопрос, не больше 200 символов",
     )
-    answer = models.CharField(
-        max_length=3856,
+    answer = RichTextField(
+        max_length=3896,
         verbose_name="Ответ",
+        help_text="Введите ответ на вопрос, не больше 3896 символов",
     )
     short_description = models.CharField(
         max_length=20,
         verbose_name="Короткое описание",
+        help_text="Введите текст для кнопки в боте",
     )
     regions = models.ManyToManyField(
         Region,
@@ -125,14 +128,17 @@ class FundProgram(BaseModel):
         max_length=200,
         unique=True,
         verbose_name="Название",
+        help_text="Введите название программы фонда, не больше 200 символов",
     )
     fund_text = RichTextField(
-        max_length=4096,
+        max_length=3896,
         verbose_name="Описание программы",
+        help_text="Введите описание программы, не больше 3896 символов",
     )
     short_description = models.CharField(
         max_length=20,
         verbose_name="Короткое описание",
+        help_text="Введите текст для кнопки в боте",
     )
     regions = models.ManyToManyField(
         Region,

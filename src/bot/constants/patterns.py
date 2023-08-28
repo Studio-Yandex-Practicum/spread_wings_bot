@@ -18,10 +18,10 @@ FUND_PROGRAMS = PATTERN.format(
     state=rf"({States.FUND_PROGRAMS.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 )
 SHOW_PROGRAM = rf"({States.SHOW_PROGRAM.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
+SHOW_QUESTION = rf"({States.SHOW_QUESTION.value})(?:{PAGE_SEP_SYMBOL}(\d+))"
 CONTACT_US = PATTERN.format(state=States.CONTACT_US.value)
 SHOW_CONTACT = PATTERN.format(state=States.SHOW_CONTACT.value)
 USERNAME_AFTER_RETURNING = (
     PATTERN.format(state=States.USERNAME_AFTER_RETURNING.value),
 )
 GET_USERNAME = PATTERN.format(state=States.GET_USERNAME.value)
-SHOW_QUESTION = rf"({States.SHOW_QUESTION.value})(?:{PAGE_SEP_SYMBOL}(\d+))"

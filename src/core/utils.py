@@ -1,5 +1,8 @@
 import re
 
+HTML_NEW_PARAGRAPH_SYMBOL = "<br />"
+TELEGRAM_NEW_PARAGRAPH_SYMBOL = " "
+
 
 def to_snake_case(text: str) -> str:
     """Convert text to snake case."""
@@ -9,4 +12,6 @@ def to_snake_case(text: str) -> str:
 
 def convert_br_tags_to_telegram_message(message):
     """Convert <br> tags from HTML to whitespace for telegram message."""
-    return message.replace("<br />", " ")
+    return message.replace(
+        HTML_NEW_PARAGRAPH_SYMBOL, TELEGRAM_NEW_PARAGRAPH_SYMBOL
+    )
