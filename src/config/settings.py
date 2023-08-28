@@ -109,7 +109,10 @@ EMAIL_BACKEND = env.str(
     "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )
 EMAIL_HOST = env.str("EMAIL_HOST")
-EMAIL_PORT = env.int("EMAIL_PORT", default=465)
+try:
+    EMAIL_PORT = env.int("EMAIL_PORT")
+except ValueError:
+    EMAIL_PORT = 465
 EMAIL_HOST_USER = env.str("EMAIL_ACCOUNT")
 EMAIL_HOST_PASSWORD = env.str("EMAIL_PASSWORD")
 EMAIL_TIMEOUT = 5  # seconds
