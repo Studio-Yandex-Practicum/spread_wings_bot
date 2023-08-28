@@ -16,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
     actions = ["reset_password"]
 
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("email",)}),
         (_("Personal info"), {"fields": ("first_name", "last_name")}),
         (
             _("Permissions"),
@@ -25,7 +25,6 @@ class UserAdmin(BaseUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
-                    "groups",
                     "user_permissions",
                 ),
             },
@@ -37,7 +36,11 @@ class UserAdmin(BaseUserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2"),
+                "fields": (
+                    "email",
+                    "first_name",
+                    "last_name",
+                ),
             },
         ),
     )
@@ -48,10 +51,15 @@ class UserAdmin(BaseUserAdmin):
         "email",
         "region",
         "is_staff",
+        "is_active",
         "role",
     )
     list_editable = ("role",)
-    search_fields = ("first_name", "last_name", "email")
+    search_fields = (
+        "first_name",
+        "last_name",
+        "email",
+    )
     ordering = ("region",)
 
     @admin.action(description="Сбросить пароль")
