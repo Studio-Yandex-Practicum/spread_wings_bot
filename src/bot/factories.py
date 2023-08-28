@@ -19,9 +19,7 @@ class CoordinatorFactory(DjangoModelFactory):
     email_address = Faker("email", locale="ru_RU")
     phone_number = Faker("phone_number", locale="ru_RU")
     telegram_account = LazyAttribute(
-        lambda obj: obj.email_address.split("@")[0][
-            : Coordinator._meta.get_field("telegram_account").max_length
-        ]
+        lambda obj: obj.email_address.split("@")[0][:32]
     )
 
 
