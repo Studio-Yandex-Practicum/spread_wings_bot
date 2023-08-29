@@ -1,3 +1,5 @@
+import logging
+
 from asgiref.sync import sync_to_async
 from pydantic import ValidationError
 from telegram import Update
@@ -20,21 +22,27 @@ from bot.keyboards.ask_question import (
 )
 from bot.keyboards.assistance import build_assistance_keyboard
 from bot.models import Coordinator
-from bot.models_pydantic.users_questions import UserContacts, UserQuestion
+from bot.models_pydantic.users_questions import (
+    MINIMUM_QUESTION_SIZE,
+    UserContacts,
+    UserQuestion,
+)
+from config.settings import DEFAULT_RECEIVER
 from core.mailing import send_email
 
 CONTACT_NAME = "name"
 CONTACT = "contact"
 CONTACT_TYPE = "contact_type"
 EMAIL = "EMAIL"
-VALIDATION_ERROR_MESSAGE = (
-    "Допущена ошибка при вводе данных!\n\n{error}\n\nПопробуйте ещё раз!"
-)
+VALIDATION_ERROR_MESSAGE = "Допущена ошибка при вводе данных:\n\nАдрес электронной почты и/или номер телефона введены в некорректном формате.\n\nНеобходимый фомат:\nemail-адрес: test@test.ru\nтелефон: +79999999999\n\nСкорректируйте контактные данные и попробуйте ещё раз!"
 PHONE = "PHONE"
 QUESTION = "question"
 QUESTION_TYPE = "question_type"
 TELEGRAM = "TELEGRAM"
 TELEGRAM_USERNAME_INDEX = "@"
+SUBJECT_OF_RHE_ERROR_MESSAGE = "При обращении пользователя возникла ошибка!"
+VALIDATION_QUESTION_ERROR_MESSAGE = "Допущена ошибка при вводе данных:\n\nМинильмальная длина вопроса - 10 символов, Ваш вопрос состоит из {size} символов. \n\nСкорректируйте свой вопрос и попробуйте ещё раз!"
+VALIDATION_QUESTION_ERROR = "Пользователь ввел слишком короткий вопрос."
 
 
 @debug_logger(
@@ -46,10 +54,16 @@ async def get_question(
     """Question field handler."""
     question = update.message.text
     context.user_data[QUESTION] = question
-    await update.message.reply_text(
-        WHAT_IS_YOUR_NAME_MESSAGE,
-        reply_markup=back_to_previous_step_keyboard_markup,
-    )
+    if len(question) < MINIMUM_QUESTION_SIZE:
+        await update.message.reply_text(
+            text=VALIDATION_QUESTION_ERROR_MESSAGE.format(size=len(question))
+        )
+        raise ValueError(VALIDATION_QUESTION_ERROR)
+    else:
+        await update.message.reply_text(
+            WHAT_IS_YOUR_NAME_MESSAGE,
+            reply_markup=back_to_previous_step_keyboard_markup,
+        )
     return States.GET_USERNAME
 
 
@@ -147,8 +161,16 @@ async def send_email_to_region_coordinator(
                 reply_markup=assistance_keyboard_markup,
             ),
         except Exception as error:
+            logging.error(error, exc_info=True)
+            await send_email(
+                subject=SUBJECT_OF_RHE_ERROR_MESSAGE,
+                message=f"У нас проблема: {error}",
+                recipients=[
+                    DEFAULT_RECEIVER,
+                ],
+            )
             await query.edit_message_text(
-                QUESTION_FAIL.format(error),
+                QUESTION_FAIL,
                 reply_markup=assistance_keyboard_markup,
             )
         return States.GET_ASSISTANCE
@@ -171,9 +193,8 @@ async def get_contact_and_send_email_to_region_coordinator(
         if context.user_data[CONTACT_TYPE] == PHONE:
             UserContacts(phone=raw_contact)
     except ValidationError as error:
-        await update.message.reply_text(
-            text=VALIDATION_ERROR_MESSAGE.format(error=error)
-        )
+        logging.error(error)
+        await update.message.reply_text(text=VALIDATION_ERROR_MESSAGE)
         return States.GET_CONTACT
     context.user_data[CONTACT] = raw_contact
     assistance_keyboard_markup = await build_assistance_keyboard()
@@ -187,8 +208,16 @@ async def get_contact_and_send_email_to_region_coordinator(
             reply_markup=assistance_keyboard_markup,
         )
     except Exception as error:
+        logging.error(error, exc_info=True)
+        await send_email(
+            subject=SUBJECT_OF_RHE_ERROR_MESSAGE,
+            message=f"У нас проблема: {error}",
+            recipients=[
+                DEFAULT_RECEIVER,
+            ],
+        )
         await update.message.reply_text(
-            QUESTION_FAIL.format(error),
+            QUESTION_FAIL,
             reply_markup=assistance_keyboard_markup,
         )
     return States.GET_ASSISTANCE
