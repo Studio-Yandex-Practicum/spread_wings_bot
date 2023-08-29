@@ -33,6 +33,6 @@ def get_password_reset_link(instance):
     token = default_token_generator.make_token(instance)
     reset_url = reverse("users:password_set", args=[uid, token])
     return (
-        f'http://{os.environ.get("NGINX_HOST", "127.0.0.1")}:'
-        f'{os.environ.get("NGINX_PORT", "8000")}{reset_url}'
+        f"http://{os.environ.get('NGINX_HOST', '127.0.0.1')}:"
+        f"{os.environ.get('NGINX_PORT', '8000')}{reset_url}"
     )
