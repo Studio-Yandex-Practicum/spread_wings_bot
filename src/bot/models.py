@@ -75,6 +75,9 @@ class Coordinator(BaseModel):
             representation += f"Telegram: {self.telegram_account}"
         return representation
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
     class Meta:  # noqa
         verbose_name = "Координатор"
         verbose_name_plural = "Координаторы"

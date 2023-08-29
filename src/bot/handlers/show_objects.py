@@ -17,6 +17,8 @@ HTML_REPLY_TEXT = "<strong>{title}</strong>\n\n{text}"
 EDIT_MESSAGE_PARSE_MODE = "HTML"
 FUND_PROGRAM_DOES_NOT_EXIST_ERROR_MESSAGE = "Program does not exists!"
 QUESTION_DOES_NOT_EXIST_ERROR_MESSAGE = "Question does not exists!"
+REGION_C = "Региональный координатор:"
+CHIEF_C = "Главный координатор:"
 
 
 @debug_logger(state=SHOW_CONTACT, run_functions_debug_loger="show_contact")
@@ -28,9 +30,13 @@ async def show_contact(
     coordinator = await Coordinator.objects.filter(
         region__region_key=context.user_data[States.REGION]
     ).afirst()
+    chief = await Coordinator.objects.filter(is_chief=True).afirst()
     await query.answer()
     await query.edit_message_text(
-        text=f"{coordinator!r}",
+        text=f"{CHIEF_C if chief and chief != coordinator else ''}\n"
+        f"{chief.__repr__() if chief and chief != coordinator else ''}\n"
+        f"\n{REGION_C if chief != coordinator else CHIEF_C}\n"
+        f"{coordinator!r}",
         reply_markup=contact_show_keyboard_markup,
     )
     return States.SHOW_CONTACT
