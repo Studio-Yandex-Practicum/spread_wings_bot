@@ -7,6 +7,7 @@ from bot.validators import (
     format_telegram_link,
     phone_regex,
     telegram_regex,
+    validate_is_chief,
 )
 from core.models import BaseModel, Region
 
@@ -50,6 +51,9 @@ class Coordinator(BaseModel):
         verbose_name="Telegram",
         help_text="Введите телеграмм-аккаунт регионального координатора",
     )
+    is_chief = models.BooleanField(
+        default=False, validators=[validate_is_chief], verbose_name="Главный"
+    )
 
     def save(self, *args, **kwargs):
         """Check and save telegram_account and phone_number."""
@@ -71,10 +75,16 @@ class Coordinator(BaseModel):
             representation += f"Telegram: {self.telegram_account}"
         return representation
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
     class Meta:  # noqa
         verbose_name = "Координатор"
         verbose_name_plural = "Координаторы"
-        ordering = ("last_name",)
+        ordering = (
+            "-is_chief",
+            "last_name",
+        )
 
 
 class HelpTypes(models.TextChoices):
