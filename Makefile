@@ -22,7 +22,6 @@ runbot-init: deletedb rundb migrate filldb runbot-db # Build and run Database Do
 	@source $$(poetry env info -p)/bin/activate
 
 
-
 .PHONY: rundb
 rundb: # Build and run Database Docker-image
 	@echo -e "$(COLOR_YELLOW)Starting database...$(COLOR_RESET)"

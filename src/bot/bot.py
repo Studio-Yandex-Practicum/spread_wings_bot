@@ -47,13 +47,11 @@ from bot.handlers.assistance import (
     get_user_question,
     select_assistance,
     select_type_of_assistance,
-    show_contact,
-    show_program,
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 from bot.handlers.service_handlers import answer_all_messages_handler
-from bot.handlers.show_question import show_question
+from bot.handlers.show_objects import show_contact, show_program, show_question
 from bot.persistence import RedisPersistence
 from core.models import Region
 

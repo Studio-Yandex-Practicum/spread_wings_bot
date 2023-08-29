@@ -13,15 +13,15 @@ from bot.handlers.assistance import (
     get_user_question,
     select_assistance,
     select_type_of_assistance,
-    show_contact,
 )
 from bot.handlers.debug_handlers import debug_logger
 from bot.handlers.main_handlers import start
+from bot.handlers.show_objects import show_contact
 
 
 @debug_logger(
     state=States.ANSWER_TO_USER_MESSAGE,
-    run_functions_debag_loger="answer_all_messages",
+    run_functions_debug_loger="answer_all_messages",
 )
 async def answer_all_messages(
     update: Update, context: ContextTypes.DEFAULT_TYPE

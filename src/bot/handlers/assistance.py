@@ -8,27 +8,25 @@ from bot.constants.messages import (
     SELECT_FUND_PROGRAM,
     SELECT_QUESTION,
 )
-from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE, SHOW_PROGRAM
+from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
     build_fund_program_keyboard,
     build_question_keyboard,
     build_region_keyboard,
-    build_show_fund_program_keyboard,
-    contact_show_keyboard_markup,
     contact_type_keyboard_markup,
     to_the_original_state_and_previous_step_keyboard_markup,
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
 from bot.keyboards.utils.callback_data_parse import parse_callback_data
-from bot.models import Coordinator, FundProgram, HelpTypes
+from bot.models import HelpTypes
 from bot_settings.models import BotSettings
 
 DEFAULT_PAGE = 1
 
 
-@debug_logger(state=States.REGION, run_functions_debag_loger="get_assistance")
+@debug_logger(state=States.REGION, run_functions_debug_loger="get_assistance")
 async def get_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
@@ -47,7 +45,7 @@ async def get_assistance(
 
 @debug_logger(
     state=States.ASSISTANCE_TYPE,
-    run_functions_debag_loger="select_type_of_assistance",
+    run_functions_debug_loger="select_type_of_assistance",
 )
 async def select_type_of_assistance(
     update: Update,
@@ -66,7 +64,7 @@ async def select_type_of_assistance(
 
 @debug_logger(
     state=States.ASSISTANCE_TYPE,
-    run_functions_debag_loger="select_assistance",
+    run_functions_debug_loger="select_assistance",
 )
 async def select_assistance(
     update: Update,
@@ -94,7 +92,7 @@ async def select_assistance(
 
 
 @debug_logger(
-    state=States.FUND_PROGRAMS, run_functions_debag_loger="fund_programs"
+    state=States.FUND_PROGRAMS, run_functions_debug_loger="fund_programs"
 )
 async def fund_programs(
     update: Update,
@@ -116,7 +114,7 @@ async def fund_programs(
 
 @debug_logger(
     state=States.GET_USER_QUESTION,
-    run_functions_debag_loger="get_user_question",
+    run_functions_debug_loger="get_user_question",
 )
 async def get_user_question(
     update: Update,
@@ -133,7 +131,7 @@ async def get_user_question(
 
 
 @debug_logger(
-    state=States.CONTACT_US, run_functions_debag_loger="contact_with_us"
+    state=States.CONTACT_US, run_functions_debug_loger="contact_with_us"
 )
 async def contact_with_us(
     update: Update,
@@ -148,46 +146,3 @@ async def contact_with_us(
         reply_markup=contact_type_keyboard_markup,
     )
     return States.CONTACT_US
-
-
-@debug_logger(
-    state=States.SHOW_CONTACT, run_functions_debag_loger="show_contact"
-)
-async def show_contact(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> States:
-    """Show contacts of the regional curator."""
-    query = update.callback_query
-    coordinator = await Coordinator.objects.filter(
-        region__region_key=context.user_data[States.REGION]
-    ).afirst()
-    await query.answer()
-    await query.edit_message_text(
-        text=f"{coordinator!r}",
-        reply_markup=contact_show_keyboard_markup,
-    )
-    return States.SHOW_CONTACT
-
-
-@debug_logger(
-    state=States.SHOW_PROGRAM, run_functions_debag_loger="show_program"
-)
-async def show_program(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> None:
-    """Show selected program data info."""
-    query = update.callback_query
-    _, program_id = parse_callback_data(query.data, SHOW_PROGRAM)
-    reply_text = "Program does not exists!"
-    if program_id:
-        try:
-            program = await FundProgram.objects.aget(id=program_id)
-            reply_text = program.fund_text
-        except FundProgram.DoesNotExist:
-            pass
-    keyboard = build_show_fund_program_keyboard()
-    await query.answer()
-    await query.edit_message_text(
-        text=reply_text,
-        reply_markup=keyboard,
-    )

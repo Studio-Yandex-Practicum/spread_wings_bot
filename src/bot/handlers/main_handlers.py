@@ -13,7 +13,7 @@ from bot.keyboards.assistance import (
 from bot_settings.models import BotSettings
 
 
-@debug_logger(state=States.START, run_functions_debag_loger="start")
+@debug_logger(state=States.START, run_functions_debug_loger="start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
     """Bot start."""
     bot_commands, assistance_keyboard_markup = await asyncio.gather(
@@ -38,7 +38,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
     return States.GET_ASSISTANCE
 
 
-@debug_logger(state=States.HELP, run_functions_debag_loger="help_command")
+@debug_logger(state=States.HELP, run_functions_debug_loger="help_command")
 async def help_command(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
