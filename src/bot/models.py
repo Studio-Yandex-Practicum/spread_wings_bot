@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -17,10 +18,12 @@ class Coordinator(BaseModel):
     first_name = models.CharField(
         max_length=200,
         verbose_name="Имя",
+        help_text="Введите имя регионального координатора",
     )
     last_name = models.CharField(
         max_length=200,
         verbose_name="Фамилия",
+        help_text="Введите фамилию регионального координатора",
     )
     region = models.OneToOneField(
         Region,
@@ -37,6 +40,7 @@ class Coordinator(BaseModel):
         blank=True,
         null=True,
         verbose_name="Номер телефона",
+        help_text="Введите номер телефона регионального координатора",
     )
     telegram_account = models.CharField(
         max_length=32,
@@ -45,6 +49,7 @@ class Coordinator(BaseModel):
         blank=True,
         null=True,
         verbose_name="Telegram",
+        help_text="Введите телеграмм-аккаунт регионального координатора",
     )
     is_chief = models.BooleanField(
         default=False, validators=[validate_is_chief], verbose_name="Главный"
@@ -96,26 +101,31 @@ class Question(BaseModel):
     question = models.CharField(
         max_length=200,
         verbose_name="Вопрос",
+        help_text="Введите вопрос, не более 200 символов",
     )
-    answer = models.CharField(
-        max_length=3856,
+    answer = RichTextField(
+        max_length=3896,
         verbose_name="Ответ",
+        help_text="Введите ответ на вопрос, не более 3896 символов",
     )
     short_description = models.CharField(
         max_length=20,
         verbose_name="Короткое описание",
+        help_text="Введите название кнопки в боте для данного вопроса",
     )
     regions = models.ManyToManyField(
         Region,
         related_name="questions",
         blank=True,
         verbose_name="Регионы",
+        help_text="Выберите регион(ы) для вопроса",
     )
     question_type = models.CharField(
         max_length=100,
         choices=HelpTypes.choices,
         default=HelpTypes.LEGAL_ASSISTANCE,
         verbose_name="Тип вопроса",
+        help_text="Выберите тип помощи для вопроса",
     )
 
     class Meta:  # noqa
@@ -131,14 +141,17 @@ class FundProgram(BaseModel):
         max_length=200,
         unique=True,
         verbose_name="Название",
+        help_text="Введите название программы фонда, не более 200 символов",
     )
-    fund_text = models.TextField(
-        max_length=4096,
+    fund_text = RichTextField(
+        max_length=3896,
         verbose_name="Описание программы",
+        help_text="Введите описание программы, не более 3896 символов",
     )
     short_description = models.CharField(
         max_length=20,
         verbose_name="Короткое описание",
+        help_text="Введите название кнопки в боте для данной программы",
     )
     regions = models.ManyToManyField(
         Region,
