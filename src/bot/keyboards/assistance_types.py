@@ -45,7 +45,7 @@ assistance_types_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_BUTTON,
-            callback_data=f"back_to_{States.ASSISTANCE.value}",
+            callback_data=f"back_to_{States.GET_ASSISTANCE.value}",
         )
     ],
 ]

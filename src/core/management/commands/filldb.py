@@ -1,4 +1,5 @@
 from random import choice, randint, sample
+from time import sleep
 
 from django.core.management.base import BaseCommand
 from tqdm import tqdm
@@ -40,13 +41,13 @@ class Command(BaseCommand):
         Coordinator.objects.all().delete()
         Region.objects.all().delete()
         self.stdout.write("Creating new data...")
+        sleep(1)
 
         for _ in tqdm(
             range(REGION_COUNT), desc="Creating regions", **PROGRESS_BAR_CONFIG
         ):
             while len(Region.objects.all()) < REGION_COUNT:
-                region = RegionFactory()
-
+                RegionFactory()
         regions = list(Region.objects.all())
 
         for _ in tqdm(

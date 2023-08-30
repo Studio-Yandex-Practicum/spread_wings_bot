@@ -18,43 +18,40 @@ from telegram.ext import (
 from telegram.warnings import PTBUserWarning
 
 from bot.constants.patterns import (
-    ASK_QUESTION,
-    ASSISTANCE,
     BACK,
     CONTACT,
     CONTACT_US,
     FUND_PROGRAMS,
+    GET_ASSISTANCE,
+    GET_USER_QUESTION,
+    GET_USERNAME,
     HELP_TYPE,
     MESSAGE_PATTERN,
-    NAME,
     PATTERN,
-    QUESTION,
     SHOW_CONTACT,
     SHOW_PROGRAM,
     SHOW_QUESTION,
 )
 from bot.constants.states import States
 from bot.handlers.ask_question import (
-    ask_name,
-    get_contact,
-    get_name,
+    get_contact_and_send_email_to_region_coordinator,
     get_question,
-    select_contact_type,
+    get_username,
+    get_username_after_returning_back,
+    send_email_to_region_coordinator,
 )
 from bot.handlers.assistance import (
-    ask_question,
     contact_with_us,
     fund_programs,
-    receive_assistance,
+    get_assistance,
+    get_user_question,
     select_assistance,
-    select_type_of_help,
-    show_contact,
-    show_program,
+    select_type_of_assistance,
 )
 from bot.handlers.back_handler import back_button
 from bot.handlers.main_handlers import help_handler, start_handler
 from bot.handlers.service_handlers import answer_all_messages_handler
-from bot.handlers.show_question import show_question
+from bot.handlers.show_objects import show_contact, show_program, show_question
 from bot.persistence import RedisPersistence
 from core.models import Region
 
@@ -147,12 +144,12 @@ async def build_app() -> Application:
         persistent=True,
         name="main_handler",
         states={
-            States.ASSISTANCE: [
-                CallbackQueryHandler(receive_assistance, pattern=ASSISTANCE),
+            States.GET_ASSISTANCE: [
+                CallbackQueryHandler(get_assistance, pattern=GET_ASSISTANCE),
             ]
             + [
                 CallbackQueryHandler(
-                    select_type_of_help,
+                    select_type_of_assistance,
                     pattern=PATTERN.format(state=key),
                 )
                 for key in region_keys
@@ -161,33 +158,40 @@ async def build_app() -> Application:
                 CallbackQueryHandler(select_assistance, pattern=HELP_TYPE),
                 CallbackQueryHandler(fund_programs, pattern=FUND_PROGRAMS),
                 CallbackQueryHandler(contact_with_us, pattern=CONTACT_US),
-                CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
+                CallbackQueryHandler(
+                    get_user_question, pattern=GET_USER_QUESTION
+                ),
                 CallbackQueryHandler(show_program, pattern=SHOW_PROGRAM),
                 CallbackQueryHandler(show_question, pattern=SHOW_QUESTION),
             ],
             States.CONTACT_US: [
                 CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
-                CallbackQueryHandler(ask_question, pattern=ASK_QUESTION),
+                CallbackQueryHandler(
+                    get_user_question, pattern=GET_USER_QUESTION
+                ),
             ],
             States.SHOW_CONTACT: [
                 CallbackQueryHandler(show_contact, pattern=SHOW_CONTACT),
             ],
-            States.ASK_QUESTION: [
+            States.GET_USER_QUESTION: [
                 MessageHandler(filters.Regex(MESSAGE_PATTERN), get_question)
             ],
-            States.QUESTION: [
-                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
-                CallbackQueryHandler(ask_name, pattern=QUESTION),
+            States.GET_USERNAME: [
+                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_username),
+                CallbackQueryHandler(
+                    get_username_after_returning_back, pattern=GET_USERNAME
+                ),
             ],
-            States.NAME: [
-                CallbackQueryHandler(ask_name, pattern=NAME),
-                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_name),
+            States.SEND_EMAIL: [
+                CallbackQueryHandler(
+                    send_email_to_region_coordinator, pattern=CONTACT
+                ),
             ],
-            States.CONTACT_TYPE: [
-                CallbackQueryHandler(select_contact_type, pattern=CONTACT)
-            ],
-            States.ENTER_YOUR_CONTACT: [
-                MessageHandler(filters.Regex(MESSAGE_PATTERN), get_contact)
+            States.GET_CONTACT: [
+                MessageHandler(
+                    filters.Regex(MESSAGE_PATTERN),
+                    get_contact_and_send_email_to_region_coordinator,
+                )
             ],
         },
         fallbacks=[

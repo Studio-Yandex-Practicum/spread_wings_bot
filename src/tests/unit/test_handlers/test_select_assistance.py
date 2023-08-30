@@ -9,7 +9,7 @@ from bot.handlers.assistance import select_assistance
 
 common_settings = {
     "keyboard": Mock(),
-    "user_data": {States.QUESTION: "Test_question_type"},
+    "user_data": {States.GET_USERNAME: "Test_question_type"},
     "context": Mock(),
 }
 
@@ -48,7 +48,7 @@ async def test_select_assistance_save_question_type(
         return_value=json.dumps(dict())
     )
     context = common_settings["context"]
-    context.user_data = {States.QUESTION: old_question_type}
+    context.user_data = {States.GET_USERNAME: old_question_type}
 
     with (
         patch(
@@ -62,7 +62,7 @@ async def test_select_assistance_save_question_type(
     ):
         await select_assistance(update, context)
 
-    assert context.user_data[States.QUESTION] == expected_type_saved, (
+    assert context.user_data[States.GET_USERNAME] == expected_type_saved, (
         f"Handler must {(not new_question_type and 'not ')}"
         f"save question type in context.user_data if it "
         f"is{(not new_question_type and ' not')} valid"

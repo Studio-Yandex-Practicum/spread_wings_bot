@@ -1,18 +1,21 @@
 import asyncio
 
-from telegram import MenuButtonCommands, Update
+from telegram import InlineKeyboardMarkup, MenuButtonCommands, Update
 from telegram.ext import CommandHandler, ContextTypes
 
 from bot.constants.buttons import COMMANDS
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
-from bot.keyboards.assistance import build_assistance_keyboard
+from bot.keyboards.assistance import (
+    build_assistance_keyboard,
+    to_the_original_state_and_previous_step_keyboard,
+)
 from bot_settings.models import BotSettings
 
 
-@debug_logger(name="start")
+@debug_logger(state=States.START, run_functions_debug_loger="start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
-    """Точка старта бота. Приветствие. Две кнопки."""
+    """Bot start."""
     bot_commands, assistance_keyboard_markup = await asyncio.gather(
         context.bot.get_my_commands(), build_assistance_keyboard()
     )
@@ -32,16 +35,21 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> States:
         await query.edit_message_text(
             start_message.value, reply_markup=assistance_keyboard_markup
         )
-    return States.ASSISTANCE
+    return States.GET_ASSISTANCE
 
 
-@debug_logger(name="help_command")
+@debug_logger(state=States.HELP, run_functions_debug_loger="help_command")
 async def help_command(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    """Функция показывает информацию о том, как использовать этот бот."""
+    """Show information on how to use this bot."""
     help_message = await BotSettings.objects.aget(key="help_message")
-    await update.message.reply_text(help_message.value)
+
+    help_back = InlineKeyboardMarkup(
+        [to_the_original_state_and_previous_step_keyboard[0]]
+    )
+
+    await update.message.reply_text(help_message.value, reply_markup=help_back)
 
 
 start_handler = CommandHandler("start", start)

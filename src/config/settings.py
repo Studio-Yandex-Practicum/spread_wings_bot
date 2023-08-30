@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "bot.apps.BotConfig",
     "users.apps.UsersConfig",
     "core.apps.CoreConfig",
+    "ckeditor",
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,10 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_ROOT.mkdir(exist_ok=True)
+STATICFILES_DIRS = [
+    ("ckeditor/ckeditor/plugins", "ckeditor_add-on/plugins/"),
+    ("ckeditor/ckeditor/skins", "ckeditor_add-on/skins/"),
+]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -162,5 +167,73 @@ LOGGING = {
             "level": "DEBUG",
             "propagate": True,
         },
+    },
+}
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "allowedContent": {
+            "strong em u s a": {
+                "attributes": True,
+                "styles": False,
+                "classes": False,
+            }
+        },
+        "autoParagraph": False,
+        "basicEntities": False,
+        "enterMode": 2,
+        "extraPlugins": ["autocomplete", "emoji", "textmatch", "textwatcher"],
+        "forcePasteAsPlainText": True,
+        "height": 300,
+        "ignoreEmptyParagraph": True,
+        "language": "ru",
+        "removePlugins": "stylesheetparser",
+        "resize_enabled": False,
+        "skin": "n1theme",
+        "toolbar": "Custom",
+        "toolbarCanCollapse": False,
+        "toolbar_Custom": [
+            {
+                "name": "upper_buttons",
+                "items": [
+                    "NewPage",
+                    "Preview",
+                    "-",
+                    "Undo",
+                    "Redo",
+                    "-",
+                    "Copy",
+                    "Paste",
+                    "Cut",
+                    "-",
+                    "Find",
+                    "Replace",
+                    "-",
+                    "Maximize",
+                    "-",
+                    "About",
+                ],
+            },
+            "/",
+            {
+                "name": "lower_buttons",
+                "items": [
+                    "SelectAll",
+                    "-",
+                    "Bold",
+                    "Italic",
+                    "Underline",
+                    "Strike",
+                    "RemoveFormat",
+                    "-",
+                    "Link",
+                    "Unlink",
+                    "-",
+                    "SpecialChar",
+                    "EmojiPanel",
+                ],
+            },
+        ],
+        "width": "full",
     },
 }

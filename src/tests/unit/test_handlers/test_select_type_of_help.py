@@ -2,14 +2,14 @@ import pytest
 
 from bot.constants.messages import ASSISTANCE_TYPE_MESSAGE
 from bot.constants.states import States
-from bot.handlers.assistance import select_type_of_help
+from bot.handlers.assistance import select_type_of_assistance
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
 
 
 @pytest.mark.asyncio
 async def test_select_type_of_help_response(update, context):
     """Receive select type of help handler returns correct response unittest."""
-    response = await select_type_of_help(update, context)
+    response = await select_type_of_assistance(update, context)
 
     update.callback_query.answer.assert_called_once()
     update.callback_query.edit_message_text.assert_called_once_with(
@@ -35,14 +35,14 @@ common_settings = {
     ],
 )
 @pytest.mark.asyncio
-async def test_select_type_of_help_store_region(
+async def test_select_type_of_assistance_store_region(
     update, context, region, initial_region, expected_region_changed
 ):
     """Receive select type of help handler stores correct region in context unittest."""
     update.callback_query.data = region
     context.user_data = {States.REGION: initial_region}
 
-    await select_type_of_help(update, context)
+    await select_type_of_assistance(update, context)
 
     update.callback_query.answer.assert_called_once()
     update.callback_query.edit_message_text.assert_called_once_with(
