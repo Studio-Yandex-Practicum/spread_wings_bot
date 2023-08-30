@@ -149,8 +149,8 @@ async def build_app() -> Application:
         states={
             States.ASSISTANCE: [
                 CallbackQueryHandler(receive_assistance, pattern=ASSISTANCE),
-            ],
-            States.REGION: [
+            ]
+            + [
                 CallbackQueryHandler(
                     select_type_of_help,
                     pattern=PATTERN.format(state=key),

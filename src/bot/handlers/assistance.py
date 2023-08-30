@@ -8,7 +8,12 @@ from bot.constants.messages import (
     SELECT_FUND_PROGRAM,
     SELECT_QUESTION,
 )
-from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE, SHOW_PROGRAM
+from bot.constants.patterns import (
+    ASSISTANCE,
+    FUND_PROGRAMS,
+    HELP_TYPE,
+    SHOW_PROGRAM,
+)
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
@@ -34,15 +39,21 @@ async def receive_assistance(
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
     """Select a region of assistance."""
-    await update.callback_query.answer()
-    keyboard = await build_region_keyboard()
+    query = update.callback_query
+    callback_data = query.data.replace("back_to_", "")
+    _, page_number = parse_callback_data(callback_data, ASSISTANCE)
+    page_number = page_number or DEFAULT_PAGE
+    await query.answer()
+    keyboard = await build_region_keyboard(page_number)
     assistance_message = await BotSettings.objects.aget(
         key="assistance_message"
     )
-    await update.callback_query.edit_message_text(
-        text=assistance_message.value, reply_markup=keyboard
-    )
-    return States.REGION
+    if query.message.reply_markup.to_json() != keyboard.markup:
+        await query.edit_message_text(
+            text=assistance_message.value,
+            reply_markup=keyboard.markup,
+        )
+    return States.ASSISTANCE
 
 
 @debug_logger(name="select_type_of_help")

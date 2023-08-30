@@ -13,7 +13,9 @@ POSSIBLE_TYPE_OF_ASSISTANCE = PATTERN.format(
 HELP_TYPE = rf"({POSSIBLE_TYPE_OF_ASSISTANCE})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 CONTACT_TYPE = PATTERN.format(state=States.CONTACT_TYPE.value)
 ASK_QUESTION = PATTERN.format(state=States.ASK_QUESTION.value)
-ASSISTANCE = PATTERN.format(state=States.ASSISTANCE.value)
+ASSISTANCE = PATTERN.format(
+    state=rf"({States.ASSISTANCE.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
+)
 FUND_PROGRAMS = PATTERN.format(
     state=rf"({States.FUND_PROGRAMS.value})(?:{PAGE_SEP_SYMBOL}(\d+))?"
 )

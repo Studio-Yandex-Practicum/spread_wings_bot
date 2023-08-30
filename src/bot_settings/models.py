@@ -9,10 +9,8 @@ class BotSettings(BaseModel):
 
     URL = "url"
     TEXT = "text"
-    __VALUE_TYPES = (
-        (URL, "URL"),
-        (TEXT, "TEXT"),
-    )
+    INT = "int"
+    __VALUE_TYPES = ((URL, "URL"), (TEXT, "TEXT"), (INT, "INT"))
     key = models.CharField(
         max_length=100,
         verbose_name="Ключ настройки",
