@@ -1,4 +1,4 @@
-import time
+import asyncio
 from typing import Any, Awaitable, Callable
 
 from telegram import Update
@@ -31,7 +31,7 @@ async def answer_all_messages(
     await update.message.delete()
     message = await update.message.reply_text(ANSWER_TO_USER_MESSAGE)
 
-    time.sleep(3)
+    await asyncio.sleep(3)
     await context.bot.delete_message(
         chat_id=message.chat_id, message_id=message.message_id
     )
