@@ -11,8 +11,8 @@ class BotSettings(BaseModel):
     URL = "url"
     TEXT = "text"
     __VALUE_TYPES = (
-        (URL, "URL"),
-        (TEXT, "TEXT"),
+        (URL, "Ссылка"),
+        (TEXT, "Текст"),
     )
     key = models.CharField(
         max_length=100,

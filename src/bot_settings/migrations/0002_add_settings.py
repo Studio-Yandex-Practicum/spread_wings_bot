@@ -63,10 +63,9 @@ def create_assistance_message_setting(apps, schema_editor):
     BotSettings = apps.get_model("bot_settings", "BotSettings")
     BotSettings.objects.create(
         key="assistance_message",
-        title="Сообщение при нажатии на кнопку Assistance",
+        title="Сообщение при нажатии на кнопку 'Получить помощь'",
         type=BotSettingsModel.TEXT,
-        value='Сообщение после нажатия на кнопку "Получить помощь"'
-        "(Выбор региона)",
+        value="Выберите нужный регион",
     )
 
 
@@ -74,6 +73,96 @@ def remove_assistance_message_setting(apps, schema_editor):
     """Remove assistance_message setting instance."""
     BotSettings = apps.get_model("bot_settings", "BotSettings")
     setting = BotSettings.objects.get(key="assistance_message")
+    setting.delete()
+
+
+def create_select_type_of_help_setting(apps, schema_editor):
+    """Create select_type_of_help setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="select_type_of_help",
+        title="Сообщение при нажатии на кнопку нужного региона",
+        type=BotSettingsModel.TEXT,
+        value="[Заглушка]Сообщение в момент выбора юр., соц., психол., помощи и т.д.",
+    )
+
+
+def remove_select_type_of_help_setting(apps, schema_editor):
+    """Remove select_type_of_help setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="select_type_of_help")
+    setting.delete()
+
+
+def create_selected_type_assistance_setting(apps, schema_editor):
+    """Create selected_type_assistance setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="selected_type_assistance",
+        title="Сообщение при нажатии на кнопку нужного типа помощи",
+        type=BotSettingsModel.TEXT,
+        value="Выбор вопроса из списка",
+    )
+
+
+def remove_selected_type_assistance_setting(apps, schema_editor):
+    """Remove selected_type_assistance setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="selected_type_assistance")
+    setting.delete()
+
+
+def create_ask_question_setting(apps, schema_editor):
+    """Create ask_question setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="ask_question",
+        title="Сообщение при нажатии на кнопку 'Задать свой вопрос'",
+        type=BotSettingsModel.TEXT,
+        value="Задайте Ваш вопрос",
+    )
+
+
+def remove_ask_question_setting(apps, schema_editor):
+    """Remove ask_question setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="ask_question")
+    setting.delete()
+
+
+def create_fund_programs_setting(apps, schema_editor):
+    """Create fund_programs setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="fund_programs",
+        title="Сообщение при нажатии на кнопку 'Наши программы'",
+        type=BotSettingsModel.TEXT,
+        value="Выбор программы из списка",
+    )
+
+
+def remove_fund_programs_setting(apps, schema_editor):
+    """Remove fund_programs setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="fund_programs")
+    setting.delete()
+
+
+def create_contact_with_us_setting(apps, schema_editor):
+    """Create contact_with_us setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="contact_with_us",
+        title="Сообщение при нажатии на кнопку 'Связаться с нами'",
+        type=BotSettingsModel.TEXT,
+        value="Выберите способ связи",
+    )
+
+
+def remove_contact_with_us_setting(apps, schema_editor):
+    """Remove contact_with_us setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="contact_with_us")
     setting.delete()
 
 
@@ -100,5 +189,25 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             create_assistance_message_setting,
             reverse_code=remove_assistance_message_setting,
+        ),
+        migrations.RunPython(
+            create_select_type_of_help_setting,
+            reverse_code=remove_select_type_of_help_setting,
+        ),
+        migrations.RunPython(
+            create_selected_type_assistance_setting,
+            reverse_code=remove_selected_type_assistance_setting,
+        ),
+        migrations.RunPython(
+            create_ask_question_setting,
+            reverse_code=remove_ask_question_setting,
+        ),
+        migrations.RunPython(
+            create_fund_programs_setting,
+            reverse_code=remove_fund_programs_setting,
+        ),
+        migrations.RunPython(
+            create_contact_with_us_setting,
+            reverse_code=remove_contact_with_us_setting,
         ),
     ]
