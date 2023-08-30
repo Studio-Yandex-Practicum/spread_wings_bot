@@ -5,7 +5,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("bot_settings", "0003_alter_botsettings_title_alter_botsettings_value"),
+        (
+            "bot_settings",
+            "0003_alter_botsettings_title_alter_botsettings_value",
+        ),
     ]
 
     operations = [

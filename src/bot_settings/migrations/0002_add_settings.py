@@ -81,9 +81,9 @@ def create_select_type_of_help_setting(apps, schema_editor):
     BotSettings = apps.get_model("bot_settings", "BotSettings")
     BotSettings.objects.create(
         key="select_type_of_help",
-        title="Сообщение при нажатии кнопку нужного Региона",
+        title="Сообщение при нажатии на кнопку нужного региона",
         type=BotSettingsModel.TEXT,
-        value="Выберите тип помощи",
+        value="[Заглушка]Сообщение в момент выбора юр., соц., психол., помощи и т.д.",
     )
 
 
@@ -99,7 +99,7 @@ def create_selected_type_assistance_setting(apps, schema_editor):
     BotSettings = apps.get_model("bot_settings", "BotSettings")
     BotSettings.objects.create(
         key="selected_type_assistance",
-        title="Сообщение при нажатии кнопку нужного типа помощи",
+        title="Сообщение при нажатии на кнопку нужного типа помощи",
         type=BotSettingsModel.TEXT,
         value="Выбор вопроса из списка",
     )
@@ -117,7 +117,7 @@ def create_ask_question_setting(apps, schema_editor):
     BotSettings = apps.get_model("bot_settings", "BotSettings")
     BotSettings.objects.create(
         key="ask_question",
-        title="Сообщение при нажатии кнопку 'Задать свой вопрос'",
+        title="Сообщение при нажатии на кнопку 'Задать свой вопрос'",
         type=BotSettingsModel.TEXT,
         value="Задайте Ваш вопрос",
     )
@@ -135,7 +135,7 @@ def create_fund_programs_setting(apps, schema_editor):
     BotSettings = apps.get_model("bot_settings", "BotSettings")
     BotSettings.objects.create(
         key="fund_programs",
-        title="Сообщение при нажатии кнопку 'Наши программы'",
+        title="Сообщение при нажатии на кнопку 'Наши программы'",
         type=BotSettingsModel.TEXT,
         value="Выбор программы из списка",
     )
@@ -153,7 +153,7 @@ def create_contact_with_us_setting(apps, schema_editor):
     BotSettings = apps.get_model("bot_settings", "BotSettings")
     BotSettings.objects.create(
         key="contact_with_us",
-        title="Сообщение при нажатии кнопку 'Связаться с нами'",
+        title="Сообщение при нажатии на кнопку 'Связаться с нами'",
         type=BotSettingsModel.TEXT,
         value="Выберите способ связи",
     )
