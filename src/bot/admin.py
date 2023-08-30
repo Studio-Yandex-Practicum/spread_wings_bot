@@ -1,4 +1,6 @@
+from ckeditor.widgets import CKEditorWidget
 from django.contrib import admin
+from django.db.models import TextField
 
 from bot.forms import FundProgramForm, QuestionAdminForm
 from bot.models import Coordinator, FundProgram, ProxyRegion, Question
@@ -62,6 +64,7 @@ class CoordinatorAdmin(admin.ModelAdmin):
     list_display = (
         "first_name",
         "last_name",
+        "is_chief",
         "region",
         "email_address",
         "phone_number",
@@ -83,6 +86,7 @@ class FundProgramAdmin(RegionForAdmin):
 
     form = FundProgramForm
     list_display = ("title", "short_description", "fund_text", "get_regions")
+    formfield_overrides = {TextField: {"widget": CKEditorWidget}}
     list_filter = ("regions",)
     search_fields = ("title", "short_description")
 

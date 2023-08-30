@@ -8,7 +8,9 @@ charset-normalizer==3.2.0 ; python_full_version >= "3.11.1" and python_version <
 click==8.1.7 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"
 colorama==0.4.6 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0" and (platform_system == "Windows" or sys_platform == "win32")
 django-asgi-lifespan==0.1.0 ; python_full_version >= "3.11.1" and python_version < "4.0"
+django-ckeditor==6.7.0 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"
 django-environ==0.10.0 ; python_full_version >= "3.11.1" and python_version < "4"
+django-js-asset==2.1.0 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"
 django==4.2.4 ; python_full_version >= "3.11.1" and python_version < "4.0"
 dnspython==2.4.2 ; python_full_version >= "3.11.1" and python_version < "4.0"
 email-validator==2.0.0.post2 ; python_full_version >= "3.11.1" and python_full_version < "4.0.0"

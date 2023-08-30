@@ -4,9 +4,9 @@ import enum
 class States(str, enum.Enum):
     """Main bot states."""
 
-    GET_ASSISTANCE = "get_assistance"  # п.с. "Помочь или получить помощь"
-    REGION = "region"  # п.с. "Выбор региона"
-    ASSISTANCE_TYPE = "assistance_type"  # п.с. "Чем мы можем помочь"
+    GET_ASSISTANCE = "get_assistance"
+    REGION = "region"
+    ASSISTANCE_TYPE = "assistance_type"
     FUND_PROGRAMS = "fund_programs"
     GET_USER_QUESTION = "get_user_question"
     CONTACT_US = "contact_us"

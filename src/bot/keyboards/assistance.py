@@ -165,26 +165,6 @@ async def build_fund_program_keyboard(
     return telegram_paginator
 
 
-def build_show_fund_program_keyboard() -> InlineKeyboardMarkup:
-    """
-    Build telegram show fun program keyboard async.
-
-    After building cache it.
-    """
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                text=BACK_BUTTON,
-                callback_data=f"back_to_{States.FUND_PROGRAMS.value}",
-            ),
-            InlineKeyboardButton(
-                GET_USER_QUESTION, callback_data=States.GET_USER_QUESTION.value
-            ),
-        ]
-    ]
-    return InlineKeyboardMarkup(keyboard)
-
-
 contact_type_keyboard = [
     [
         InlineKeyboardButton(
@@ -203,7 +183,6 @@ contact_type_keyboard = [
         )
     ],
 ]
-
 contact_type_keyboard_markup = InlineKeyboardMarkup(contact_type_keyboard)
 
 contact_show_keyboard = [
@@ -214,8 +193,32 @@ contact_show_keyboard = [
         )
     ]
 ]
-
 contact_show_keyboard_markup = InlineKeyboardMarkup(contact_show_keyboard)
+
+show_fund_program_keyboard = [
+    [
+        InlineKeyboardButton(
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.FUND_PROGRAMS.value}",
+        ),
+        InlineKeyboardButton(
+            GET_USER_QUESTION, callback_data=States.GET_USER_QUESTION.value
+        ),
+    ]
+]
+show_fund_program_keyboard_markup = InlineKeyboardMarkup(
+    show_fund_program_keyboard
+)
+
+question_show_keyboard = [
+    [
+        InlineKeyboardButton(
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.SHOW_QUESTION.value}",
+        )
+    ]
+]
+question_show_keyboard_markup = InlineKeyboardMarkup(question_show_keyboard)
 
 to_the_original_state_and_previous_step_keyboard = [
     [
@@ -235,14 +238,3 @@ to_the_original_state_and_previous_step_keyboard = [
 to_the_original_state_and_previous_step_keyboard_markup = InlineKeyboardMarkup(
     to_the_original_state_and_previous_step_keyboard
 )
-
-question_show_keyboard = [
-    [
-        InlineKeyboardButton(
-            text=BACK_BUTTON,
-            callback_data=f"back_to_{States.SHOW_QUESTION.value}",
-        )
-    ]
-]
-
-question_show_keyboard_markup = InlineKeyboardMarkup(question_show_keyboard)

@@ -8,7 +8,7 @@ from bot.handlers.service_handlers import FUNCTIONS
 
 @debug_logger(
     state=States.BACK_TO_PREVIOUS_STATE,
-    run_functions_debag_loger="back_button",
+    run_functions_debug_loger="back_button",
 )
 async def back_button(
     update: Update, context: ContextTypes.DEFAULT_TYPE
