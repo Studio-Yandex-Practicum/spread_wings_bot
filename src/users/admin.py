@@ -3,14 +3,21 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 
+from utils.emailing.reset_password import send_password_reset_email
+
+from .forms import UserChangeForm, UserCreationForm
 from .models import User
 
 
 class UserAdmin(BaseUserAdmin):
     """Custom user management via admin panel."""
 
+    form = UserChangeForm
+    add_form = UserCreationForm
+    actions = ["reset_password"]
+
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("email",)}),
         (_("Personal info"), {"fields": ("first_name", "last_name")}),
         (
             _("Permissions"),
@@ -19,7 +26,6 @@ class UserAdmin(BaseUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
-                    "groups",
                     "user_permissions",
                 ),
             },
@@ -31,7 +37,11 @@ class UserAdmin(BaseUserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2"),
+                "fields": (
+                    "email",
+                    "first_name",
+                    "last_name",
+                ),
             },
         ),
     )
@@ -42,11 +52,22 @@ class UserAdmin(BaseUserAdmin):
         "email",
         "region",
         "is_staff",
+        "is_active",
         "role",
     )
     list_editable = ("role",)
-    search_fields = ("first_name", "last_name", "email")
+    search_fields = (
+        "first_name",
+        "last_name",
+        "email",
+    )
     ordering = ("region",)
+
+    @admin.action(description="Сбросить пароль")
+    def reset_password(self, request, queryset):
+        """Send emails with password reset link to users."""
+        for user in queryset:
+            send_password_reset_email(user)
 
 
 admin.site.register(User, UserAdmin)
