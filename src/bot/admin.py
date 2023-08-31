@@ -95,7 +95,7 @@ class FundProgramAdmin(RegionForAdmin):
         """Display title in admin panel."""
         return obj.title[:100]
 
-    @admin.display(description="Текст на кнопке")
+    @admin.display(description="Текст на кнопке ")
     def get_short_description(self, obj):
         """Display short_description in admin panel."""
         return obj.short_description[:100]
