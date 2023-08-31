@@ -2,8 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from core.models import Region
-
 from .manager import UserManager
 
 
@@ -25,17 +23,6 @@ class User(AbstractUser):
     )
     email = models.EmailField(
         unique=True, verbose_name="Адрес электронной почты"
-    )
-    role = models.CharField(
-        max_length=12,
-        choices=UserRole.choices,
-        verbose_name="Роль пользователя",
-    )
-    region = models.ForeignKey(
-        Region,
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name="Регион пользователя",
     )
 
     objects = UserManager()
