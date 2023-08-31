@@ -105,8 +105,8 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_ROOT.mkdir(exist_ok=True)
 STATICFILES_DIRS = [
-    ("ckeditor/ckeditor/plugins", "ckeditor_add-on/plugins/"),
-    ("ckeditor/ckeditor/skins", "ckeditor_add-on/skins/"),
+    ("ckeditor/ckeditor/plugins", "src/ckeditor_add-on/plugins/"),
+    ("ckeditor/ckeditor/skins", "src/ckeditor_add-on/skins/"),
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
