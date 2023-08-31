@@ -4,8 +4,10 @@ import environ
 from dotenv import find_dotenv
 
 env = environ.Env()
-if DEBUG := env.bool("DEBUG", default=True):
-    environ.Env.read_env(find_dotenv(".env", raise_error_if_not_found=True))
+
+environ.Env.read_env(find_dotenv(".env", raise_error_if_not_found=True))
+
+DEBUG = env.bool("DEBUG", default=True)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 
 DATABASES = {
