@@ -29,6 +29,7 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           script: |
             cd /home/deploy/spread_wings_bot/infra/prod/
+            git pull
             rm .env
             touch .env
 
