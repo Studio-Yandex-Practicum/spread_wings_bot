@@ -41,7 +41,7 @@ class BotSettings(BaseModel):
             URLValidator()(self.value)
 
     def __str__(self):
-        return f"<BotSettings:  {self.key} - {self.title} - {self.value}>"
+        return self.title
 
     class Meta:
         """Meta for BotSettings model."""

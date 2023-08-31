@@ -8,10 +8,10 @@ class BotSettingsAdmin(admin.ModelAdmin):
     """Base admin configuration for BotSettings model."""
 
     list_display = ("get_title", "type", "get_value")
-    list_filter = ("title", "type", "value")
+    list_filter = ("type",)
     search_fields = ("title", "type", "value")
     readonly_fields = ("type",)
-    exclude = ("key",)
+    exclude = ("key", "title")
 
     def has_delete_permission(self, request, obj=None):
         """Disable delete permission for BotSettings model."""
