@@ -5,7 +5,7 @@ from dotenv import find_dotenv
 
 env = environ.Env()
 
-environ.Env.read_env(find_dotenv(".env"))
+env.read_env(find_dotenv(".env"))
 
 DEBUG = env.bool("DEBUG", default=True)
 
