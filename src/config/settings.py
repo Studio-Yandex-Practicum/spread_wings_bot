@@ -113,6 +113,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = env.str(
     "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )
+EMAIL_TEMPLATE_NAME = "email.html"
 EMAIL_HOST = env.str("EMAIL_HOST")
 try:
     EMAIL_PORT = env.int("EMAIL_PORT")
