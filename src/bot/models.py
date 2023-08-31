@@ -90,11 +90,12 @@ class Coordinator(BaseModel):
 class HelpTypes(models.TextChoices):
     """Supporting model to make choices field."""
 
-    LEGAL_ASSISTANCE = "Юридическая помощь", _("Юридическая помощь")
-    SOCIAL_ASSISTANCE = "Социальная помощь", _("Социальная помощь")
-    PSYCHOLOGICAL_ASSISTANCE = "Психологическая помощь", _(
+    LEGAL_ASSISTANCE = "LEGAL_ASSISTANCE", _("Юридическая помощь")
+    SOCIAL_ASSISTANCE = "SOCIAL_ASSISTANCE", _("Социальная помощь")
+    PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
         "Психологическая помощь"
     )
+    COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
 
 
 class Question(BaseModel):
@@ -152,7 +153,7 @@ class FundProgram(BaseModel):
     )
     short_description = models.CharField(
         max_length=20,
-        verbose_name="Текст на кнопке",
+        verbose_name="Короткое описание",
         help_text="Введите название кнопки в боте для данной программы",
     )
     regions = models.ManyToManyField(
