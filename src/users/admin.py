@@ -46,11 +46,11 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
     list_display = (
-        "id",
-        "last_name",
-        "first_name",
+        "get_fullname",
         "email",
+        "is_active",
         "is_staff",
+        "is_superuser",
         "last_login",
     )
     search_fields = ("first_name", "last_name", "email")
@@ -62,6 +62,13 @@ class UserAdmin(BaseUserAdmin):
         "date_joined",
         "last_login",
     )
+
+    @admin.display(description="Имя и Фамилия")
+    def get_fullname(self, obj):
+        """Display fullname user in admin panel."""
+        if not obj.first_name:
+            return "User"
+        return f"{obj.first_name} {obj.last_name}"
 
     @admin.action(description="Сбросить пароль")
     def reset_password(self, request, queryset):
