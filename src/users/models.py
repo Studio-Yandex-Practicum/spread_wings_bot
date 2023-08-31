@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from config import settings
 from core.models import Region
 
 from .manager import UserManager
@@ -45,3 +46,15 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class UserTwoFactorAuthData(models.Model):
+    """Two-factor authentication data model."""
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        related_name="two_factor_auth_data",
+        on_delete=models.CASCADE,
+    )
+
+    otp_secret = models.CharField(max_length=255)
