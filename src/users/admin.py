@@ -40,13 +40,10 @@ class UserAdmin(BaseUserAdmin):
         "first_name",
         "last_name",
         "email",
-        "region",
         "is_staff",
-        "role",
     )
-    list_editable = ("role",)
     search_fields = ("first_name", "last_name", "email")
-    ordering = ("region",)
+    ordering = ("first_name",)
 
 
 admin.site.register(User, UserAdmin)
