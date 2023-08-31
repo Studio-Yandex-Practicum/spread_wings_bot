@@ -13,6 +13,14 @@ jobs:
       name: prod_deploy
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - name: copy service file
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          source: "infra/prod/spread_wings_bot.service"
+          target: /home/deploy/spread_wings_bot/infra/prod/
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
         with:
@@ -60,6 +68,13 @@ jobs:
 
             # Cleaning unused containers, images, networks
             docker system prune --force
+
+            # Installing defend service for app
+            # Шаг с копированием в строках 16-23 можно заменить командой ниже - нужно тестировать
+            # scp infra/prod/spread_wings_bot.service .
+            cp -f /home/deploy/spread_wings_bot/infra/prod/spread_wings_bot.service /etc/systemd/system/spread_wings_bot.service
+            systemctl daemon-reload
+            systemctl restart spread_wings_bot.service
 
             # Installing the app
             docker-compose -f docker-compose.stage.yaml stop
