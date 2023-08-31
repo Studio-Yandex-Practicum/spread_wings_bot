@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.hashers import make_password
 
 from users.models import User
-from utils.users.registration import generate_random_password
+from users.utils.users.registration import generate_random_password
 
 
 class UserCreationForm(forms.ModelForm):

@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from users.models import User
-from utils.emailing.reset_password import send_password_reset_email
+from users.utils.emailing.reset_password import send_password_reset_email
 
 
 @receiver(post_save, sender=User)

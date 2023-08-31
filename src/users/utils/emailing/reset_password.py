@@ -7,7 +7,7 @@ from django.utils.http import urlsafe_base64_encode
 
 from config import settings
 from users.models import User
-from utils.emailing.render import render_email_message
+from users.utils.emailing.render import render_email_message
 
 
 def send_password_reset_email(instance: User, message=None, template=None):
