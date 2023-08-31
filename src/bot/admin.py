@@ -41,7 +41,7 @@ class QuestionAdmin(RegionForAdmin):
         """Display questions in admin panel."""
         return obj.question[:100]
 
-    @admin.display(description="Короткое описание")
+    @admin.display(description="Текст на кнопке")
     def get_short_description(self, obj):
         """Display short_descriptions in admin panel."""
         return obj.short_description[:100]
@@ -95,7 +95,7 @@ class FundProgramAdmin(RegionForAdmin):
         """Display title in admin panel."""
         return obj.title[:100]
 
-    @admin.display(description="Короткое описание")
+    @admin.display(description="Текст на кнопке ")
     def get_short_description(self, obj):
         """Display short_description in admin panel."""
         return obj.short_description[:100]
