@@ -100,7 +100,6 @@ class HelpTypes(models.TextChoices):
     PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
         "Психологическая помощь"
     )
-    COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
 
 
 class Question(BaseModel):
@@ -118,7 +117,7 @@ class Question(BaseModel):
     )
     short_description = models.CharField(
         max_length=20,
-        verbose_name="Короткое описание",
+        verbose_name="Текст на кнопке",
         help_text="Введите название кнопки в боте для данного вопроса",
     )
     regions = models.ManyToManyField(
@@ -161,7 +160,7 @@ class FundProgram(BaseModel):
     )
     short_description = models.CharField(
         max_length=20,
-        verbose_name="Короткое описание",
+        verbose_name="Текст на кнопке",
         help_text="Введите название кнопки в боте для данной программы",
     )
     regions = models.ManyToManyField(
