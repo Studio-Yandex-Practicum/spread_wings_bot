@@ -20,7 +20,6 @@ from bot.keyboards.assistance import (
 )
 from bot.keyboards.assistance_types import assistance_types_keyboard_markup
 from bot.keyboards.utils.callback_data_parse import parse_callback_data
-from bot.models import HelpTypes
 from bot_settings.models import BotSettings
 
 DEFAULT_PAGE = 1
@@ -139,7 +138,7 @@ async def contact_with_us(
 ) -> States:
     """Ask question and show contacts."""
     query = update.callback_query
-    context.user_data[States.QUESTION_TYPE] = HelpTypes.COMMON_QUESTION.value
+    context.user_data[States.QUESTION_TYPE] = "COMMON_QUESTION"
     await query.answer()
     await query.edit_message_text(
         text=CONTACT_SHOW_MESSAGE,

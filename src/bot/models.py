@@ -31,8 +31,13 @@ class Coordinator(BaseModel):
         primary_key=True,
         related_name="coordinators",
         verbose_name="Регион",
+        help_text="Выберите регион из списка",
     )
-    email_address = models.EmailField(unique=True, verbose_name="Email")
+    email_address = models.EmailField(
+        unique=True,
+        verbose_name="Email",
+        help_text="Введите адрес электронной почты",
+    )
     phone_number = models.CharField(
         max_length=20,
         unique=True,
@@ -78,7 +83,7 @@ class Coordinator(BaseModel):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-    class Meta:  # noqa
+    class Meta:
         verbose_name = "Координатор"
         verbose_name_plural = "Координаторы"
         ordering = (
@@ -95,7 +100,6 @@ class HelpTypes(models.TextChoices):
     PSYCHOLOGICAL_ASSISTANCE = "PSYCHOLOGICAL_ASSISTANCE", _(
         "Психологическая помощь"
     )
-    COMMON_QUESTION = "COMMON_QUESTION", _("Общий вопрос")
 
 
 class Question(BaseModel):
@@ -113,7 +117,7 @@ class Question(BaseModel):
     )
     short_description = models.CharField(
         max_length=20,
-        verbose_name="Короткое описание",
+        verbose_name="Текст на кнопке",
         help_text="Введите название кнопки в боте для данного вопроса",
     )
     regions = models.ManyToManyField(
@@ -131,7 +135,10 @@ class Question(BaseModel):
         help_text="Выберите тип помощи для вопроса",
     )
 
-    class Meta:  # noqa
+    def __str__(self):
+        return self.short_description
+
+    class Meta:
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
         ordering = ("question",)
@@ -153,7 +160,7 @@ class FundProgram(BaseModel):
     )
     short_description = models.CharField(
         max_length=20,
-        verbose_name="Короткое описание",
+        verbose_name="Текст на кнопке",
         help_text="Введите название кнопки в боте для данной программы",
     )
     regions = models.ManyToManyField(
@@ -161,9 +168,13 @@ class FundProgram(BaseModel):
         related_name="programs",
         blank=True,
         verbose_name="Регионы",
+        help_text="Выберите регион(ы) для программы",
     )
 
-    class Meta:  # noqa
+    def __str__(self):
+        return self.short_description
+
+    class Meta:
         verbose_name = "Программа фонда"
         verbose_name_plural = "Программы фонда"
         ordering = ("title",)
@@ -172,7 +183,7 @@ class FundProgram(BaseModel):
 class ProxyRegion(Region):
     """ProxyRegion model."""
 
-    class Meta:  # noqa
+    class Meta:
         proxy = True
         verbose_name_plural = "Регионы"
         verbose_name = "Регион"

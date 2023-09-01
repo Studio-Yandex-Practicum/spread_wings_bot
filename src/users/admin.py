@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.utils.translation import gettext_lazy as _
 
 from .forms import UserChangeForm, UserCreationForm
@@ -45,22 +45,29 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
     list_display = (
-        "id",
-        "first_name",
-        "last_name",
+        "get_fullname",
         "email",
-        "region",
-        "is_staff",
         "is_active",
-        "role",
+        "is_staff",
+        "is_superuser",
+        "last_login",
     )
-    list_editable = ("role",)
-    search_fields = (
-        "first_name",
-        "last_name",
-        "email",
+    search_fields = ("first_name", "last_name", "email")
+    ordering = ("last_name",)
+
+    list_filter = ("is_active",)
+
+    readonly_fields = (
+        "date_joined",
+        "last_login",
     )
-    ordering = ("region",)
+
+    @admin.display(description="Имя и Фамилия")
+    def get_fullname(self, obj):
+        """Display fullname user in admin panel."""
+        if not obj.first_name:
+            return "User"
+        return f"{obj.first_name} {obj.last_name}"
 
     @admin.action(description="Сбросить пароль")
     def reset_password(self, request, queryset):
@@ -71,3 +78,23 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
+
+
+def permissions_new_unicode(self):
+    """Translate default permissions."""
+    class_name = str(self.content_type)
+    permissions_name = str(self.name)
+
+    if "Can delete" in permissions_name:
+        permissions_name = "разрешено удалять"
+    elif "Can add" in permissions_name:
+        permissions_name = "разрешено добавлять"
+    elif "Can change" in permissions_name:
+        permissions_name = "разрешено изменять"
+    elif "Can view" in permissions_name:
+        permissions_name = "разрешено просматривать"
+
+    return "%s - %s" % (class_name.title(), permissions_name)
+
+
+Permission.__str__ = permissions_new_unicode
