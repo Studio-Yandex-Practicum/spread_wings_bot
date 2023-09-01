@@ -101,11 +101,6 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = str(BASE_DIR / "staticfiles")
-# STATIC_ROOT.mkdir(exist_ok=True)
-# STATICFILES_DIRS = [
-#     ("ckeditor/ckeditor/plugins", "src/ckeditor_add-on/plugins/"),
-#     ("ckeditor/ckeditor/skins", "src/ckeditor_add-on/skins/"),
-# ]
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
