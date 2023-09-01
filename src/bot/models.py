@@ -117,7 +117,7 @@ class Question(BaseModel):
     )
     short_description = models.CharField(
         max_length=20,
-        verbose_name="Короткое описание",
+        verbose_name="Текст на кнопке",
         help_text="Введите название кнопки в боте для данного вопроса",
     )
     regions = models.ManyToManyField(
