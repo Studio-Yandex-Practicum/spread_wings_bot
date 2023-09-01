@@ -7,8 +7,6 @@ env = environ.Env()
 if DEBUG := env.bool("DEBUG", default=True):
     environ.Env.read_env(find_dotenv(".env", raise_error_if_not_found=True))
 
-DEBUG = env.bool("DEBUG", default=True)
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env.str("DJANGO_SECRET_KEY")
