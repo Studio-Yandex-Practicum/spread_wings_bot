@@ -24,6 +24,7 @@ pytest-django = "^4.5.2"
 pytest-asyncio = "^0.21.1"
 flake8-docstrings = "^1.7.0"
 django-ckeditor = "^6.7.0"
+django-otp = "^1.2.2"
 
 
 [tool.poetry.group.dev.dependencies]
