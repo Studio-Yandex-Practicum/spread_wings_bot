@@ -4,8 +4,8 @@ import environ
 from dotenv import find_dotenv
 
 env = environ.Env()
-
-env.read_env(find_dotenv(".env"))
+if DEBUG := env.bool("DEBUG", default=True):
+    environ.Env.read_env(find_dotenv(".env", raise_error_if_not_found=True))
 
 DEBUG = env.bool("DEBUG", default=True)
 
@@ -102,12 +102,17 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
-STATIC_ROOT.mkdir(exist_ok=True)
-STATICFILES_DIRS = [
-    ("ckeditor/ckeditor/plugins", "src/ckeditor_add-on/plugins/"),
-    ("ckeditor/ckeditor/skins", "src/ckeditor_add-on/skins/"),
+STATIC_ROOT = str(BASE_DIR / "staticfiles")
+# STATIC_ROOT.mkdir(exist_ok=True)
+# STATICFILES_DIRS = [
+#     ("ckeditor/ckeditor/plugins", "src/ckeditor_add-on/plugins/"),
+#     ("ckeditor/ckeditor/skins", "src/ckeditor_add-on/skins/"),
+# ]
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
