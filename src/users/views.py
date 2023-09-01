@@ -12,7 +12,7 @@ class PasswordSetView(PasswordResetConfirmView):
     def form_valid(self, form):
         """Set user satus as active if password was changed."""
         response = super().form_valid(form)
-        messages.success(self.request, "Ваш пароль был успешно изменен.")
+        messages.success(self.request, "Пароль был успешно изменен.")
         self.user.is_staff = True
         self.user.save()
         return response
