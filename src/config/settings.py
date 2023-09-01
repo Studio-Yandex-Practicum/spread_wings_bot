@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "core.apps.CoreConfig",
     "ckeditor",
+    "django_otp",
+    "django_otp.plugins.otp_email",
 ]
 
 MIDDLEWARE = [
@@ -33,6 +35,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -123,6 +126,9 @@ EMAIL_HOST_PASSWORD = env.str("EMAIL_PASSWORD")
 EMAIL_TIMEOUT = 5  # seconds
 EMAIL_USE_SSL = True
 DEFAULT_RECEIVER = env.str("DEFAULT_EMAIL_ADDRESS")
+
+OTP_EMAIL_SENDER = EMAIL_HOST_USER
+OTP_EMAIL_BODY_HTML_TEMPLATE_PATH = "users/emailing/otp_email.html"
 
 # Telegram bot settings
 TELEGRAM_TOKEN = env.str("TELEGRAM_TOKEN")
