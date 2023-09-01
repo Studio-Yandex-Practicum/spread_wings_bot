@@ -7,4 +7,4 @@ class CustomOTPAdminSite(OTPAdminSite):
     """Customized admin site."""
 
     login_form = CustomOTPAuthenticationForm
-    login_template = "users/authentication/login.html"
+    login_template = "authentication/login.html"

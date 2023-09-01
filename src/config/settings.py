@@ -128,7 +128,7 @@ EMAIL_USE_SSL = True
 DEFAULT_RECEIVER = env.str("DEFAULT_EMAIL_ADDRESS")
 
 OTP_EMAIL_SENDER = EMAIL_HOST_USER
-OTP_EMAIL_BODY_HTML_TEMPLATE_PATH = "users/emailing/otp_email.html"
+OTP_EMAIL_BODY_HTML_TEMPLATE_PATH = "emailing/otp_email.html"
 
 # Telegram bot settings
 TELEGRAM_TOKEN = env.str("TELEGRAM_TOKEN")

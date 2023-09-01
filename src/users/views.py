@@ -7,7 +7,7 @@ class PasswordSetView(PasswordResetConfirmView):
     """User password reset view."""
 
     success_url = reverse_lazy("admin:index")
-    template_name = "password_set_confirm.html"
+    template_name = "authentication/password_set_confirm.html"
 
     def form_valid(self, form):
         """Set user satus as active if password was changed."""
