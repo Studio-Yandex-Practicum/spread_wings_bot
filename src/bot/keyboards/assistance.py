@@ -40,7 +40,6 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     )
 
 
-# @alru_cache(ttl=settings.KEYBOARDS_CACHE_TTL)
 async def build_region_keyboard(
     page: int,
 ) -> InlineKeyboardPaginator:

@@ -2,10 +2,10 @@ import logging
 from typing import Sequence
 
 from asgiref.sync import sync_to_async
-from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 
+from config import settings
 from core.validators import MailValidator
 
 logger = logging.getLogger("core")

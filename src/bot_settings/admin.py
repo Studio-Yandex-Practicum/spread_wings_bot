@@ -7,10 +7,11 @@ from bot_settings.models import BotSettings
 class BotSettingsAdmin(admin.ModelAdmin):
     """Base admin configuration for BotSettings model."""
 
-    list_display = ("get_title", "get_type", "get_value", "get_key")
-    list_filter = ("title", "type", "value")
-    search_fields = ("title", "type", "value", "key")
-    readonly_fields = ("key", "type")
+    list_display = ("get_title", "type", "get_value")
+    list_filter = ("type",)
+    search_fields = ("title", "type", "value")
+    readonly_fields = ("type",)
+    exclude = ("key", "title")
 
     def has_delete_permission(self, request, obj=None):
         """Disable delete permission for BotSettings model."""
@@ -21,17 +22,7 @@ class BotSettingsAdmin(admin.ModelAdmin):
         """Display title of settings in admin panel."""
         return obj.title[:100]
 
-    @admin.display(description="Тип значения")
-    def get_type(self, obj):
-        """Display type of settings in admin panel."""
-        return obj.type[:100]
-
     @admin.display(description="Значение настройки")
     def get_value(self, obj):
         """Display value of settings in admin panel."""
         return obj.value[:100]
-
-    @admin.display(description="Ключ настройки")
-    def get_key(self, obj):
-        """Display key of settings in admin panel."""
-        return obj.key[:100]

@@ -1,3 +1,4 @@
+import asyncio
 from typing import Any, Awaitable, Callable
 
 from telegram import Update
@@ -28,7 +29,12 @@ async def answer_all_messages(
 ) -> None:
     """Process any message entered by the user."""
     await update.message.delete()
-    await update.message.reply_text(ANSWER_TO_USER_MESSAGE)
+    message = await update.message.reply_text(ANSWER_TO_USER_MESSAGE)
+
+    await asyncio.sleep(3)
+    await context.bot.delete_message(
+        chat_id=message.chat_id, message_id=message.message_id
+    )
 
 
 answer_all_messages_handler = MessageHandler(filters.ALL, answer_all_messages)
@@ -40,7 +46,6 @@ FUNCTIONS: dict[str, Callable[[Any, Any], Awaitable[States]]] = {
     States.CONTACT_US: contact_with_us,
     States.FUND_PROGRAMS: fund_programs,
     States.GET_ASSISTANCE.value: get_assistance,
-    # States.QUESTIONS_AND_CONTACTS: select_assistance,
     States.SHOW_CONTACT: show_contact,
     States.GET_USERNAME: get_user_question,
     States.USERNAME_AFTER_RETURNING: get_username_after_returning_back,

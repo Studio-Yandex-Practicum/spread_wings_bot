@@ -11,7 +11,11 @@ class BotSettings(BaseModel):
     URL = "url"
     TEXT = "text"
     INT = "int"
-    __VALUE_TYPES = ((URL, "URL"), (TEXT, "TEXT"), (INT, "INT"))
+    __VALUE_TYPES = (
+        (URL, "Ссылка"),
+        (TEXT, "Текст"),
+        (INT, "Число"),
+    )
     key = models.CharField(
         max_length=100,
         verbose_name="Ключ настройки",
@@ -39,7 +43,7 @@ class BotSettings(BaseModel):
             URLValidator()(self.value)
 
     def __str__(self):
-        return f"<BotSettings:  {self.key} - {self.title} - {self.value}>"
+        return self.title
 
     class Meta:
         """Meta for BotSettings model."""
