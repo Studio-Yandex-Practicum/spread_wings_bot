@@ -105,7 +105,7 @@ async def get_username(
 def get_coordinator_email(context: ContextTypes.DEFAULT_TYPE):
     """Get coordinator email address."""
     coordinator = Coordinator.objects.get(
-        region__region_key=context.user_data["region"],
+        region__region_key=context.user_data[States.REGION],
     )
     return coordinator.email_address
 

@@ -41,11 +41,11 @@ answer_all_messages_handler = MessageHandler(filters.ALL, answer_all_messages)
 
 
 FUNCTIONS: dict[str, Callable[[Any, Any], Awaitable[States]]] = {
-    "welcome_screen": start,
+    States.START: start,
     States.ASSISTANCE_TYPE: select_type_of_assistance,
     States.CONTACT_US: contact_with_us,
     States.FUND_PROGRAMS: fund_programs,
-    States.GET_ASSISTANCE.value: get_assistance,
+    States.REGION.value: get_assistance,
     States.SHOW_CONTACT: show_contact,
     States.GET_USERNAME: get_user_question,
     States.USERNAME_AFTER_RETURNING: get_username_after_returning_back,

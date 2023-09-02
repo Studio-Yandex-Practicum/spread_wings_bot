@@ -61,7 +61,7 @@ async def select_type_of_assistance(
 ) -> States:
     """Select assistance type."""
     if States.ASSISTANCE_TYPE.value not in update.callback_query.data:
-        context.user_data["region"] = update.callback_query.data
+        context.user_data[States.REGION] = update.callback_query.data
     await update.callback_query.answer()
     await update.callback_query.edit_message_text(
         text=ASSISTANCE_TYPE_MESSAGE,
@@ -85,7 +85,7 @@ async def select_assistance(
     if question_type:
         context.user_data[States.GET_USERNAME] = question_type
     context.user_data[States.QUESTION_TYPE] = question_type
-    region = context.user_data.get("region")
+    region = context.user_data.get(States.REGION)
     await query.answer()
     keyboard = await build_question_keyboard(
         region,
@@ -108,7 +108,7 @@ async def fund_programs(
 ) -> None:
     """Show fund programs."""
     query = update.callback_query
-    region = context.user_data.get("region")
+    region = context.user_data.get(States.REGION)
     _, page_number = parse_callback_data(query.data, FUND_PROGRAMS)
     page_number = page_number or DEFAULT_PAGE
     await query.answer()

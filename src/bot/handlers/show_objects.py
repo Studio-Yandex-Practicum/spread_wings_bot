@@ -28,7 +28,7 @@ async def show_contact(
     """Show contacts of the regional curator."""
     query = update.callback_query
     coordinator = await Coordinator.objects.filter(
-        region__region_key=context.user_data["region"]
+        region__region_key=context.user_data[States.REGION]
     ).afirst()
     chief = await Coordinator.objects.filter(is_chief=True).afirst()
     await query.answer()

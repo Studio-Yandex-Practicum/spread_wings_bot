@@ -40,8 +40,7 @@ async def test_select_type_of_assistance_store_region(
 ):
     """Receive select type of help handler stores correct region in context unittest."""
     update.callback_query.data = region
-    # context.user_data = {States.REGION: initial_region}
-    context.user_data = {"region": initial_region}
+    context.user_data = {States.REGION: initial_region}
 
     await select_type_of_assistance(update, context)
 
@@ -51,9 +50,7 @@ async def test_select_type_of_assistance_store_region(
         reply_markup=common_settings["keyboard_markup"],
     )
     assert (
-        # context.user_data[States.REGION] == region
-        context.user_data["region"]
-        == region
+        context.user_data[States.REGION] == region
     ) == expected_region_changed, (
         f"Region in context.user_data must"
         f"{(not expected_region_changed and ' not')} "

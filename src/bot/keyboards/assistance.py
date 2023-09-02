@@ -72,7 +72,7 @@ async def build_region_keyboard(
     telegram_paginator.add_after(
         InlineKeyboardButton(
             text=BACK_BUTTON,
-            callback_data=f"back_to_{'welcome_screen'}",
+            callback_data=f"back_to_{States.START.value}",
         ),
     )
     return telegram_paginator

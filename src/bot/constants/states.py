@@ -5,6 +5,7 @@ class States(str, enum.Enum):
     """Main bot states."""
 
     GET_ASSISTANCE = "get_assistance"
+    REGION = "region"
     ASSISTANCE_TYPE = "assistance_type"
     FUND_PROGRAMS = "fund_programs"
     GET_USER_QUESTION = "get_user_question"
