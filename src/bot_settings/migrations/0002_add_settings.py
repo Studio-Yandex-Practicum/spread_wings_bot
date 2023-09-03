@@ -29,7 +29,7 @@ def create_start_message_setting(apps, schema_editor):
         key="start_message",
         title="Сообщение при нажатии на кнопку Start",
         type=BotSettingsModel.TEXT,
-        value='Здравствуйте! Это бот фонда "Расправь крылья".',
+        value='Здравствуйте! Это бот фонда "Расправь крылья!".',
     )
 
 
