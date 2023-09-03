@@ -8,7 +8,7 @@ from bot.constants.messages import (
     SELECT_FUND_PROGRAM,
     SELECT_QUESTION,
 )
-from bot.constants.patterns import FUND_PROGRAMS, HELP_TYPE
+from bot.constants.patterns import FUND_PROGRAMS, GET_ASSISTANCE, HELP_TYPE
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
 from bot.keyboards.assistance import (
@@ -25,21 +25,29 @@ from bot_settings.models import BotSettings
 DEFAULT_PAGE = 1
 
 
-@debug_logger(state=States.REGION, run_functions_debug_loger="get_assistance")
+@debug_logger(
+    state=States.GET_ASSISTANCE, run_functions_debug_loger="get_assistance"
+)
 async def get_assistance(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> States:
     """Select a region of assistance."""
-    await update.callback_query.answer()
-    keyboard = await build_region_keyboard()
+    query = update.callback_query
+    callback_data = query.data.replace("back_to_", "")
+    _, page_number = parse_callback_data(callback_data, GET_ASSISTANCE)
+    page_number = page_number or DEFAULT_PAGE
+    await query.answer()
+    keyboard = await build_region_keyboard(page_number)
     assistance_message = await BotSettings.objects.aget(
         key="assistance_message"
     )
-    await update.callback_query.edit_message_text(
-        text=assistance_message.value, reply_markup=keyboard
-    )
-    return States.REGION
+    if query.message.reply_markup.to_json() != keyboard.markup:
+        await query.edit_message_text(
+            text=assistance_message.value,
+            reply_markup=keyboard.markup,
+        )
+    return States.GET_ASSISTANCE
 
 
 @debug_logger(
