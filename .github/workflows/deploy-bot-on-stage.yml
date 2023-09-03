@@ -17,9 +17,9 @@ jobs:
       - name: Run a multi-line script
         run: |
           mkdir ../build
-          cp -TR . ../build
+          cp -TR ./infra/dev ../build
           tar -cvf deploy.tar ../build/
-      - name: copy service file
+      - name: copy infra/dev
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.VM_HOST }}
