@@ -1,0 +1,29 @@
+[Unit]
+
+Description=spread_wings_bot
+Requires=docker.service
+After=docker.service
+
+[Service]
+
+Restart=always
+RestartSec=5
+TimeOutStartSec=1200
+User=root
+
+WorkingDirectory=/home/deploy/spread_wings_bot/infra/prod/
+
+ExecStartPre=docker-compose -f docker-compose.prod.yaml --env-file /home/deploy/spread_wings_bot/infra/prod/.env pull bot
+ExecStartPre=docker-compose -f docker-compose.prod.yaml --env-file /home/deploy/spread_wings_bot/infra/prod/.env pull db
+ExecStartPre=docker-compose -f docker-compose.prod.yaml --env-file /home/deploy/spread_wings_bot/infra/prod/.env pull redis
+ExecStartPre=docker-compose -f docker-compose.prod.yaml --env-file /home/deploy/spread_wings_bot/infra/prod/.env pull nginx
+ExecStartPre=docker-compose -f docker-compose.prod.yaml --env-file /home/deploy/spread_wings_bot/infra/prod/.env down
+
+# compose up
+ExecStart=docker-compose -f docker-compose.prod.yaml --env-file /home/deploy/spread_wings_bot/infra/prod/.env up
+
+# compose down
+ExecStop=docker-compose -f docker-compose.prod.yaml --env-file /home/deploy/spread_wings_bot/infra/prod/.env down
+
+[Install]
+WantedBy=multi-user.target
