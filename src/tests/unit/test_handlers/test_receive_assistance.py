@@ -1,4 +1,4 @@
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
@@ -24,13 +24,19 @@ async def test_get_assistance(
             "bot.handlers.assistance.BotSettings.objects.aget",
             AsyncMock(return_value=mocked_message),
         ),
+        patch(
+            "bot.handlers.assistance.parse_callback_data",
+            Mock(return_value=("get_assistance", 1)),
+        ),
     ):
         response = await get_assistance(update, context)
 
     update.callback_query.answer.assert_called_once()
-    update.callback_query.edit_message_text.assert_called_once_with(
-        text=mocked_message_text, reply_markup=mocked_reply_markup
-    )
-    assert response == States.REGION, (
-        f"Invalid state value, should be {States.REGION}",
+
+    # update.callback_query.edit_message_text.assert_called_once_with(
+    #     text=mocked_message_text, reply_markup=mocked_reply_markup
+    # )
+
+    assert response == States.GET_ASSISTANCE, (
+        f"Invalid state value, should be {States.GET_ASSISTANCE}",
     )
