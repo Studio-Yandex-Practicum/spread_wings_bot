@@ -17,7 +17,7 @@ help:  # Show help
 
 
 .PHONY: runbot-init
-runbot-init: deletedb rundb migrate filldb create_superuser runbot-db # Build and run Database Docker-image
+runbot-init: deletedb rundb migrate filldb collectstatic createsuperuser runbot-db # Build and run Database Docker-image
 	@echo -e "$(COLOR_YELLOW)Starting initialization...$(COLOR_RESET)"
 	@source $$(poetry env info -p)/bin/activate
 
@@ -90,6 +90,10 @@ migrate: # Commit migrations to Database
 	@sleep 3;
 	@echo -e "$(COLOR_GREEN)Migrated$(COLOR_RESET)"
 
+.PHONY: createsuperuser
+createsuperuser:
+	@echo -e "$(COLOR_YELLOW)Creating Django superuser...$(COLOR_RESET)"
+	@poetry run python src/manage.py createsuperuser
 
 .PHONY: run_tests
 run_tests: run_unit_tests # Run all tests
