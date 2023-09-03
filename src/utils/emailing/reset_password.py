@@ -16,7 +16,7 @@ def send_password_reset_email(instance: User, message=None, template=None):
         template = "password_reset_email.html"
     reset_link = get_password_reset_link(instance)
     email = render_email_message(
-        subject='Доступ к админ-панели бота "Расправь крылья"',
+        subject='Доступ к админ-панели бота "Расправь крылья!"',
         context={"password_reset_link": reset_link, "message": message},
         from_email=settings.EMAIL_HOST_USER,
         to=[
