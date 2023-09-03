@@ -40,7 +40,6 @@ class Coordinator(BaseModel):
     )
     phone_number = models.CharField(
         max_length=20,
-        unique=True,
         validators=[phone_regex],
         blank=True,
         null=True,
@@ -49,7 +48,6 @@ class Coordinator(BaseModel):
     )
     telegram_account = models.CharField(
         max_length=32,
-        unique=True,
         validators=[telegram_regex],
         blank=True,
         null=True,
