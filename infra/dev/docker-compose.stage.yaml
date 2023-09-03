@@ -45,7 +45,7 @@ services:
       - redis
       - db
     volumes:
-      - ../../static:/app/src/static
+      - ../../static:/app/src/staticfiles
       - ../../media:/app/src/media
       - ./logs/bot/:/app/src/logs
     restart: always

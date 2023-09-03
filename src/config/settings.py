@@ -55,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 
 DATABASES = {
@@ -101,18 +101,19 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
-STATIC_ROOT.mkdir(exist_ok=True)
-STATICFILES_DIRS = [
-    ("ckeditor/ckeditor/plugins", "ckeditor_add-on/plugins/"),
-    ("ckeditor/ckeditor/skins", "ckeditor_add-on/skins/"),
+STATIC_ROOT = str(BASE_DIR / "staticfiles")
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_BACKEND = env.str(
     "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )
+EMAIL_TEMPLATE_NAME = "email.html"
 EMAIL_HOST = env.str("EMAIL_HOST")
 try:
     EMAIL_PORT = env.int("EMAIL_PORT")

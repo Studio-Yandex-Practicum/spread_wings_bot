@@ -17,7 +17,12 @@ class BaseModel(models.Model):
 class Region(BaseModel):
     """Region model."""
 
-    region_name = models.CharField(max_length=200, unique=True)
+    region_name = models.CharField(
+        max_length=200,
+        unique=True,
+        verbose_name="Название региона",
+        help_text="Это название так же будет отображаться на кнопках бота",
+    )
     region_key = models.CharField(max_length=200, unique=True)
 
     def save(

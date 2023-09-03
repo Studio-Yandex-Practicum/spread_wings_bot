@@ -17,9 +17,6 @@ from bot.models import FundProgram, Question
 from bot_settings.models import BotSettings
 from core.models import Region
 
-PROGRAMS_PER_PAGE = 6
-QUESTIONS_PER_PAGE = 6
-
 
 async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     """
@@ -43,30 +40,42 @@ async def build_assistance_keyboard() -> InlineKeyboardMarkup:
     )
 
 
-async def build_region_keyboard() -> InlineKeyboardMarkup:
+async def build_region_keyboard(
+    page: int,
+) -> InlineKeyboardPaginator:
     """
     Build telegram assistance type keyboard async.
 
     After building cache it.
     """
-    keyboard = [
-        [
+    queryset = await sync_to_async(list)(
+        Region.objects.all().values("region_name", "region_key")
+    )
+    region_per_page = await BotSettings.objects.aget(
+        key="regions_pagination_setting"
+    )
+    data_paginator = Paginator(queryset, int(region_per_page.value))
+    telegram_paginator = InlineKeyboardPaginator(
+        data_paginator.num_pages,
+        current_page=page,
+        data_pattern="".join(
+            [States.GET_ASSISTANCE.value, PAGE_SEP_SYMBOL, "{page}"]
+        ),
+    )
+    for region in data_paginator.page(page):
+        telegram_paginator.add_before(
             InlineKeyboardButton(
-                text=region.region_name,
-                callback_data=region.region_key,
+                text=region.get("region_name"),
+                callback_data=region.get("region_key"),
             )
-        ]
-        async for region in Region.objects.all()
-    ]
-    back_button = [
-        [
-            InlineKeyboardButton(
-                text=BACK_BUTTON,
-                callback_data=f"back_to_{States.GET_ASSISTANCE.value}",
-            )
-        ]
-    ]
-    return InlineKeyboardMarkup(keyboard + back_button)
+        )
+    telegram_paginator.add_after(
+        InlineKeyboardButton(
+            text=BACK_BUTTON,
+            callback_data=f"back_to_{States.START.value}",
+        ),
+    )
+    return telegram_paginator
 
 
 async def build_question_keyboard(
@@ -85,7 +94,10 @@ async def build_question_keyboard(
             question_type=question_type,
         ).values("id", "short_description")
     )
-    data_paginator = Paginator(queryset, QUESTIONS_PER_PAGE)
+    questions_per_page = await BotSettings.objects.aget(
+        key="questions_pagination_setting"
+    )
+    data_paginator = Paginator(queryset, int(questions_per_page.value))
     telegram_paginator = InlineKeyboardPaginator(
         data_paginator.num_pages,
         current_page=page,
@@ -131,7 +143,10 @@ async def build_fund_program_keyboard(
             regions__region_key=region,
         ).values("id", "short_description")
     )
-    data_paginator = Paginator(queryset, PROGRAMS_PER_PAGE)
+    programs_per_page = await BotSettings.objects.aget(
+        key="programs_pagination_setting"
+    )
+    data_paginator = Paginator(queryset, int(programs_per_page.value))
     telegram_paginator = InlineKeyboardPaginator(
         data_paginator.num_pages,
         current_page=page,

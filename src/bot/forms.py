@@ -11,6 +11,7 @@ class QuestionAdminForm(forms.ModelForm):
 
         model = Question
         widgets = {
+            "question": forms.Textarea(attrs={"rows": 3, "cols": 50}),
             "answer": forms.Textarea(attrs={"rows": 10, "cols": 80}),
             "regions": forms.CheckboxSelectMultiple,
         }
@@ -25,6 +26,7 @@ class FundProgramForm(forms.ModelForm):
 
         models = FundProgram
         widgets = {
+            "title": forms.Textarea(attrs={"rows": 3, "cols": 50}),
             "regions": forms.CheckboxSelectMultiple,
         }
         fields = "__all__"
