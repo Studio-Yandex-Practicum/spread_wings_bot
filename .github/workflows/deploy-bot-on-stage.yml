@@ -13,6 +13,21 @@ jobs:
       name: stage_deploy
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - name: Run a multi-line script
+        # uses: actions/checkout@v2
+        run: |
+          mkdir ../spread_wings_bot/infra/dev/
+          cp -TR . ../spread_wings_bot/infra/dev/
+          tar -cvf deploy.tar ../spread_wings_bot/infra/dev/
+
+      - name: copy service file
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          password: ${{ secrets.VM_PASSWORD }}
+          source: "deploy.tar"
+          target: /home/deploy/spread_wings_bot/infra/dev/
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
         with:
@@ -21,7 +36,6 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           script: |
             cd /home/deploy/spread_wings_bot/infra/dev/
-            git pull
             rm .env
             touch .env
 
@@ -60,6 +74,13 @@ jobs:
 
             # Cleaning unused containers, images, networks
             docker system prune --force
+
+            # Installing defend service for app
+            # Шаг с копированием в строках 16-23 можно заменить командой ниже - нужно тестировать
+            # scp infra/dev/spread_wings_bot.service ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/spread_wings_bot/infra/dev/
+            sudo cp -f /home/deploy/spread_wings_bot/infra/dev/spread_wings_bot.service /etc/systemd/system/spread_wings_bot.service
+            sudo systemctl daemon-reload
+            sudo systemctl restart spread_wings_bot.service
 
             # Installing the app
             docker-compose -f docker-compose.stage.yaml stop

@@ -76,6 +76,60 @@ def remove_assistance_message_setting(apps, schema_editor):
     setting.delete()
 
 
+def create_regions_pagination_setting(apps, schema_editor):
+    """Create regions pagination setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="regions_pagination_setting",
+        title="Количество регионов на одной странице",
+        type=BotSettingsModel.INT,
+        value=6,
+    )
+
+
+def remove_regions_pagination_setting(apps, schema_editor):
+    """Remove regions pagination setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="regions_pagination_setting")
+    setting.delete()
+
+
+def create_programs_pagination_setting(apps, schema_editor):
+    """Create programs pagination setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="programs_pagination_setting",
+        title="Количество программ на одной странице",
+        type=BotSettingsModel.INT,
+        value=6,
+    )
+
+
+def remove_programs_pagination_setting(apps, schema_editor):
+    """Remove programs pagination setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="programs_pagination_setting")
+    setting.delete()
+
+
+def create_questions_pagination_setting(apps, schema_editor):
+    """Create questions pagination setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    BotSettings.objects.create(
+        key="questions_pagination_setting",
+        title="Количество вопросов на одной странице",
+        type=BotSettingsModel.INT,
+        value=6,
+    )
+
+
+def remove_questions_pagination_setting(apps, schema_editor):
+    """Remove questions pagination setting instance."""
+    BotSettings = apps.get_model("bot_settings", "BotSettings")
+    setting = BotSettings.objects.get(key="questions_pagination_setting")
+    setting.delete()
+
+
 def create_select_type_of_help_setting(apps, schema_editor):
     """Create select_type_of_help setting instance."""
     BotSettings = apps.get_model("bot_settings", "BotSettings")
@@ -189,6 +243,18 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             create_assistance_message_setting,
             reverse_code=remove_assistance_message_setting,
+        ),
+        migrations.RunPython(
+            create_regions_pagination_setting,
+            reverse_code=remove_regions_pagination_setting,
+        ),
+        migrations.RunPython(
+            create_programs_pagination_setting,
+            reverse_code=remove_programs_pagination_setting,
+        ),
+        migrations.RunPython(
+            create_questions_pagination_setting,
+            reverse_code=remove_questions_pagination_setting,
         ),
         migrations.RunPython(
             create_select_type_of_help_setting,
