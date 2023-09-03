@@ -14,7 +14,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Run a multi-line script
-        uses: actions/checkout@v2
+        # uses: actions/checkout@v2
         run: |
           mkdir ../spread_wings_bot/infra/dev/
           cp -TR . ../spread_wings_bot/infra/dev/
