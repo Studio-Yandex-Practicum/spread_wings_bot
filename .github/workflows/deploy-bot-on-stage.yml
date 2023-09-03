@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
           source: "deploy.tar"
-          target: /spread_wings_bot/infra/dev/
+          target: /home/deploy/spread_wings_bot/infra/dev/
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
         with:
