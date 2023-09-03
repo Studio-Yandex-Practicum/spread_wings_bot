@@ -13,14 +13,20 @@ jobs:
       name: stage_deploy
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - name: Run a multi-line script
+        uses: actions/checkout@v2
+        run: |
+          mkdir ../spread_wings_bot/infra/dev/
+          cp -TR . ../spread_wings_bot/infra/dev/
+          tar -cvf deploy.tar ../spread_wings_bot/infra/dev/
+
       - name: copy service file
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
-          port: 22
-          source: "./infra/dev/spread_wings_bot.service"
+          source: "deploy.tar"
           target: /home/deploy/spread_wings_bot/infra/dev/
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
