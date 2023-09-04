@@ -35,7 +35,7 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           script: |
             cd /home/deploy/spread_wings_bot/infra/dev/
-            tar -xvf deploy.tar
+            tar -xvf deploy.tar --strip-components 1
             rm .env
             touch .env
 
