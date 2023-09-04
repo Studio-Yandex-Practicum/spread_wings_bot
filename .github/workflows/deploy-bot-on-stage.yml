@@ -18,14 +18,14 @@ jobs:
         run: |
           mkdir ../build
           cp -TR ./infra/dev ../build
-          # tar -cvf deploy.tar ../build/
+          tar -cvf deploy.tar ../build/
       - name: copy infra/dev
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           password: ${{ secrets.VM_PASSWORD }}
-          source: ../build/
+          source: "deploy.tar"
           target: /home/deploy/spread_wings_bot/infra/dev/
       - name: ssh pull and start
         uses: appleboy/ssh-action@master
@@ -35,6 +35,7 @@ jobs:
           password: ${{ secrets.VM_PASSWORD }}
           script: |
             cd /home/deploy/spread_wings_bot/infra/dev/
+            tar -xvf deploy.tar
             rm .env
             touch .env
 
