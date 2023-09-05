@@ -17,7 +17,7 @@ help:  # Show help
 
 
 .PHONY: runbot-init
-runbot-init: deletedb rundb migrate filldb collectstatic createsuperuser runbot-db # Build and run Database Docker-image
+runbot-init: deletedb rundb migrate filldb collectstatic runbot-db # Build and run Database Docker-image
 	@echo -e "$(COLOR_YELLOW)Starting initialization...$(COLOR_RESET)"
 	@source $$(poetry env info -p)/bin/activate
 

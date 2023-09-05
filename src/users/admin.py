@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group, Permission
 from django.utils.translation import gettext_lazy as _
+from django_otp.plugins.otp_email.models import EmailDevice
 
 from .forms import UserChangeForm, UserCreationForm
 from .models import User
@@ -78,6 +79,17 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
+
+
+class OTPDevice(admin.ModelAdmin):
+    """Empty class to hide OTPDevice model."""
+
+    def get_model_perms(self, request):
+        """Return empty perms dict thus hiding the model from admin."""
+        return {}
+
+
+admin.site.register(EmailDevice, OTPDevice)
 
 
 def permissions_new_unicode(self):
