@@ -77,8 +77,6 @@ jobs:
             docker system prune --force
 
             # Installing defend service for app
-            # Шаг с копированием в строках 16-23 можно заменить командой ниже - нужно тестировать
-            # scp infra/dev/spread_wings_bot.service ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/spread_wings_bot/infra/dev/
             sudo cp -f /home/deploy/spread_wings_bot/infra/dev/spread_wings_bot.service /etc/systemd/system/spread_wings_bot.service
             sudo systemctl daemon-reload
             sudo systemctl restart spread_wings_bot.service
