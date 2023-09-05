@@ -14,5 +14,3 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-admin.site.site_header = "Бот фонда 'Расправь крылья!'"
-admin.site.site_title = "Бот фонда 'Расправь крылья!'"

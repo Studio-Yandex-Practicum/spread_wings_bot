@@ -7,4 +7,8 @@ class CustomOTPAdminSite(OTPAdminSite):
     """Customized admin site."""
 
     login_form = CustomOTPAuthenticationForm
+
+    site_header = "Бот фонда 'Расправь крылья!'"
+    site_title = "Бот фонда 'Расправь крылья!'"
+
     login_template = "authentication/login.html"
