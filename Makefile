@@ -103,7 +103,12 @@ run_tests: run_unit_tests # Run all tests
 .PHONY: run_unit_tests
 run_unit_tests: # Run unit tests
 	@echo -e "$(COLOR_YELLOW)Start unit tests...$(COLOR_RESET)"
-	@cd src
 	@poetry run pytest src/tests/unit
-	@cd ..
 	@echo -e "$(COLOR_GREEN)Unit tests passed$(COLOR_RESET)"
+
+
+.PHONY: create_superuser
+create_superuser: # Run unit tests
+	@echo -e "$(COLOR_YELLOW)Creating superuser...$(COLOR_RESET)"
+	@poetry run python src/manage.py initadmin
+	@echo -e "$(COLOR_GREEN)Superuser created$(COLOR_RESET)"

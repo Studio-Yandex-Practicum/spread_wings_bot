@@ -7,13 +7,13 @@ from django.utils.http import urlsafe_base64_encode
 
 from config import settings
 from users.models import User
-from utils.emailing.render import render_email_message
+from users.utils.emailing.render import render_email_message
 
 
 def send_password_reset_email(instance: User, message=None, template=None):
     """Send email with password reset link."""
     if template is None:
-        template = "password_reset_email.html"
+        template = "emailing/password_reset_email.html"
     reset_link = get_password_reset_link(instance)
     email = render_email_message(
         subject='Доступ к админ-панели бота "Расправь крылья!"',
