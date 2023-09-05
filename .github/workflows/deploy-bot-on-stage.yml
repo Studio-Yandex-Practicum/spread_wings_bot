@@ -82,5 +82,6 @@ jobs:
             sudo systemctl restart spread_wings_bot.service
 
             # Applying initialization commands
+            sleep 7
             docker exec spread-wings-bot python manage.py migrate
             docker exec spread-wings-bot python manage.py collectstatic --noinput
