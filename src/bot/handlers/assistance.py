@@ -1,13 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bot.constants.messages import (
-    ASSISTANCE_TYPE_MESSAGE,
-    CONTACT_SHOW_MESSAGE,
-    GET_USER_QUESTION,
-    SELECT_FUND_PROGRAM,
-    SELECT_QUESTION,
-)
 from bot.constants.patterns import FUND_PROGRAMS, GET_ASSISTANCE, HELP_TYPE
 from bot.constants.states import States
 from bot.handlers.debug_handlers import debug_logger
@@ -62,8 +55,11 @@ async def select_type_of_assistance(
     if States.ASSISTANCE_TYPE.value not in update.callback_query.data:
         context.user_data[States.REGION] = update.callback_query.data
     await update.callback_query.answer()
+    select_type_of_assistance_message = await BotSettings.objects.aget(
+        key="select_type_of_help"
+    )
     await update.callback_query.edit_message_text(
-        text=ASSISTANCE_TYPE_MESSAGE,
+        text=select_type_of_assistance_message.value,
         reply_markup=assistance_types_keyboard_markup,
     )
     return States.ASSISTANCE_TYPE
@@ -91,9 +87,12 @@ async def select_assistance(
         context.user_data[States.GET_USERNAME],
         page_number,
     )
+    selected_type_assistance_message = await BotSettings.objects.aget(
+        key="selected_type_assistance"
+    )
     if query.message.reply_markup.to_json() != keyboard.markup:
         await query.edit_message_text(
-            text=SELECT_QUESTION,
+            text=selected_type_assistance_message.value,
             reply_markup=keyboard.markup,
         )
 
@@ -112,9 +111,10 @@ async def fund_programs(
     page_number = page_number or DEFAULT_PAGE
     await query.answer()
     keyboard = await build_fund_program_keyboard(region, page_number)
+    fund_programs_message = await BotSettings.objects.aget(key="fund_programs")
     if query.message.reply_markup.to_json() != keyboard.markup:
         await query.edit_message_text(
-            text=SELECT_FUND_PROGRAM,
+            text=fund_programs_message.value,
             reply_markup=keyboard.markup,
         )
 
@@ -130,8 +130,9 @@ async def get_user_question(
     """Ask question handler."""
     query = update.callback_query
     await query.answer()
+    ask_question_message = await BotSettings.objects.aget(key="ask_question")
     await query.edit_message_text(
-        text=GET_USER_QUESTION,
+        text=ask_question_message.value,
         reply_markup=to_the_original_state_and_previous_step_keyboard_markup,
     )
     return States.GET_USER_QUESTION
@@ -148,8 +149,11 @@ async def contact_with_us(
     query = update.callback_query
     context.user_data[States.QUESTION_TYPE] = "COMMON_QUESTION"
     await query.answer()
+    contact_with_us_message = await BotSettings.objects.aget(
+        key="contact_with_us"
+    )
     await query.edit_message_text(
-        text=CONTACT_SHOW_MESSAGE,
+        text=contact_with_us_message.value,
         reply_markup=contact_type_keyboard_markup,
     )
     return States.CONTACT_US
