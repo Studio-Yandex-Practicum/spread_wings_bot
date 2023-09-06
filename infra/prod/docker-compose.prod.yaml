@@ -60,7 +60,7 @@ services:
     ports:
       - "80:${NGINX_PORT}"
     volumes:
-      - ./nginx.stage.conf.template:/etc/nginx/templates/default.conf.template
+      - ./nginx.prod.conf.template:/etc/nginx/templates/default.conf.template
       - ../../static:/var/html/static/
       - ../../media:/var/html/media/
       - ./logs/nginx/:/var/log/nginx/
