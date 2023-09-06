@@ -3,7 +3,6 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from bot.constants.messages import SELECT_QUESTION
 from bot.constants.states import States
 from bot.handlers.assistance import select_assistance
 
@@ -78,7 +77,11 @@ async def test_select_assistance_save_question_type(
 )
 @pytest.mark.asyncio
 async def test_select_assistance_change_reply_markup_if_updated(
-    update, keyboard_markup, should_call_edit_message_text
+    update,
+    keyboard_markup,
+    should_call_edit_message_text,
+    mocked_message,
+    mocked_message_text,
 ):
     """Select assistance handler change reply markup unittest."""
     update.callback_query.message.reply_markup.to_json = Mock(
@@ -94,6 +97,10 @@ async def test_select_assistance_change_reply_markup_if_updated(
             new=AsyncMock(return_value=keyboard),
         ),
         patch(
+            "bot.handlers.assistance.BotSettings.objects.aget",
+            AsyncMock(return_value=mocked_message),
+        ),
+        patch(
             "bot.handlers.assistance.parse_callback_data",
             new=Mock(return_value=(None, None)),
         ),
@@ -102,7 +109,7 @@ async def test_select_assistance_change_reply_markup_if_updated(
 
     if should_call_edit_message_text:
         update.callback_query.edit_message_text.assert_called_once_with(
-            text=SELECT_QUESTION,
+            text=mocked_message_text,
             reply_markup=keyboard.markup,
         )
     else:
