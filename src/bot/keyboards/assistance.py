@@ -239,7 +239,7 @@ to_the_original_state_and_previous_step_keyboard = [
     [
         InlineKeyboardButton(
             text=BACK_TO_START_BUTTON,
-            callback_data=f"back_to_{States.GET_ASSISTANCE.value}",
+            callback_data=f"back_to_{States.START.value}",
         )
     ],
     [
