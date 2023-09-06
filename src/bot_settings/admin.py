@@ -18,7 +18,7 @@ class BotSettingsAdmin(admin.ModelAdmin):
         return False
 
     def has_add_permission(self, request, obj=None):
-        """Disable delete permission for BotSettings model."""
+        """Disable add permission for BotSettings model."""
         return False
 
     @admin.display(description="Название настройки")
