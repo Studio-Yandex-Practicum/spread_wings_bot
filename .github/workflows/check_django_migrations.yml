@@ -1,0 +1,70 @@
+name: Django migrations Check
+
+on:
+  push:
+    branches:
+    - '**'
+  pull_request:
+    branches:
+    - master
+    - develop
+
+jobs:
+  migration-check:
+    name: Check Migrations
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.4
+
+      - name: Install production branch dependencies
+        if: github.ref == 'refs/heads/master'
+        run: |
+          pip install -r requirements/production.txt
+
+      - name: Install dependencies
+        if: github.ref != 'refs/heads/master'
+        run: |
+          pip install -r requirements/develop.txt
+
+      - name: Run migrations check
+        run: |
+          cd src/
+
+          touch .env
+
+          echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> .env
+
+          echo WEBHOOK_ENABLED=${{ secrets.WEBHOOK_ENABLED }} >> .env
+          echo WEBHOOK_URL=${{ secrets.WEBHOOK_URL }} >> .env
+          echo WEBHOOK_SECRET_KEY=${{ secrets.WEBHOOK_SECRET_KEY }} >> .env
+
+          echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
+          echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
+          echo REDIS=${{ secrets.REDIS }} >> .env
+
+          echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
+          echo DEBUG=False >> .env
+          echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+
+          echo POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} >> .env
+          echo POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} >> .env
+          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
+          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+
+          echo EMAIL_BACKEND=${{ secrets.EMAIL_BACKEND }} >> .env
+          echo DEFAULT_EMAIL_ADDRESS=${{ secrets.DEFAULT_EMAIL_ADDRESS }} >> .env
+          echo EMAIL_ACCOUNT=${{ secrets.EMAIL_ACCOUNT }} >> .env
+          echo EMAIL_HOST=${{ secrets.EMAIL_HOST }} >> .env
+          echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
+          echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+
+          python manage.py makemigrations --settings=config.test_settings --check --dry-run

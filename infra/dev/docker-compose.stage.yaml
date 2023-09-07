@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+
+  redis:
+    image: redis:7.2.0
+    container_name: spread-wings-redis
+    ports:
+      - "6379:6379"
+    restart: always
+    command: >
+      bash -c "
+        mkdir /data/log -p &&
+        mkdir /data/bases -p &&
+        touch /data/log/redis-server.log &&
+        redis-server /usr/local/etc/redis.conf | tee -a /data/log/redis-server.log
+      "
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis.conf
+      - data_value:/data
+      - ../../logs/redis/:/var/log/
+    networks:
+      - spread-wings-network
+
+  db:
+    image: postgres:15.3-alpine
+    container_name: spread-wings-db
+    env_file:
+      - ./.env
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ../../logs/db/:/var/log/postgres
+    restart: always
+    networks:
+      - spread-wings-network
+
+  bot:
+    image: "ghcr.io/studio-yandex-practicum/spread_wings_bot:develop"
+    container_name: spread-wings-bot
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - ../../static:/app/src/staticfiles
+      - ../../media:/app/src/media
+      - ../../logs/bot/:/app/src/logs
+    restart: always
+    env_file:
+      - ./.env
+    networks:
+      - spread-wings-network
+
+  nginx:
+    image: nginx:1.21.3-alpine
+    container_name: spread-wings-nginx
+    ports:
+      - "80:${NGINX_PORT}"
+    volumes:
+      - ./nginx.stage.conf.template:/etc/nginx/templates/default.conf.template
+      - ../../static:/var/html/static/
+      - ../../media:/var/html/media/
+      - ../../logs/nginx/:/var/log/nginx/
+    env_file:
+      - ./.env
+    depends_on:
+      - bot
+    restart: always
+    networks:
+      - spread-wings-network
+
+volumes:
+  data_value:
+  db_data:
+  static:
+  media:
+
+
+networks:
+  spread-wings-network:

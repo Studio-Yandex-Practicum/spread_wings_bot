@@ -1,0 +1,15 @@
+{% extends "emailing/email.html" %}
+{% block subject %}Одноразовый код для доступа админ-панели "Расправь Крылья!"{% endblock %}
+{% block content %}
+<div align="center">
+    {% if message %}
+    <p>{{ message }}</p>
+    {% else %}
+    <h4>Для подтверждения ваших учетных данных используйте код:</h4>
+    {% endif %}
+    <div style="width:124px; background:#d5d2d2; line-height:32px">
+        <h3>{{ token }}</h3>
+    </div>
+    <h4>Никому его не сообщайте.</h4>
+</div>
+{% endblock %}
