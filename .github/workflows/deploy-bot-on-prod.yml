@@ -70,9 +70,6 @@ jobs:
             echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} >> .env
             echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
 
-            echo DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }} >> .env
-            echo DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} >> .env
-
             # Cleaning unused containers, images, networks
             docker system prune --force
 
@@ -81,11 +78,7 @@ jobs:
             sudo systemctl daemon-reload
             sudo systemctl restart spread_wings_bot_prod.service
 
-            # Installing the app
-            docker-compose -f docker-compose.prod.yaml stop
-            docker-compose -f docker-compose.prod.yaml pull
-            docker-compose -f docker-compose.prod.yaml up -d
-
             # Applying initialization commands
+            sleep 7
             docker exec spread-wings-bot python manage.py migrate
             docker exec spread-wings-bot python manage.py collectstatic --noinput

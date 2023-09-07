@@ -18,7 +18,7 @@ services:
     volumes:
       - ./redis.conf:/usr/local/etc/redis.conf
       - data_value:/data
-      - ./logs/redis/:/var/log/
+      - ../../logs/redis/:/var/log/
     networks:
       - spread-wings-network
 
@@ -33,7 +33,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./logs/db/:/var/log/postgres
+      - ../../logs/db/:/var/log/postgres
     restart: always
     networks:
       - spread-wings-network
@@ -47,7 +47,7 @@ services:
     volumes:
       - ../../static:/app/src/staticfiles
       - ../../media:/app/src/media
-      - ./logs/bot/:/app/src/logs
+      - ../../logs/bot/:/app/src/logs
     restart: always
     env_file:
       - ./.env
@@ -63,7 +63,7 @@ services:
       - ./nginx.prod.conf.template:/etc/nginx/templates/default.conf.template
       - ../../static:/var/html/static/
       - ../../media:/var/html/media/
-      - ./logs/nginx/:/var/log/nginx/
+      - ../../logs/nginx/:/var/log/nginx/
     env_file:
       - ./.env
     depends_on:
